@@ -7,6 +7,24 @@ import detailsStore from '../../../stores/details'
 
 const GoalForm = observer(
     class GoalForm extends React.Component {
+        state = {
+            showStatues: detailsStore.goal == 0
+        }
+
+        constructor(props) {
+            super(props)
+
+            this.updateGoal = this.updateGoal.bind(this)
+        }
+
+        updateGoal(g) {
+            detailsStore.setGoal(g)
+            
+            this.setState({
+                showStatues: g == 0
+            })
+        }
+
         render() {
             return (
                 <Grid container spacing={1}>
@@ -15,14 +33,14 @@ const GoalForm = observer(
                             <InputGroupAddon type="prepend">
                                 <InputGroupText>Goal</InputGroupText>
                             </InputGroupAddon>
-                            <FormSelect defaultValue={detailsStore.goal} onChange={(v) => detailsStore.setGoal(v.target.value)}>
+                            <FormSelect defaultValue={detailsStore.goal} onChange={(v) => this.updateGoal(v.target.value)}>
                                 <option value="0">Dark Gaia</option>
                                 <option value="1">Red Jewel Hunt</option>
                             </FormSelect>
                         </InputGroup>
                     </Grid>
 
-                    {detailsStore.goal === 0 && (
+                    {this.state.showStatues && (
                         <Grid item xs={12}>
                             <InputGroup>
                                 <InputGroupAddon type="prepend">
