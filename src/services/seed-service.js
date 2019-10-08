@@ -5,11 +5,10 @@ import variantsStore from '../stores/variants'
 import uiStore from '../stores/ui'
 
 import romService from './rom-service'
-import Configuration from '../configuration/config'
 
 class SeedService {
     async requestSeed() {
-        const response = await fetch(Configuration.Services.GenerateRom, {
+        const response = await fetch(process.env.REACT_APP_IOGR_API_URI, {
             method: 'POST',
             body: this.buildRequestBody(),
             headers: {

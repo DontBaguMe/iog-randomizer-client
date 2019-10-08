@@ -1,6 +1,0 @@
-{
-    "Version": "2.3.0-Alpha",
-    "Services": {
-        "GenerateRom": "https://iogr-api.azurewebsites.net/v1/seed/generate"
-    }
-}

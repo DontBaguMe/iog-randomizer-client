@@ -11,7 +11,7 @@ const BossShuffleForm = observer(
             return (
                 <FormGroup>
                     <Tooltip title="Not Yet Implemented" placement="bottom-start">
-                        <FormControlLabel control={<Switch checked={enemizerStore.bossShuffle} onChange={e => enemizerStore.setBossShuffle(e.target.checked)} value="Boss Shuffle" />} label="Boss Shuffle" />
+                        <FormControlLabel control={<Switch disabled={true} checked={enemizerStore.bossShuffle} onChange={e => enemizerStore.setBossShuffle(e.target.checked)} value="Boss Shuffle" />} label="Boss Shuffle (Coming Soon)" />
                     </Tooltip>
                 </FormGroup>
             )

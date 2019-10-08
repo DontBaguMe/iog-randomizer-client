@@ -13,7 +13,7 @@ const DungeonShuffleForm = observer(
                     <Grid item xs={12}>
                     <FormGroup>
                             <Tooltip title="Not Yet Implemented" placement="bottom-start">
-                                <FormControlLabel control={<Switch checked={entranceStore.dungeonShuffle} onChange={e => entranceStore.setDungeonShuffle(e.target.checked)} value="Dungeon Shuffle" />} label="Dungeon Shuffle" />
+                                <FormControlLabel control={<Switch  disabled={true} checked={entranceStore.dungeonShuffle} onChange={e => entranceStore.setDungeonShuffle(e.target.checked)} value="Dungeon Shuffle" />} label="Dungeon Shuffle" />
                             </Tooltip>
                         </FormGroup>
                     </Grid>

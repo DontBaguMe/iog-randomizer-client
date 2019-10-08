@@ -17,7 +17,7 @@ const PleaseWait = observer(
                 <Paper style={Style.Container}>
                     <Grid container spacing={1} alignItems="center" justify="center" direction="column">
                         <Grid item>
-                            <Typography variant="h4">Hang on to your butts!</Typography>
+                            <Typography variant="h4">Hold on to your butts!</Typography>
                         </Grid>
                         <Grid item><img src={will} alt="Please Wait" /></Grid>
                         <Grid item>

@@ -3,8 +3,6 @@
 
 import React from 'react'
 import { observer } from 'mobx-react'
-
-import seedGeneratorStore from '../../stores/generator'
 import { ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, Typography } from '@material-ui/core'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 
@@ -17,17 +15,28 @@ const styles = {
 
 const AccordionPanel = observer(
     class AccordionPanel extends React.Component {
-        isExpanded(panel) {
-            const { expandedPanels } = seedGeneratorStore
+        state = {
+            expanded: false
+        }
 
-            return expandedPanels.includes(panel)
+        constructor(props) {
+            super(props)
+
+            this.isExpanded = this.isExpanded.bind(this)
+            this.handlePanelChange = this.handlePanelChange.bind(this)
+        }
+        
+        componentDidMount() {
+            if (this.props.expanded)
+                this.setState({expanded: this.props.expanded})
+        }
+
+        isExpanded() {
+            return this.state.expanded
         }
 
         handlePanelChange(panel, e, expanded) {
-            if (expanded)
-                seedGeneratorStore.addPanel(panel)
-            else
-                seedGeneratorStore.removePanel(panel)
+            this.setState({expanded})
         }
 
         render() {

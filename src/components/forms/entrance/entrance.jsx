@@ -4,7 +4,7 @@ import { InputGroup, InputGroupAddon, InputGroupText, FormSelect } from 'shards-
 
 import entranceStore from '../../../stores/entrance'
 
-import { Grid } from '@material-ui/core';
+import { Grid, Tooltip } from '@material-ui/core'
 
 const EntranceShuffleForm = observer(
     class EntranceShuffleForm extends React.Component {
@@ -16,11 +16,13 @@ const EntranceShuffleForm = observer(
                             <InputGroupAddon type="prepend">
                                 <InputGroupText>Entrance Shuffle</InputGroupText>
                             </InputGroupAddon>
-                            <FormSelect defaultValue={entranceStore.entranceShuffle} onChange={(v) => entranceStore.setEntranceShuffle(v.target.value)}>
-                                <option value="None">None</option>
-                                <option value="Coupled">Coupled</option>
-                                <option value="Uncoupled">Uncoupled</option>
-                            </FormSelect>
+                            <Tooltip title="Not Yet Implemented" placement="bottom-start">
+                                <FormSelect disabled={true} defaultValue={entranceStore.entranceShuffle} onChange={(v) => entranceStore.setEntranceShuffle(v.target.value)}>
+                                    <option value="None">None</option>
+                                    <option value="Coupled">Coupled</option>
+                                    <option value="Uncoupled">Uncoupled</option>
+                                </FormSelect>
+                            </Tooltip>
                         </InputGroup>
                     </Grid>
                 </Grid>
