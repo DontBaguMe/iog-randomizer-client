@@ -13,7 +13,7 @@ const OverworldShuffleForm = observer(
                     <Grid item xs={12}>
                     <FormGroup>
                             <Tooltip title="Not Yet Implemented" placement="bottom-start">
-                                <FormControlLabel control={<Switch checked={entranceStore.overworldShuffle} onChange={e => entranceStore.setOverworldShuffle(e.target.checked)} value="Overworld Shuffle" />} label="Overworld Shuffle" />
+                                <FormControlLabel disabled={true} control={<Switch checked={entranceStore.overworldShuffle} onChange={e => entranceStore.setOverworldShuffle(e.target.checked)} value="Overworld Shuffle" />} label="Overworld Shuffle" />
                             </Tooltip>
                         </FormGroup>
                     </Grid>

@@ -13,7 +13,7 @@ const EntranceContainer = observer(
     class EntranceContainer extends React.Component {
         render() {
             return (
-                <AccordionPanel title="Entrance Randomizer" id="entrance">
+                <AccordionPanel title="Entrance Randomizer (Coming Soon)" id="entrance">
                     <Grid container spacing={2}>
                         <Grid item xs={6}><EntranceShuffleForm /></Grid>
                         <Grid item xs={6}>

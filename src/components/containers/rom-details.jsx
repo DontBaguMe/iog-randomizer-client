@@ -30,7 +30,7 @@ const RomDetailsContainer = observer(
                 return
             }
 
-            if (detailsStore.seed <= 0) {
+            if (detailsStore.seed < 0) {
                 uiStore.setError(true, 'Hey, man. You need to enter a valid non-negative integer for a seed!')
                 return
             }
@@ -79,7 +79,7 @@ const RomDetailsContainer = observer(
 
         render() {
             return (
-                <AccordionPanel title="Rom Details" id="rom-details">
+                <AccordionPanel title="Rom Details" id="rom-details" expanded>
                     <Grid container spacing={2}>
                         <Grid item xs={6}><RomUploadForm /></Grid>
                         <Grid item xs={6}><SeedForm /></Grid>
