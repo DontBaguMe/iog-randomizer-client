@@ -17,7 +17,9 @@
     "shards-react": "^1.0.3"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start:local": "env-cmd -f .env.local react-scripts start",
+    "start:dev": "env-cmd -f .env.development react-scripts start",
+    "start:prod": "env-cmd -f .env react-scripts start",
     "build:dev": "env-cmd -f .env.development react-scripts build",
     "build:prod": "env-cmd -f .env react-scripts build",
     "test": "react-scripts test",
@@ -41,6 +43,13 @@
   "devDependencies": {
     "@babel/plugin-proposal-class-properties": "^7.5.5",
     "@babel/plugin-proposal-decorators": "^7.4.4",
-    "env-cmd": "^10.0.1"
+    "@types/node": "^12.7.12",
+    "@types/react": "^16.9.6",
+    "@types/react-dom": "^16.9.2",
+    "awesome-typescript-loader": "^5.2.1",
+    "env-cmd": "^10.0.1",
+    "prettier": "1.18.2",
+    "source-map-loader": "^0.2.4",
+    "typescript": "^3.6.4"
   }
 }
