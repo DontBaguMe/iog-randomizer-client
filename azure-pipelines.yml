@@ -1,0 +1,18 @@
+trigger:
+    - master
+    - develop
+
+pool:
+    vmImage: 'ubuntu-latest'
+
+jobs:
+    - job: Develop
+      condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/develop'))
+      steps:
+          - task: Npm@1
+            inputs:
+                command: 'install'
+          - task: Npm@1
+            inputs:
+                command: 'custom'
+                customCommand: 'run build:dev'
