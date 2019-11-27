@@ -10,11 +10,11 @@ jobs:
       condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/develop'))
       steps:
           - task: Npm@1
-            name: Install Dependencies
+            name: Install_Dependencies
             inputs:
                 command: 'install'
           - task: Npm@1
-            name: Build Development
+            name: Build_Development
             inputs:
                 command: 'custom'
                 customCommand: 'run build:dev'
@@ -24,11 +24,11 @@ jobs:
       condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
       steps:
           - task: Npm@1
-            name: Install Dependencies
+            name: Install_Dependencies
             inputs:
                 command: 'install'
           - task: Npm@1
-            name: Build Production
+            name: Build_Production
             inputs:
                 command: 'custom'
                 customCommand: 'run build:prod'
