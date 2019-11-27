@@ -1,0 +1,22 @@
+name: IOG Randomizer Client Build
+
+on:
+    push:
+        branches:
+            - master
+            - develop
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+
+        steps:
+            - uses: actions/checkout@v1
+            - name: NPM Install
+              run: npm i
+            - name: Build (Develop)
+              if: github.ref == 'ref/heads/develop'
+              run: npm run build:dev
+            - name: Build (Production)
+              if: github.ref == 'ref/heads/master'
+              run: npm run build:prod
