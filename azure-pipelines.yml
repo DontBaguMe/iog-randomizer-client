@@ -9,12 +9,14 @@ trigger:
 pool:
   vmImage: 'ubuntu-latest'
 
-steps:
-- task: Npm@1
-  inputs:
-    command: 'install'
-
-- task: Npm@1
-  inputs:
-    command: 'custom'
-    customCommand: 'run build:dev'
+jobs:
+  - job: Develop
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+    steps:
+      - task: Npm@1
+        inputs:
+          command: 'install'
+      - task: Npm@1
+        inputs:
+          command: 'custom'
+          customCommand: 'run build:dev'
