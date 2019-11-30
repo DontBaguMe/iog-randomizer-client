@@ -4,7 +4,9 @@ class UIStore {
     @observable isProcessing = false
     @observable isError = false
     @observable errorText = null
+    @observable version: string = '0.0.0'
 
+    @action.bound setVersion = (v: string): void => { this.version = v }
     @action.bound setProcessing = (v: boolean): void => {
         this.isProcessing = v
     }
