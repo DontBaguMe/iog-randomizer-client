@@ -15,6 +15,8 @@ import {
 import { FaGithub, FaDiscord } from 'react-icons/fa'
 import { Redirect } from 'react-router-dom'
 import logo from '../assets/logo.png'
+import uiStore from '../stores/ui'
+import { observer } from 'mobx-react'
 
 const style = {
     Root: {
@@ -47,6 +49,7 @@ type State = {
     environment: string
 }
 
+@observer
 export default class Navigation extends React.PureComponent<{}, State> {
     constructor(props) {
         super(props)
@@ -114,7 +117,7 @@ export default class Navigation extends React.PureComponent<{}, State> {
                     />
                 </NavbarBrand>
                 <NavbarBrand style={style.Version}>
-                    v{process.env.REACT_APP_IOGR_API_VERSION}{' '}
+                    v{uiStore.version}{' '}
                     {this.state.environment}
                 </NavbarBrand>
                 <NavbarToggler onClick={this.toggleNavbar} />

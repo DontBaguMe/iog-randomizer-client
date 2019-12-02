@@ -5,10 +5,15 @@ import { observer } from 'mobx-react'
 import Navigation from './components/navigation'
 import HomePage from './pages/home'
 import { Box } from '@material-ui/core'
+import versionService from './services/version'
 
 @observer
 export default class App extends React.Component {
-    render() {
+    public async componentDidMount(): Promise<void> {
+        await versionService.requestVersion()
+    }
+
+    public render() {
         return (
             <Router>
                 <Navigation />
