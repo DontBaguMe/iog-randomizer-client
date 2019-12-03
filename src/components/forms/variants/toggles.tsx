@@ -10,6 +10,23 @@ export default class VariationTogglesForm extends React.Component {
         return (
             <FormGroup row>
                 <Tooltip
+                    title="Entire world is opened at the start of the game"
+                    placement="bottom-start">
+                    <FormControlLabel
+                        control={
+                            <Switch
+                                checked={variantsStore.openWorld}
+                                onChange={e =>
+                                    variantsStore.setOpenWorld(e.target.checked)
+                                }
+                                value="Open World"
+                            />
+                        }
+                        label="Open World"
+                    />
+                </Tooltip>
+
+                <Tooltip
                     title="Enables the logic to require known glitches to complete the seed"
                     placement="bottom-start">
                     <FormControlLabel
