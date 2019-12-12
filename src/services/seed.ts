@@ -55,6 +55,7 @@ class SeedService {
             entranceShuffle: entranceStore.entranceShuffle,
             dungeonShuffle: entranceStore.dungeonShuffle,
             overworldShuffle: entranceStore.overworldShuffle,
+            openMode: variantsStore.openWorld,
         })
     }
 

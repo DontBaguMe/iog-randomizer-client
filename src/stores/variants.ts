@@ -7,6 +7,7 @@ class VariantsStore {
     @observable oneHitKnockOut = false
     @observable firebird = false
     @observable redJewelMadness = false
+    @observable openWorld = false
 
     @action.bound setLogic = (v: number): void => {
         this.logic = v
@@ -19,6 +20,9 @@ class VariantsStore {
     }
     @action.bound setFirebird = (v: boolean): void => {
         this.firebird = v
+    }
+    @action.bound setOpenWorld = (v: boolean): void => {
+        this.openWorld = v
     }
     @action.bound setOneHitKnockOut = (v: boolean): void => {
         this.oneHitKnockOut = v
