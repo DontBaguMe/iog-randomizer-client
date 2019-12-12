@@ -3,7 +3,7 @@ import romStore from '../stores/rom'
 class RomService {
     public createPatchedRomBlob(): Blob {
         const patch = romStore.patchData
-        const data = romStore.originalFile.slice()
+        const data = romStore.originalFile
         const buffer = new Uint8Array(data)
 
         for (let j = 0; j < patch.length; ++j) {
@@ -36,7 +36,7 @@ class RomService {
     }
 
     private getOffset(): number {
-        const data = romStore.originalFile.slice()
+        const data = romStore.originalFile//.slice()
         const buffer = new Uint8Array(data)
         const header = [
             0x49,

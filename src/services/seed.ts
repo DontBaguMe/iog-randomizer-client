@@ -5,6 +5,8 @@ import variantsStore from '../stores/variants'
 
 import romStore from '../stores/rom'
 import uiStore from '../stores/ui'
+import RequestSeedResponse from '../models/http/request-seed-response'
+import RomPatchStep from '../models/rom/patch-step'
 
 class SeedService {
     public async requestSeed() {
@@ -21,10 +23,9 @@ class SeedService {
 
         if (!response.ok) throw new Error('Failed to negotiate with server')
 
-        const result = await response.json()
-
-        const patch = JSON.parse(result.patch)
-        const patchName = result.patchName
+        const result: RequestSeedResponse = await response.json()
+        const patch: RomPatchStep[] = JSON.parse(result.patch)
+        const patchName: string = result.patchName
 
         romStore.setPatchData(patch, patchName)
         uiStore.setError(false)
