@@ -6,11 +6,11 @@ import RomPatchStep from '../models/rom/patch-step'
 const IOG_ROM_STORAGE_KEY: string = 'iog-base-rom'
 
 class RomStore {
-    @observable originalFile: ArrayBuffer = null
-    @observable patchData: RomPatchStep[] = null
-    @observable patchName: string = null
-    @observable spoilerData = null
-    @observable spoilerName: string = null
+    @observable private baseRom: ArrayBuffer = null
+    @observable public patchData: RomPatchStep[] = null
+    @observable public patchName: string = null
+    @observable public spoilerData: string = null
+    @observable public spoilerName: string = null
 
     @action.bound
     public clear() {
@@ -22,7 +22,7 @@ class RomStore {
 
     @action.bound
     public async setOriginalFile(file: ArrayBuffer): Promise<void> {
-        this.originalFile = file
+        this.baseRom = file
         await this.persistArrayBufferToStorage(IOG_ROM_STORAGE_KEY, file)
     }
 
@@ -33,9 +33,9 @@ class RomStore {
     }
 
     @action.bound
-    public setSpoilerData = (d, n) => {
-        this.spoilerData = d
-        this.spoilerName = n
+    public setSpoilerData = (spoilerData: string, spoilerName: string) => {
+        this.spoilerData = spoilerData
+        this.spoilerName = spoilerName
     }
 
     @action.bound
@@ -43,22 +43,37 @@ class RomStore {
         const rom = await this.loadArrayBufferFromStorage(IOG_ROM_STORAGE_KEY)
         if (!rom || rom.byteLength === 0) return
 
-        this.originalFile = rom
+        this.baseRom = rom
+    }
+
+    @action
+    public getBaseRom(): ArrayBuffer {
+        if (!this.baseRom) return new ArrayBuffer(0)
+        const buffer = new ArrayBuffer(this.baseRom.byteLength)
+        new Uint8Array(buffer).set(new Uint8Array(this.baseRom))
+
+        return buffer
+    }
+
+    public hasBaseRom(): boolean {
+        return this.baseRom && this.baseRom.byteLength > 0
     }
 
     @action.bound
     public async clearRom(): Promise<void> {
-        this.originalFile = null
+        this.baseRom = null
         await this.destroyArrayBufferFromStorage(IOG_ROM_STORAGE_KEY)
     }
 
-    private async persistArrayBufferToStorage(
-        key: string,
-        buffer: ArrayBuffer,
-    ): Promise<void> {
+    public async persistRomPatchToStorage(patch: RomPatchStep[], patchName: string, spoiler?: string, spoilerName?: string): Promise<void> {
+        // const db = await openDB('iogr', 1, {
+        //     upgrade: upgradeDb => upgradeDb.createObjectStore('iogr', { autoIncrement: true }),
+        // })
+    }
+
+    private async persistArrayBufferToStorage(key: string, buffer: ArrayBuffer): Promise<void> {
         const db = await openDB('iogr', 1, {
-            upgrade: upgradeDb =>
-                upgradeDb.createObjectStore('iogr', { autoIncrement: true }),
+            upgrade: upgradeDb => upgradeDb.createObjectStore('iogr', { autoIncrement: true }),
         })
         await db.put('iogr', new Uint8Array(buffer), key)
 
@@ -67,20 +82,16 @@ class RomStore {
 
     private async destroyArrayBufferFromStorage(key: string): Promise<void> {
         const db = await openDB('iogr', 1, {
-            upgrade: upgradeDb =>
-                upgradeDb.createObjectStore('iogr', { autoIncrement: true }),
+            upgrade: upgradeDb => upgradeDb.createObjectStore('iogr', { autoIncrement: true }),
         })
         await db.delete('iogr', key)
 
         db.close()
     }
 
-    private async loadArrayBufferFromStorage(
-        key: string,
-    ): Promise<ArrayBuffer> {
+    private async loadArrayBufferFromStorage(key: string): Promise<ArrayBuffer> {
         const db = await openDB('iogr', 1, {
-            upgrade: upgradeDb =>
-                upgradeDb.createObjectStore('iogr', { autoIncrement: true }),
+            upgrade: upgradeDb => upgradeDb.createObjectStore('iogr', { autoIncrement: true }),
         })
         try {
             const obj: Uint8Array = await db.get('iogr', key)

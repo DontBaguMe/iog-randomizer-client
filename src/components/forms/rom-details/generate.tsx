@@ -43,26 +43,20 @@ export default class GenerateForm extends React.Component {
 
     validateFile(e) {
         e.preventDefault()
-        let file = romStore.originalFile
 
-        if (!file) {
+        const hasBaseRom = romStore.hasBaseRom()
+        if (!hasBaseRom) {
             uiStore.setError(true, 'Hey, man. You need to upload a ROM file.')
             return false
         }
 
         if (isNaN(detailsStore.seed)) {
-            uiStore.setError(
-                true,
-                'Hey, man. You need to enter a valid integer for a seed!',
-            )
+            uiStore.setError(true, 'Hey, man. You need to enter a valid integer for a seed!')
             return false
         }
 
         if (detailsStore.seed < 0) {
-            uiStore.setError(
-                true,
-                'Hey, man. You need to enter a valid non-negative integer for a seed!',
-            )
+            uiStore.setError(true, 'Hey, man. You need to enter a valid non-negative integer for a seed!')
             return false
         }
 
@@ -70,16 +64,10 @@ export default class GenerateForm extends React.Component {
     }
 
     render() {
-        const isDisabled: boolean =
-            uiStore.isProcessing ||
-            uiStore.isLoadingOriginalRom ||
-            romStore.originalFile == null
+        const hasBaseRom = romStore.hasBaseRom()
+        const isDisabled: boolean = uiStore.isProcessing || uiStore.isLoadingOriginalRom || !hasBaseRom
         const button = (
-            <Button
-                variant="contained"
-                color="primary"
-                disabled={isDisabled}
-                onClick={this.handleGenerateRom}>
+            <Button variant="contained" color="primary" disabled={isDisabled} onClick={this.handleGenerateRom}>
                 Generate ROM
             </Button>
         )
@@ -90,9 +78,7 @@ export default class GenerateForm extends React.Component {
                 control={
                     <Switch
                         checked={detailsStore.generateRaceRom}
-                        onChange={e =>
-                            detailsStore.setGenerateRaceRom(e.target.checked)
-                        }
+                        onChange={e => detailsStore.setGenerateRaceRom(e.target.checked)}
                         disabled={isDisabled}
                         value="Generate Race Rom"
                     />
@@ -112,9 +98,7 @@ export default class GenerateForm extends React.Component {
         return (
             <Fragment>
                 <Tooltip title="Generate Randomized ROM">{button}</Tooltip>
-                <Tooltip
-                    title="Generate a Randomized ROM without spoilers"
-                    placement="bottom-start">
+                <Tooltip title="Generate a Randomized ROM without spoilers" placement="bottom-start">
                     {raceRomToggle}
                 </Tooltip>
             </Fragment>
