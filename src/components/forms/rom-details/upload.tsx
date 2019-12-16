@@ -1,12 +1,6 @@
 import React, { Fragment } from 'react'
 import { observer } from 'mobx-react'
-import {
-    InputGroup,
-    InputGroupAddon,
-    InputGroupText,
-    FormInput,
-    Button,
-} from 'shards-react'
+import { InputGroup, InputGroupAddon, InputGroupText, FormInput, Button } from 'shards-react'
 
 import { Tooltip } from '@material-ui/core'
 import romStore from '../../../stores/rom'
@@ -39,7 +33,9 @@ export default class UploadForm extends React.Component {
     }
 
     public render(): JSX.Element {
-        let element: JSX.Element = romStore.originalFile ? (
+        const hasBaseRom = romStore.hasBaseRom()
+
+        let element: JSX.Element = hasBaseRom ? (
             <Fragment>
                 <FormInput placeholder="- Cached -" disabled={true} />
                 <InputGroupAddon key="1" type="append">
@@ -49,18 +45,8 @@ export default class UploadForm extends React.Component {
                 </InputGroupAddon>
             </Fragment>
         ) : (
-            <Tooltip
-                key="0"
-                title="Select a ROM file. Valid extensions are: SFC (non-headered) and SMC (headered)."
-                placement="bottom-start">
-                <input
-                    required
-                    className="form-control"
-                    id="rom-file"
-                    type="file"
-                    onChange={v => this.onFileChange(v.target.files[0])}
-                    accept=".sfc, .smc"
-                />
+            <Tooltip key="0" title="Select a ROM file. Valid extensions are: SFC (non-headered) and SMC (headered)." placement="bottom-start">
+                <input required className="form-control" id="rom-file" type="file" onChange={v => this.onFileChange(v.target.files[0])} accept=".sfc, .smc" />
             </Tooltip>
         )
 
