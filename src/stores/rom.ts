@@ -2,6 +2,7 @@ import { observable, action } from 'mobx'
 import { openDB } from 'idb'
 
 import RomPatchStep from '../models/rom/patch-step'
+import PatchStorageData from '../models/rom/patch-storage-data'
 
 const IOG_ROM_STORAGE_KEY: string = 'iog-base-rom'
 
@@ -11,6 +12,7 @@ class RomStore {
     @observable public patchName: string = null
     @observable public spoilerData: string = null
     @observable public spoilerName: string = null
+    @observable public patchHistory: PatchStorageData[] = []
 
     @action.bound
     public clear() {
@@ -27,9 +29,13 @@ class RomStore {
     }
 
     @action.bound
-    public setPatchData(patchData: RomPatchStep[], patchName: string) {
+    public setPatchData(patchData: RomPatchStep[], patchName: string, permalinkId: string) {
         this.patchData = patchData
-        this.patchName = patchName
+        this.patchName =
+            patchName
+                .split('.')
+                .slice(0, -1)
+                .join('.') + `_${permalinkId}.sfc`
     }
 
     @action.bound
@@ -63,12 +69,6 @@ class RomStore {
     public async clearRom(): Promise<void> {
         this.baseRom = null
         await this.destroyArrayBufferFromStorage(IOG_ROM_STORAGE_KEY)
-    }
-
-    public async persistRomPatchToStorage(patch: RomPatchStep[], patchName: string, spoiler?: string, spoilerName?: string): Promise<void> {
-        // const db = await openDB('iogr', 1, {
-        //     upgrade: upgradeDb => upgradeDb.createObjectStore('iogr', { autoIncrement: true }),
-        // })
     }
 
     private async persistArrayBufferToStorage(key: string, buffer: ArrayBuffer): Promise<void> {

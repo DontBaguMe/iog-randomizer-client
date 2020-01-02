@@ -5,4 +5,5 @@ export default interface GenerateSeedResponse {
     version: string
     spoiler?: string
     spoilerFilename?: string
+    permalink_id: string
 }

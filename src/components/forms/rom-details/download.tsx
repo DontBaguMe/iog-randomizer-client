@@ -32,7 +32,7 @@ export default class DownloadForm extends React.PureComponent {
         this.generateLink(blob, romStore.spoilerName)
     }
 
-    generateLink(blob: Blob, name: string) {
+    private generateLink(blob: Blob, name: string): void {
         let a = document.createElement('a')
 
         document.body.appendChild(a)
@@ -49,17 +49,11 @@ export default class DownloadForm extends React.PureComponent {
         if (patchData) {
             return (
                 <Fragment>
-                    <Button
-                        color="primary"
-                        onClick={this.handleDownloadRom}
-                        style={styles.Button}>
+                    <Button color="primary" onClick={this.handleDownloadRom} style={styles.Button}>
                         Download Randomized ROM
                     </Button>
                     {spoilerData && (
-                        <Button
-                            color="primary"
-                            onClick={this.handleDownloadSpoiler}
-                            style={styles.Button}>
+                        <Button color="primary" onClick={this.handleDownloadSpoiler} style={styles.Button}>
                             Download Spoiler
                         </Button>
                     )}
