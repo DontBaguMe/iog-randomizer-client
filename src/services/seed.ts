@@ -53,7 +53,7 @@ class SeedService {
 
         if (result.spoiler) {
             const spoiler = JSON.parse(result.spoiler)
-            const spoilerFilename = result.spoilerFilename
+            const spoilerFilename = result.spoilerName
 
             romStore.setSpoilerData(spoiler, spoilerFilename)
         }

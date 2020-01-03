@@ -4,5 +4,5 @@ export default interface GenerateSeedResponse {
     checksum: string
     version: string
     spoiler?: string
-    spoilerFilename?: string
+    spoilerName?: string
 }
