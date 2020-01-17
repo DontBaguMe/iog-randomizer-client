@@ -39,7 +39,10 @@ class SeedService {
 
     public buildRequestBody(): string {
         return JSON.stringify({
-            seed: detailsStore.seed === 0 ? null : detailsStore.seed,
+            seed:
+                detailsStore.seed < 0
+                    ? detailsStore.randomizeSeed()
+                    : detailsStore.seed,
             generateRaceRom: detailsStore.generateRaceRom,
             difficulty: detailsStore.difficulty,
             goal: detailsStore.goal,
