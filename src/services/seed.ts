@@ -13,8 +13,10 @@ class SeedService {
     public async requestSeed() {
         romStore.clear()
 
+        if (detailsStore.seed < 0) detailsStore.randomizeSeed()
+
         const parameters: GenerateSeedRequest = {
-            seed: detailsStore.seed === 0 ? null : detailsStore.seed,
+            seed: detailsStore.seed,
             generateRaceRom: detailsStore.generateRaceRom,
             difficulty: detailsStore.difficulty,
             goal: detailsStore.goal,
