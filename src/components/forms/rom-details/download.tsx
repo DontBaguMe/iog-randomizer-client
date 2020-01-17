@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
 import { observer } from 'mobx-react'
 
-import { Button } from '@material-ui/core'
+import { Button } from 'shards-react'
 import romService from '../../../services/rom'
 import romStore from '../../../stores/rom'
 
@@ -50,7 +50,6 @@ export default class DownloadForm extends React.PureComponent {
             return (
                 <Fragment>
                     <Button
-                        variant="contained"
                         color="primary"
                         onClick={this.handleDownloadRom}
                         style={styles.Button}>
@@ -58,7 +57,6 @@ export default class DownloadForm extends React.PureComponent {
                     </Button>
                     {spoilerData && (
                         <Button
-                            variant="contained"
                             color="primary"
                             onClick={this.handleDownloadSpoiler}
                             style={styles.Button}>

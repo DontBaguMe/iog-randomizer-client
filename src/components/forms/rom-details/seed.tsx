@@ -1,14 +1,12 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import { observer } from 'mobx-react'
 import {
     FormInput,
     InputGroup,
     InputGroupAddon,
     InputGroupText,
+    Button,
 } from 'shards-react'
-
-import { Button, Tooltip, Grid } from '@material-ui/core'
-import RedoIcon from '@material-ui/icons/Redo'
 
 import detailsStore from '../../../stores/details'
 
@@ -41,36 +39,26 @@ export default class SeedForm extends React.Component {
 
     render() {
         return (
-            <Fragment>
-                <Grid container spacing={2} alignItems="center">
-                    <Grid item>
-                        <InputGroup>
-                            <InputGroupAddon type="prepend">
-                                <InputGroupText>Seed</InputGroupText>
-                            </InputGroupAddon>
-                            <FormInput
-                                value={this.state.seedValue}
-                                onChange={e =>
-                                    this.handleSeedChange(
-                                        parseInt(e.target.value),
-                                    )
-                                }
-                                type="text"
-                            />
-                        </InputGroup>
-                    </Grid>
-                    <Grid item xs>
-                        <Tooltip title="Randomize Seed">
-                            <Button
-                                variant="contained"
-                                color="primary"
-                                onClick={this.handleRandomizeSeed}>
-                                <RedoIcon />
-                            </Button>
-                        </Tooltip>
-                    </Grid>
-                </Grid>
-            </Fragment>
+            <InputGroup>
+                <InputGroupAddon type="prepend">
+                    <InputGroupText>Seed</InputGroupText>
+                </InputGroupAddon>
+                <FormInput
+                    value={this.state.seedValue}
+                    onChange={e =>
+                        this.handleSeedChange(parseInt(e.target.value))
+                    }
+                    type="text"
+                />
+
+                <InputGroupAddon type="append">
+                    <Button
+                        color="secondary"
+                        onClick={this.handleRandomizeSeed}>
+                        New Seed
+                    </Button>
+                </InputGroupAddon>
+            </InputGroup>
         )
     }
 }

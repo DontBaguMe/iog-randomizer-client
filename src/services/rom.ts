@@ -2,15 +2,15 @@ import romStore from '../stores/rom'
 
 class RomService {
     public createPatchedRomBlob(): Blob {
-        const patch = romStore.patchData
-        const data = romStore.originalFile.slice()
-        const buffer = new Uint8Array(data)
+        const { patchData } = romStore
+        const baseRom = romStore.getBaseRom()
+        const buffer = new Uint8Array(baseRom)
 
-        for (let j = 0; j < patch.length; ++j) {
-            const offset = patch[j].address
+        for (let j = 0; j < patchData.length; ++j) {
+            const offset = patchData[j].address
 
-            for (let i = 0; i < patch[j].data.length; ++i) {
-                buffer[offset + i] = patch[j].data[i]
+            for (let i = 0; i < patchData[j].data.length; ++i) {
+                buffer[offset + i] = patchData[j].data[i]
             }
         }
 
@@ -28,7 +28,8 @@ class RomService {
 
         const hasHeader = offset > 0
         if (hasHeader) {
-            const buffer = new Uint8Array(romStore.originalFile)
+            const baseRom = romStore.getBaseRom()
+            const buffer = new Uint8Array(baseRom)
             const unheadered = buffer.slice(offset)
 
             romStore.setOriginalFile(unheadered)
@@ -36,30 +37,9 @@ class RomService {
     }
 
     private getOffset(): number {
-        const data = romStore.originalFile.slice()
-        const buffer = new Uint8Array(data)
-        const header = [
-            0x49,
-            0x4c,
-            0x4c,
-            0x55,
-            0x53,
-            0x49,
-            0x4f,
-            0x4e,
-            0x20,
-            0x4f,
-            0x46,
-            0x20,
-            0x47,
-            0x41,
-            0x49,
-            0x41,
-            0x20,
-            0x55,
-            0x53,
-            0x41,
-        ]
+        const baseRom = romStore.getBaseRom()
+        const buffer = new Uint8Array(baseRom)
+        const header = [0x49, 0x4c, 0x4c, 0x55, 0x53, 0x49, 0x4f, 0x4e, 0x20, 0x4f, 0x46, 0x20, 0x47, 0x41, 0x49, 0x41, 0x20, 0x55, 0x53, 0x41]
         let offset = -1
 
         for (let i = 0xffc0; i < buffer.length; ++i) {
