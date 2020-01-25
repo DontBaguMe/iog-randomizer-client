@@ -24,7 +24,7 @@ export default class BossShuffleForm extends React.Component {
                                 value="Boss Shuffle"
                             />
                         }
-                        label="Boss Shuffle"
+                        label="Boss Shuffle (beta)"
                     />
                 </Tooltip>
             </FormGroup>
