@@ -1,8 +1,10 @@
 import React, { Fragment } from 'react'
 import { observer } from 'mobx-react'
 
+import { Button } from 'shards-react'
+import { Tooltip, FormControlLabel, Switch } from '@material-ui/core'
+
 import detailsStore from '../../../stores/details'
-import { Tooltip, Button, FormControlLabel, Switch } from '@material-ui/core'
 import uiStore from '../../../stores/ui'
 import romService from '../../../services/rom'
 import seedService from '../../../services/seed'
@@ -41,26 +43,20 @@ export default class GenerateForm extends React.Component {
 
     validateFile(e) {
         e.preventDefault()
-        let file = romStore.originalFile
 
-        if (!file) {
+        const hasBaseRom = romStore.hasBaseRom()
+        if (!hasBaseRom) {
             uiStore.setError(true, 'Hey, man. You need to upload a ROM file.')
             return false
         }
 
         if (isNaN(detailsStore.seed)) {
-            uiStore.setError(
-                true,
-                'Hey, man. You need to enter a valid integer for a seed!',
-            )
+            uiStore.setError(true, 'Hey, man. You need to enter a valid integer for a seed!')
             return false
         }
 
         if (detailsStore.seed < 0) {
-            uiStore.setError(
-                true,
-                'Hey, man. You need to enter a valid non-negative integer for a seed!',
-            )
+            uiStore.setError(true, 'Hey, man. You need to enter a valid non-negative integer for a seed!')
             return false
         }
 
@@ -68,34 +64,42 @@ export default class GenerateForm extends React.Component {
     }
 
     render() {
+        const hasBaseRom = romStore.hasBaseRom()
+        const isDisabled: boolean = uiStore.isProcessing || uiStore.isLoadingOriginalRom || !hasBaseRom
+        const button = (
+            <Button variant="contained" color="primary" disabled={isDisabled} onClick={this.handleGenerateRom}>
+                Generate ROM
+            </Button>
+        )
+
+        const raceRomToggle = (
+            <FormControlLabel
+                style={styles.Switch}
+                control={
+                    <Switch
+                        checked={detailsStore.generateRaceRom}
+                        onChange={e => detailsStore.setGenerateRaceRom(e.target.checked)}
+                        disabled={isDisabled}
+                        value="Generate Race Rom"
+                    />
+                }
+                label="Generate Race Rom"
+            />
+        )
+
+        if (isDisabled)
+            return (
+                <Fragment>
+                    {button}
+                    {raceRomToggle}
+                </Fragment>
+            )
+
         return (
             <Fragment>
-                <Tooltip title="Generate Randomized ROM">
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={this.handleGenerateRom}>
-                        Generate ROM
-                    </Button>
-                </Tooltip>
-                <Tooltip
-                    title="Generate a Randomized ROM without spoilers"
-                    placement="bottom-start">
-                    <FormControlLabel
-                        style={styles.Switch}
-                        control={
-                            <Switch
-                                checked={detailsStore.generateRaceRom}
-                                onChange={e =>
-                                    detailsStore.setGenerateRaceRom(
-                                        e.target.checked,
-                                    )
-                                }
-                                value="Generate Race Rom"
-                            />
-                        }
-                        label="Generate Race Rom"
-                    />
+                <Tooltip title="Generate Randomized ROM">{button}</Tooltip>
+                <Tooltip title="Generate a Randomized ROM without spoilers" placement="bottom-start">
+                    {raceRomToggle}
                 </Tooltip>
             </Fragment>
         )

@@ -1,5 +1,5 @@
 yarn.lock
+npm.lock
 
-.vscode/
 build/
 node_modules/

@@ -4,7 +4,7 @@ class DetailsStore {
     @observable seed: number = randomize()
     @observable difficulty: number = 1
     @observable goal: number = 0
-    @observable statues: string = 'Random'
+    @observable statues: string = '4'
     @observable romIsHeadered: boolean = false
     @observable generateRaceRom: boolean = false
 
