@@ -9,20 +9,10 @@ export default class BossShuffleForm extends React.Component {
     render() {
         return (
             <FormGroup>
-                <Tooltip
-                    title="Shuffles the placement of boss enemies"
-                    placement="bottom-start">
+                <Tooltip title="Shuffles the placement of boss enemies (Not Yet Implemented)" placement="bottom-start">
                     <FormControlLabel
                         control={
-                            <Switch
-                                checked={enemizerStore.bossShuffle}
-                                onChange={e =>
-                                    enemizerStore.setBossShuffle(
-                                        e.target.checked,
-                                    )
-                                }
-                                value="Boss Shuffle"
-                            />
+                            <Switch disabled={true} checked={enemizerStore.bossShuffle} onChange={e => enemizerStore.setBossShuffle(e.target.checked)} value="Boss Shuffle" />
                         }
                         label="Boss Shuffle"
                     />
