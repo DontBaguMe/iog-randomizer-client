@@ -11,6 +11,7 @@ import RomDetailsContainer from '../components/containers/rom-details'
 import EnemizerContainer from '../components/containers/enemizer'
 import VariantsContainer from '../components/containers/variants'
 import EntranceContainer from '../components/containers/entrance'
+import PreferencesContainer from '../components/containers/preferences'
 
 const Style = {
     Root: {
@@ -44,6 +45,9 @@ export default class HomePage extends React.Component {
                     <Grid item xs={12} sm={12} md={12} lg={6}>
                         <Grid container spacing={1}>
                             <Grid item xs={12}>
+                                <PreferencesContainer />
+                            </Grid>
+                            <Grid item xs={12}>
                                 <VariantsContainer />
                             </Grid>
                             <Grid item xs={12}>
@@ -57,10 +61,7 @@ export default class HomePage extends React.Component {
                 </Grid>
 
                 {isError && (
-                    <Modal
-                        open={isError}
-                        onClose={() => uiStore.setError(false)}
-                        style={Style.Modal}>
+                    <Modal open={isError} onClose={() => uiStore.setError(false)} style={Style.Modal}>
                         <DialogContent style={Style.Content}>
                             <Error message={uiStore.errorText} />
                         </DialogContent>
@@ -68,10 +69,7 @@ export default class HomePage extends React.Component {
                 )}
 
                 {isProcessing && (
-                    <Modal
-                        open={isProcessing}
-                        onClose={() => {}}
-                        style={Style.Modal}>
+                    <Modal open={isProcessing} onClose={() => {}} style={Style.Modal}>
                         <DialogContent style={Style.Content}>
                             <PleaseWait message="Generating Seed!" />
                         </DialogContent>
