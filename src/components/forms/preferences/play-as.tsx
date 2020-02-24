@@ -24,8 +24,10 @@ function PlayAs() {
     // 0 in the spritesheet, taking a rectangle of position 0,0 with width of 16 and height of 24. Will being the second
     // in the list will be (-16, 0, 16, 24). The first value is _negative_ because the CSS property equates to _left_
     // and in order to move _right_ in the array, we need to subtract.
-    // TLDR: Make sure that the order of this array matches the order of sprites in the spritesheet
-    const options: SelectionValues[] = [{ value: 'Bagu' }, { value: 'Will' }]
+    //
+    // TLDR: Make sure that the order of this array matches the order of sprites in the spritesheet and the list should be
+    // alphabetical after Will
+    const options: SelectionValues[] = [{ value: 'Will' }, { value: 'Bagu' }]
 
     function onSelectChange(e: React.ChangeEvent<HTMLSelectElement>) {
         preferencesStore.setSprite(e.target.value)
