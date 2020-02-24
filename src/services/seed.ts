@@ -8,6 +8,7 @@ import uiStore from '../stores/ui'
 import RomPatchStep from '../models/rom/patch-step'
 import GenerateSeedRequest from '../models/http/generate-seed-request'
 import GenerateSeedResponse from '../models/http/generate-seed-response'
+import preferencesStore from '../stores/preferences'
 
 class SeedService {
     public async requestSeed() {
@@ -33,6 +34,7 @@ class SeedService {
             dungeonShuffle: entranceStore.dungeonShuffle,
             overworldShuffle: entranceStore.overworldShuffle,
             openMode: variantsStore.openWorld,
+            sprite: preferencesStore.sprite
         }
 
         const response = await fetch(process.env.REACT_APP_IOGR_API_URI, {
