@@ -27,7 +27,7 @@ function PlayAs() {
     //
     // TLDR: Make sure that the order of this array matches the order of sprites in the spritesheet and the list should be
     // alphabetical after Will
-    const options: SelectionValues[] = [{ value: 'Will' }, { value: 'Bagu' }]
+    const options: SelectionValues[] = [{ value: 'Will' }, { value: 'Bagu' }, { value: 'Invisible' }]
 
     function onSelectChange(e: React.ChangeEvent<HTMLSelectElement>) {
         preferencesStore.setSprite(e.target.value)
