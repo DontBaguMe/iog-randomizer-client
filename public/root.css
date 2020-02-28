@@ -3,7 +3,7 @@ body {
     margin: 0;
     height: 100%;
     min-width: 550px;
-    font-family: Roboto !important;
+    font-family: Poppins, 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 body.root {
@@ -17,12 +17,4 @@ div.loading {
     align-items: center;
     justify-content: center;
     height: 100vh;
-}
-
-@font-face {
-    font-family: 'Roboto';
-    font-style: normal;
-    font-weight: 400;
-    src: local('Roboto Regular'), local('Roboto-Regular'), url(https://fonts.gstatic.com/s/roboto/v20/KFOlCnqEu92Fr1MmWUlfBBc4.woff2) format('woff2');
-    font-display: swap;
 }
