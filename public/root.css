@@ -18,3 +18,7 @@ div.loading {
     justify-content: center;
     height: 100vh;
 }
+
+.input-group-text {
+    color: black !important;
+}
