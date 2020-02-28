@@ -53,7 +53,7 @@ export default class GoalForm extends React.PureComponent<{}, State> {
                             <InputGroupText>Goal</InputGroupText>
                         </InputGroupAddon>
                         <Tooltip title={this.getTooltipText()} placement="bottom-start">
-                            <FormSelect defaultValue={detailsStore.goal} onChange={v => this.updateGoal(parseInt(v.target.value))}>
+                            <FormSelect defaultValue={detailsStore.goal} onChange={v => this.updateGoal(parseInt(v.target.value))} aria-label="Input for Seed Goal">
                                 <option value="0">Dark Gaia</option>
                                 <option value="1">Red Jewel Hunt</option>
                                 <option value="2">Apocalypse Gaia</option>
@@ -69,7 +69,10 @@ export default class GoalForm extends React.PureComponent<{}, State> {
                             <InputGroupAddon type="prepend">
                                 <InputGroupText>Statues</InputGroupText>
                             </InputGroupAddon>
-                            <FormSelect defaultValue={detailsStore.statues} onChange={v => detailsStore.setStatues(v.target.value)}>
+                            <FormSelect
+                                defaultValue={detailsStore.statues}
+                                onChange={v => detailsStore.setStatues(v.target.value)}
+                                aria-label="Input for Seed Goal for Dark Gaia or Apocalypse Gaia">
                                 <option value="0">0</option>
                                 <option value="1">1</option>
                                 <option value="2">2</option>
