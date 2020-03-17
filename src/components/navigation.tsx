@@ -1,17 +1,5 @@
 import React from 'react'
-import {
-    Collapse,
-    Navbar,
-    NavbarBrand,
-    Nav,
-    NavbarToggler,
-    NavItem,
-    NavLink,
-    Dropdown,
-    DropdownToggle,
-    DropdownMenu,
-    DropdownItem,
-} from 'shards-react'
+import { Collapse, Navbar, NavbarBrand, Nav, NavbarToggler, NavItem, NavLink, Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'shards-react'
 import { FaGithub, FaDiscord } from 'react-icons/fa'
 import { Redirect } from 'react-router-dom'
 import logo from '../assets/logo.png'
@@ -54,10 +42,7 @@ export default class Navigation extends React.PureComponent<{}, State> {
     constructor(props) {
         super(props)
 
-        const environment =
-            process.env.REACT_APP_IOGR_ENV.toLocaleLowerCase() === 'prod'
-                ? ''
-                : `(${process.env.REACT_APP_IOGR_ENV})`
+        const environment = process.env.REACT_APP_IOGR_ENV.toLocaleLowerCase() === 'prod' ? '' : `(${process.env.REACT_APP_IOGR_ENV})`
 
         this.state = {
             dropdownOpen: false,
@@ -110,47 +95,22 @@ export default class Navigation extends React.PureComponent<{}, State> {
         return (
             <Navbar type="dark" style={style.Navigation} expand="md">
                 <NavbarBrand href="/">
-                    <img
-                        src={logo}
-                        style={style.Logo}
-                        alt="Illusion of Gaia Randomizer Logo"
-                    />
+                    <img src={logo} style={style.Logo} alt="Illusion of Gaia Randomizer Logo" />
                 </NavbarBrand>
                 <NavbarBrand style={style.Version}>
-                    v{uiStore.version}{' '}
-                    {this.state.environment}
+                    v{uiStore.version} {this.state.environment}
                 </NavbarBrand>
-                <NavbarToggler onClick={this.toggleNavbar} />
+                <NavbarToggler onClick={this.toggleNavbar} aria-label="Toggle Nav Menu" />
                 <Collapse open={this.state.collapseOpen} navbar>
                     <Nav navbar className="ml-auto">
-                        <Dropdown
-                            open={this.state.dropdownOpen}
-                            toggle={this.toggleDropdown}>
+                        <Dropdown open={this.state.dropdownOpen} toggle={this.toggleDropdown}>
                             <DropdownToggle nav caret style={style.Menu}>
                                 Help
                             </DropdownToggle>
                             <DropdownMenu right>
-                                <DropdownItem
-                                    onClick={() =>
-                                        (window.location.href =
-                                            process.env.REACT_APP_IOGR_README_URI)
-                                    }>
-                                    Readme
-                                </DropdownItem>
-                                <DropdownItem
-                                    onClick={() =>
-                                        (window.location.href =
-                                            process.env.REACT_APP_IOGR_LICENSE_URI)
-                                    }>
-                                    License
-                                </DropdownItem>
-                                <DropdownItem
-                                    onClick={() =>
-                                        (window.location.href =
-                                            'https://www.github.com/dontbagume/iogr/issues')
-                                    }>
-                                    Submit an Issue
-                                </DropdownItem>
+                                <DropdownItem onClick={() => (window.location.href = process.env.REACT_APP_IOGR_README_URI)}>Readme</DropdownItem>
+                                <DropdownItem onClick={() => (window.location.href = process.env.REACT_APP_IOGR_LICENSE_URI)}>License</DropdownItem>
+                                <DropdownItem onClick={() => (window.location.href = 'https://www.github.com/dontbagume/iogr/issues')}>Submit an Issue</DropdownItem>
                             </DropdownMenu>
                         </Dropdown>
                         <NavItem>

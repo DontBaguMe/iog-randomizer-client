@@ -1,17 +1,18 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import { observer } from 'mobx-react'
+import { Box } from '@material-ui/core'
 
 import Navigation from './components/navigation'
 import HomePage from './pages/home'
 import PermalinkPage from './pages/permalink'
 import versionService from './services/version'
 
-@observer
-export default class App extends React.Component {
-    public async componentDidMount(): Promise<void> {
-        await versionService.requestVersion()
-    }
+function App() {
+    useEffect(() => {
+        async function getApiVersion() {
+            await versionService.requestVersion()
+        }
 
     public render() {
         return (
@@ -25,3 +26,5 @@ export default class App extends React.Component {
         )
     }
 }
+
+export default observer(App)

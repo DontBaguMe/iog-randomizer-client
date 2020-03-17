@@ -8,13 +8,16 @@ import uiStore from '../stores/ui'
 import RomPatchStep from '../models/rom/patch-step'
 import GenerateSeedRequest from '../models/http/generate-seed-request'
 import GenerateSeedResponse from '../models/http/generate-seed-response'
+import preferencesStore from '../stores/preferences'
 
 class SeedService {
     public async requestSeed(): Promise<void> {
         romStore.clear()
 
+        if (detailsStore.seed < 0) detailsStore.randomizeSeed()
+
         const parameters: GenerateSeedRequest = {
-            seed: detailsStore.seed === 0 ? null : detailsStore.seed,
+            seed: detailsStore.seed,
             generateRaceRom: detailsStore.generateRaceRom,
             difficulty: detailsStore.difficulty,
             goal: detailsStore.goal,
@@ -31,6 +34,7 @@ class SeedService {
             dungeonShuffle: entranceStore.dungeonShuffle,
             overworldShuffle: entranceStore.overworldShuffle,
             openMode: variantsStore.openWorld,
+            sprite: preferencesStore.sprite
         }
 
         const response = await fetch(process.env.REACT_APP_IOGR_API_URI, {
@@ -81,7 +85,7 @@ class SeedService {
 
         if (result.spoiler) {
             const spoiler = JSON.parse(result.spoiler)
-            const spoilerFilename = result.spoilerFilename
+            const spoilerFilename = result.spoilerName
 
             romStore.setSpoilerData(spoiler, spoilerFilename)
         }

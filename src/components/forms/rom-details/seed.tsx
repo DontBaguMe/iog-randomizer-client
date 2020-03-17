@@ -1,12 +1,6 @@
 import React from 'react'
 import { observer } from 'mobx-react'
-import {
-    FormInput,
-    InputGroup,
-    InputGroupAddon,
-    InputGroupText,
-    Button,
-} from 'shards-react'
+import { FormInput, InputGroup, InputGroupAddon, InputGroupText, Button } from 'shards-react'
 
 import detailsStore from '../../../stores/details'
 
@@ -43,18 +37,10 @@ export default class SeedForm extends React.Component {
                 <InputGroupAddon type="prepend">
                     <InputGroupText>Seed</InputGroupText>
                 </InputGroupAddon>
-                <FormInput
-                    value={this.state.seedValue}
-                    onChange={e =>
-                        this.handleSeedChange(parseInt(e.target.value))
-                    }
-                    type="text"
-                />
+                <FormInput aria-label="Input for Seed Value" value={this.state.seedValue} onChange={e => this.handleSeedChange(parseInt(e.target.value))} type="text" />
 
                 <InputGroupAddon type="append">
-                    <Button
-                        color="secondary"
-                        onClick={this.handleRandomizeSeed}>
+                    <Button color="secondary" onClick={this.handleRandomizeSeed}>
                         New Seed
                     </Button>
                 </InputGroupAddon>
