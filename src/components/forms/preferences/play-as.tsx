@@ -1,11 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { observer } from 'mobx-react'
 import { InputGroup, InputGroupAddon, InputGroupText, FormSelect } from 'shards-react'
 import { Grid } from '@material-ui/core'
 
-import preferencesStore from '../../../stores/preferences'
 import transparent from '../../../assets/transparent.png'
 import sprites from '../../../assets/sprites.png'
+import { settingsStore } from '../../../stores/settings'
 
 type SelectionValues = {
     value: string
@@ -19,6 +19,7 @@ const styles = {
 }
 
 function PlayAs() {
+    const [sprite, setSprite] = useState(settingsStore.sprite)
     // The order of this array is important as the index of the selection value must correspond to the
     // image's position in the sprite sheet. For example, Bagu being the first alphabetically will be in position
     // 0 in the spritesheet, taking a rectangle of position 0,0 with width of 16 and height of 24. Will being the second
@@ -29,14 +30,15 @@ function PlayAs() {
     // alphabetical after Will
     const options: SelectionValues[] = [{ value: 'Will' }, { value: 'Bagu' }, { value: 'Invisible' }]
 
-    function onSelectChange(e: React.ChangeEvent<HTMLSelectElement>) {
-        preferencesStore.setSprite(e.target.value)
+    function onSelectChange(event: React.ChangeEvent<HTMLSelectElement>) {
+        settingsStore.sprite = event.target.value
+        setSprite(event.target.value)
     }
 
     function generateCss() {
         const width = 92
         const height = 144
-        const index = options.findIndex(x => x.value === preferencesStore.sprite)
+        const index = options.findIndex(x => x.value === settingsStore.sprite)
         const x = index * width
 
         return {
@@ -54,7 +56,7 @@ function PlayAs() {
                         <InputGroupText>Play As</InputGroupText>
                     </InputGroupAddon>
 
-                    <FormSelect defaultValue={preferencesStore.sprite} onChange={e => onSelectChange(e)}>
+                    <FormSelect defaultValue={sprite} onChange={e => onSelectChange(e)}>
                         {options.map((value, index) => (
                             <option key={index} value={value.value}>
                                 {value.value}
@@ -64,7 +66,7 @@ function PlayAs() {
                 </InputGroup>
             </Grid>
             <Grid item xs={6} style={styles.spriteContainer}>
-                <img src={transparent} style={generateCss()} alt={`Sprite for ${preferencesStore.sprite}`} />
+                <img src={transparent} style={generateCss()} alt={`Sprite for ${sprite}`} />
             </Grid>
         </Grid>
     )

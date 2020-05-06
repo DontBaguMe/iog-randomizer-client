@@ -1,70 +1,32 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { observer } from 'mobx-react'
-import {
-    ExpansionPanel,
-    ExpansionPanelSummary,
-    ExpansionPanelDetails,
-    Typography,
-} from '@material-ui/core'
+import { ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, Typography } from '@material-ui/core'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
-
-const styles = {
-    Panel: {
-        marginLeft: 40,
-        marginRight: 40,
-    },
-}
-
-interface State {
-    expanded: boolean
-}
 
 interface Props {
     id: string
     title: string
     expanded: boolean
+    style?: React.CSSProperties
 }
 
-@observer
-export default class AccordionPanel extends React.PureComponent<Props, State> {
-    public constructor(props: Props) {
-        super(props)
+function AccordionPanel(props: React.PropsWithChildren<Props>) {
+    const [expanded, setExpanded] = useState(props.expanded)
 
-        this.state = {
-            expanded: this.props.expanded,
-        }
-
-        this.handlePanelChange = this.handlePanelChange.bind(this)
+    function handlePanelChange(expanded) {
+        setExpanded(expanded)
     }
 
-    public componentDidMount() {
-        if (this.props.expanded)
-            this.setState({ expanded: this.props.expanded })
-    }
-
-    handlePanelChange(panel, e, expanded) {
-        this.setState({ expanded })
-    }
-
-    public render(): JSX.Element {
-        const { expanded } = this.state
-
-        return (
-            <ExpansionPanel
-                expanded={expanded}
-                onChange={(e, expanded) =>
-                    this.handlePanelChange(this.props.id, e, expanded)
-                }
-                style={styles.Panel}>
+    return (
+        <div style={props.style}>
+            <ExpansionPanel expanded={expanded} onChange={(e, expanded) => handlePanelChange(expanded)}>
                 <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                    <Typography variant="subtitle1">
-                        {this.props.title}
-                    </Typography>
+                    <Typography variant="subtitle1">{props.title}</Typography>
                 </ExpansionPanelSummary>
-                <ExpansionPanelDetails>
-                    {this.props.children}
-                </ExpansionPanelDetails>
+                <ExpansionPanelDetails>{props.children}</ExpansionPanelDetails>
             </ExpansionPanel>
-        )
-    }
+        </div>
+    )
 }
+
+export default observer(AccordionPanel)

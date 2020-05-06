@@ -8,6 +8,7 @@ import AccordionPanel from './accordion-panel'
 
 import GenerateForm from '../forms/rom-details/generate'
 import DownloadForm from '../forms/rom-details/download'
+import { romStore } from '../../stores/rom'
 
 const styles = {
     Container: {
@@ -19,10 +20,7 @@ const styles = {
 export default class RomDetailsContainer extends React.Component {
     render() {
         return (
-            <AccordionPanel
-                title="Rom Details"
-                id="rom-details"
-                expanded={true}>
+            <AccordionPanel title="Rom Details" id="rom-details" expanded={true}>
                 <Grid container spacing={2}>
                     <Grid item xs={6}>
                         <RomUploadForm />
@@ -39,9 +37,11 @@ export default class RomDetailsContainer extends React.Component {
                     <Grid item xs={12} style={styles.Container}>
                         <GenerateForm />
                     </Grid>
-                    <Grid item xs={12}>
-                        <DownloadForm />
-                    </Grid>
+                    {romStore.patch && (
+                        <Grid item xs={12}>
+                            <DownloadForm patch={romStore.patch} displayPermalink={true} />
+                        </Grid>
+                    )}
                 </Grid>
             </AccordionPanel>
         )
