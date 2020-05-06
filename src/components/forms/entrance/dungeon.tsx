@@ -1,45 +1,30 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { observer } from 'mobx-react'
+import { Grid, Switch, FormControlLabel, Tooltip, FormGroup } from '@material-ui/core'
+import { settingsStore } from '../../../stores/settings'
 
-import entranceStore from '../../../stores/entrance'
+function DungeonShuffleForm() {
+    const [dungeonShuffle, setDungeonShuffle] = useState(settingsStore.dungeonShuffle)
 
-import {
-    Grid,
-    Switch,
-    FormControlLabel,
-    Tooltip,
-    FormGroup,
-} from '@material-ui/core'
-
-@observer
-export default class DungeonShuffleForm extends React.Component {
-    render() {
-        return (
-            <Grid container spacing={1}>
-                <Grid item xs={12}>
-                    <FormGroup>
-                        <Tooltip
-                            title="Not Yet Implemented"
-                            placement="bottom-start">
-                            <FormControlLabel
-                                control={
-                                    <Switch
-                                        disabled={true}
-                                        checked={entranceStore.dungeonShuffle}
-                                        onChange={e =>
-                                            entranceStore.setDungeonShuffle(
-                                                e.target.checked,
-                                            )
-                                        }
-                                        value="Dungeon Shuffle"
-                                    />
-                                }
-                                label="Dungeon Shuffle"
-                            />
-                        </Tooltip>
-                    </FormGroup>
-                </Grid>
-            </Grid>
-        )
+    function onDungeonShuffleToggle(event: React.ChangeEvent<HTMLInputElement>) {
+        setDungeonShuffle(event.target.checked)
+        settingsStore.dungeonShuffle = event.target.checked
     }
+
+    return (
+        <Grid container spacing={1}>
+            <Grid item xs={12}>
+                <FormGroup>
+                    <Tooltip title="Not Yet Implemented" placement="bottom-start">
+                        <FormControlLabel
+                            control={<Switch disabled={true} checked={dungeonShuffle} onChange={e => onDungeonShuffleToggle(e)} value="Dungeon Shuffle" />}
+                            label="Dungeon Shuffle"
+                        />
+                    </Tooltip>
+                </FormGroup>
+            </Grid>
+        </Grid>
+    )
 }
+
+export default observer(DungeonShuffleForm)

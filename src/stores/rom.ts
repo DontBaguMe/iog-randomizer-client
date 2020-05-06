@@ -1,100 +1,60 @@
-import { observable, action } from 'mobx'
+import { observable, action, computed } from 'mobx'
 import { openDB } from 'idb'
 
 import RomPatchStep from '../models/rom/patch-step'
-import PatchStorageData from '../models/rom/patch-storage-data'
+import { Spoiler } from '../models/rom/spoiler'
 
-const IOG_ROM_STORAGE_KEY: string = 'iog-base-rom'
-
-class RomStore {
-    @observable private baseRom: ArrayBuffer = null
-    @observable public patchData: RomPatchStep[] = null
-    @observable public patchName: string = null
-    @observable public spoilerData: string = null
-    @observable public spoilerName: string = null
-    @observable public patchHistory: PatchStorageData[] = []
-
-    @action.bound
-    public clear() {
-        this.patchData = null
-        this.patchName = null
-        this.spoilerData = null
-        this.spoilerName = null
-    }
-
-    @action.bound
-    public async setOriginalFile(file: ArrayBuffer): Promise<void> {
-        this.baseRom = file
-        await this.persistArrayBufferToStorage(IOG_ROM_STORAGE_KEY, file)
-    }
-
-    @action.bound
-    public setPatchData(patchData: RomPatchStep[], patchName: string, permalinkId: string) {
+class Patch {
+    public constructor(patchData: RomPatchStep[], patchFilename: string, spoilerData: Spoiler, spoilerFilename: string, permalinkId: string) {
         this.patchData = patchData
-        this.patchName =
-            patchName
-                .split('.')
-                .slice(0, -1)
-                .join('.') + `_${permalinkId}.sfc`
-    }
-
-    @action.bound
-    public setSpoilerData = (spoilerData: string, spoilerName: string) => {
+        this.patchFilename = patchFilename
         this.spoilerData = spoilerData
-        this.spoilerName = spoilerName
+        this.spoilerFilename = spoilerFilename
+        this.permalinkId = permalinkId
     }
 
-    @action.bound
-    public async loadRomFromStorage(): Promise<void> {
-        const rom = await this.loadArrayBufferFromStorage(IOG_ROM_STORAGE_KEY)
-        if (!rom || rom.byteLength === 0) return
+    public patchData: RomPatchStep[]
+    public patchFilename: string
+    public spoilerData: Spoiler
+    public spoilerFilename: string
+    public permalinkId: string
+}
 
-        this.baseRom = rom
+class Rom {
+    private readonly IOG_ROM_STORAGE_KEY: string = 'iog-base-rom'
+
+    private _bytes: ArrayBuffer
+
+    public constructor(bytes?: ArrayBuffer) {
+        if (bytes) this._bytes = bytes
     }
 
-    @action
-    public getBaseRom(): ArrayBuffer {
-        if (!this.baseRom) return new ArrayBuffer(0)
-        const buffer = new ArrayBuffer(this.baseRom.byteLength)
-        new Uint8Array(buffer).set(new Uint8Array(this.baseRom))
-
-        return buffer
+    public async set(bytes: ArrayBuffer): Promise<void> {
+        this._bytes = bytes
+        await this.writeToStorage()
     }
 
-    public hasBaseRom(): boolean {
-        return this.baseRom && this.baseRom.byteLength > 0
+    public async get(): Promise<ArrayBuffer> {
+        if (!this._bytes) this._bytes = await this.loadFromStorage()
+
+        return this._bytes
     }
 
-    @action.bound
-    public async clearRom(): Promise<void> {
-        this.baseRom = null
-        await this.destroyArrayBufferFromStorage(IOG_ROM_STORAGE_KEY)
+    public async clear(): Promise<void> {
+        this._bytes = null
+        await this.clearStorage()
     }
 
-    private async persistArrayBufferToStorage(key: string, buffer: ArrayBuffer): Promise<void> {
+    public exists(): boolean {
+        return this._bytes && this._bytes.byteLength > -1
+    }
+
+    private async loadFromStorage(): Promise<ArrayBuffer> {
         const db = await openDB('iogr', 1, {
-            upgrade: upgradeDb => upgradeDb.createObjectStore('iogr', { autoIncrement: true }),
-        })
-        await db.put('iogr', new Uint8Array(buffer), key)
-
-        db.close()
-    }
-
-    private async destroyArrayBufferFromStorage(key: string): Promise<void> {
-        const db = await openDB('iogr', 1, {
-            upgrade: upgradeDb => upgradeDb.createObjectStore('iogr', { autoIncrement: true }),
-        })
-        await db.delete('iogr', key)
-
-        db.close()
-    }
-
-    private async loadArrayBufferFromStorage(key: string): Promise<ArrayBuffer> {
-        const db = await openDB('iogr', 1, {
-            upgrade: upgradeDb => upgradeDb.createObjectStore('iogr', { autoIncrement: true }),
+            upgrade: (upgradeDb) => upgradeDb.createObjectStore('iogr', { autoIncrement: true }),
         })
         try {
-            const obj: Uint8Array = await db.get('iogr', key)
+            const obj: Uint8Array = await db.get('iogr', this.IOG_ROM_STORAGE_KEY)
             const buffer: ArrayBuffer = obj.buffer
 
             return buffer
@@ -104,7 +64,47 @@ class RomStore {
             db.close()
         }
     }
+
+    private async writeToStorage(): Promise<void> {
+        const db = await openDB('iogr', 1, {
+            upgrade: (upgradeDb) => upgradeDb.createObjectStore('iogr', { autoIncrement: true }),
+        })
+
+        const bytes = new Uint8Array(this._bytes)
+        console.log('Writing to storage start', bytes)
+        await db.put('iogr', bytes, this.IOG_ROM_STORAGE_KEY)
+        console.log('Writing to storage end')
+        db.close()
+    }
+
+    private async clearStorage(): Promise<void> {
+        const db = await openDB('iogr', 1, {
+            upgrade: (upgradeDb) => upgradeDb.createObjectStore('iogr', { autoIncrement: true }),
+        })
+
+        console.log('Deleting storage')
+        await db.delete('iogr', this.IOG_ROM_STORAGE_KEY)
+        db.close()
+    }
+}
+
+class RomStore {
+    @observable public rom: Rom = new Rom()
+    @observable public patch: Patch = null
+
+    @computed public get canGenerate(): boolean {
+        return this.rom.exists()
+    }
+
+    @action public async init(): Promise<void> {
+        await this.rom.get()
+    }
+
+    @action public clear(): void {
+        this.patch = null
+        this.rom.clear().then(() => (this.rom = null))
+    }
 }
 
 const romStore = new RomStore()
-export default romStore
+export { romStore, Rom, Patch }

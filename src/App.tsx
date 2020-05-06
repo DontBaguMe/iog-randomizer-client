@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react'
-import { BrowserRouter as Router, Route } from 'react-router-dom'
 import { observer } from 'mobx-react'
-import { Box } from '@material-ui/core'
+import { BrowserRouter, Route } from 'react-router-dom'
 
 import Navigation from './components/navigation'
 import HomePage from './pages/home'
@@ -14,17 +13,18 @@ function App() {
             await versionService.requestVersion()
         }
 
-    public render() {
-        return (
-            <Router>
-                <Navigation />
-                <>
-                    <Route exact path="/" component={HomePage} />
-                    <Route exact path="/permalink/:id?" component={PermalinkPage} />
-                </>
-            </Router>
-        )
-    }
+        getApiVersion()
+    })
+
+    return (
+        <BrowserRouter>
+            <Navigation />
+            <>
+                <Route exact path="/" component={HomePage} />
+                <Route exact path="/permalink/:id?" component={PermalinkPage} />
+            </>
+        </BrowserRouter>
+    )
 }
 
 export default observer(App)

@@ -1,66 +1,44 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import { observer } from 'mobx-react'
+import { Patch } from '../../../stores/rom'
+import DownloadSpoilerButton from '../../actions/buttons/download-spoiler'
+import DownloadRomButton from '../../actions/buttons/download-rom'
+import CopyPermalinkButton from '../../actions/buttons/copy-permalink'
 
-import { Button } from 'shards-react'
-import romService from '../../../services/rom'
-import romStore from '../../../stores/rom'
-
-const styles = {
-    Button: {
-        marginRight: 10,
+const style = {
+    container: {
+        display: 'flex',
+    },
+    button: {
+        paddingLeft: 10,
     },
 }
 
-@observer
-export default class DownloadForm extends React.PureComponent {
-    constructor(props: {}) {
-        super(props)
-
-        this.handleDownloadRom = this.handleDownloadRom.bind(this)
-        this.handleDownloadSpoiler = this.handleDownloadSpoiler.bind(this)
-    }
-
-    handleDownloadRom() {
-        romService.removeHeader()
-
-        const blob = romService.createPatchedRomBlob()
-        this.generateLink(blob, romStore.patchName)
-    }
-
-    handleDownloadSpoiler() {
-        const blob = romService.createSpoilerBlob()
-        this.generateLink(blob, romStore.spoilerName)
-    }
-
-    private generateLink(blob: Blob, name: string): void {
-        let a = document.createElement('a')
-
-        document.body.appendChild(a)
-        a.style.display = 'none'
-        a.href = URL.createObjectURL(blob)
-        a.download = name
-        a.click()
-        a.remove()
-    }
-
-    render() {
-        const { patchData, spoilerData } = romStore
-
-        if (patchData) {
-            return (
-                <Fragment>
-                    <Button color="primary" onClick={this.handleDownloadRom} style={styles.Button}>
-                        Download Randomized ROM
-                    </Button>
-                    {spoilerData && (
-                        <Button color="primary" onClick={this.handleDownloadSpoiler} style={styles.Button}>
-                            Download Spoiler
-                        </Button>
-                    )}
-                </Fragment>
-            )
-        }
-
-        return null
-    }
+interface Props {
+    patch: Patch
+    displayPermalink?: boolean
 }
+
+function DownloadForm(props: Props) {
+    return (
+        <div style={style.container}>
+            <div style={style.button}>
+                <DownloadRomButton patchData={props.patch.patchData} patchFilename={props.patch.patchFilename} />
+            </div>
+
+            {props.patch.spoilerData && (
+                <div style={style.button}>
+                    <DownloadSpoilerButton spoilerData={props.patch.spoilerData} spoilerFilename={props.patch.spoilerFilename} />
+                </div>
+            )}
+
+            {props.displayPermalink && (
+                <div style={style.button}>
+                    <CopyPermalinkButton permalinkId={props.patch.permalinkId} />
+                </div>
+            )}
+        </div>
+    )
+}
+
+export default observer(DownloadForm)

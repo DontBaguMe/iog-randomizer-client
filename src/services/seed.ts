@@ -1,40 +1,34 @@
-import detailsStore from '../stores/details'
-import enemizerStore from '../stores/enemizer'
-import entranceStore from '../stores/entrance'
-import variantsStore from '../stores/variants'
-import romStore from '../stores/rom'
-import uiStore from '../stores/ui'
+import { romStore, Patch } from '../stores/rom'
 
 import RomPatchStep from '../models/rom/patch-step'
 import GenerateSeedRequest from '../models/http/generate-seed-request'
 import GenerateSeedResponse from '../models/http/generate-seed-response'
-import preferencesStore from '../stores/preferences'
+import GenerateSeedFromPermalinkResponse from '../models/http/generate-seed-from-permalink-response'
+import { settingsStore } from '../stores/settings'
+import { PermalinkedRom } from '../models/rom/permalinked-rom'
+import { Spoiler } from '../models/rom/spoiler'
 
 class SeedService {
     public async requestSeed(): Promise<void> {
-        romStore.clear()
-
-        if (detailsStore.seed < 0) detailsStore.randomizeSeed()
-
         const parameters: GenerateSeedRequest = {
-            seed: detailsStore.seed,
-            generateRaceRom: detailsStore.generateRaceRom,
-            difficulty: detailsStore.difficulty,
-            goal: detailsStore.goal,
-            statues: detailsStore.statues,
-            startLocation: variantsStore.startLocation,
-            logic: variantsStore.logic,
-            allowGlitches: variantsStore.allowGlitches,
-            ohko: variantsStore.oneHitKnockOut,
-            redJewelMadness: variantsStore.redJewelMadness,
-            firebird: variantsStore.firebird,
-            enemizer: enemizerStore.enemizer,
-            bossShuffle: enemizerStore.bossShuffle,
-            entranceShuffle: entranceStore.entranceShuffle,
-            dungeonShuffle: entranceStore.dungeonShuffle,
-            overworldShuffle: entranceStore.overworldShuffle,
-            openMode: variantsStore.openWorld,
-            sprite: preferencesStore.sprite
+            seed: settingsStore.seed,
+            generateRaceRom: settingsStore.raceRom,
+            difficulty: settingsStore.difficulty,
+            goal: settingsStore.goal,
+            statues: settingsStore.statues,
+            startLocation: settingsStore.startLocation,
+            logic: settingsStore.logic,
+            allowGlitches: settingsStore.allowGlitches,
+            ohko: settingsStore.oneHitKnockOut,
+            redJewelMadness: settingsStore.redJewelMadness,
+            firebird: settingsStore.firebird,
+            enemizer: settingsStore.enemizer,
+            bossShuffle: settingsStore.bossShuffle,
+            entranceShuffle: settingsStore.entranceShuffle,
+            dungeonShuffle: settingsStore.dungeonShuffle,
+            overworldShuffle: settingsStore.overworldShuffle,
+            openMode: settingsStore.openWorld,
+            sprite: settingsStore.sprite,
         }
 
         const response = await fetch(process.env.REACT_APP_IOGR_API_URI, {
@@ -49,23 +43,16 @@ class SeedService {
         if (!response.ok) throw new Error('Failed to negotiate with server')
 
         const result: GenerateSeedResponse = await response.json()
-        const patch: RomPatchStep[] = JSON.parse(result.patch)
-        const patchName: string = result.patchName
+        const patchData: RomPatchStep[] = JSON.parse(result.patch)
+        const patchFilename: string = result.patchName
+        const spoilerData: Spoiler = result.spoiler ? JSON.parse(result.spoiler) ?? null : null
+        const spoilerFilename: string = result.spoilerName
 
-        romStore.setPatchData(patch, patchName, result.permalink_id)
-        uiStore.setError(false)
-
-        if (result.spoiler) {
-            const spoiler = JSON.parse(result.spoiler)
-            const spoilerFilename = result.spoilerFilename
-
-            romStore.setSpoilerData(spoiler, spoilerFilename)
-        }
+        romStore.patch = new Patch(patchData, patchFilename, spoilerData, spoilerFilename, result.permalink_id)
     }
 
-    public async requestPermalinkedSeed(id: string): Promise<void> {
+    public async requestPermalinkedSeed(id: string): Promise<PermalinkedRom> {
         const uri = `${process.env.REACT_APP_IOGR_API_PERMALINK}/${id}`
-        console.log(uri)
 
         const response = await fetch(uri, {
             method: 'GET',
@@ -76,19 +63,21 @@ class SeedService {
         })
 
         if (!response.ok) throw new Error('Failed to negotiate with server')
-        const result: GenerateSeedResponse = await response.json()
-        const patch: RomPatchStep[] = JSON.parse(result.patch)
-        const patchName: string = result.patchName
 
-        romStore.setPatchData(patch, patchName, result.permalink_id)
-        uiStore.setError(false)
+        const result: GenerateSeedFromPermalinkResponse = await response.json()
+        const patchData: RomPatchStep[] = JSON.parse(result.patch)
+        const patchFilename: string = result.patchName
+        const spoilerData: Spoiler = result.spoiler ? JSON.parse(result.spoiler) ?? null : null
+        const spoilerFilename: string = result.spoilerName
 
-        if (result.spoiler) {
-            const spoiler = JSON.parse(result.spoiler)
-            const spoilerFilename = result.spoilerName
-
-            romStore.setSpoilerData(spoiler, spoilerFilename)
+        return {
+            id: result._id,
+            patch: new Patch(patchData, patchFilename, spoilerData, spoilerFilename, result._id),
+            settings: JSON.parse(result.settings),
+            created_at: result.created_at,
         }
+
+        //romStore.patch = new Patch(patchData, patchFilename, spoilerData, spoilerFilename)
     }
 }
 

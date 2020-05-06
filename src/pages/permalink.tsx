@@ -1,18 +1,23 @@
-import React from 'react'
-import { match, Redirect } from 'react-router-dom'
-import { Modal, DialogContent } from '@material-ui/core'
+import React, { useState, useEffect } from 'react'
+import { match, useParams, Redirect } from 'react-router-dom'
+import { Modal, DialogContent, Divider, Paper, Grid } from '@material-ui/core'
 import { observer } from 'mobx-react'
-
-import uiStore from '../stores/ui'
-import romStore from '../stores/rom'
-
-import seedService from '../services/seed'
+import moment from 'moment-timezone'
+//import AccordionPanel from '../components/containers/accordion-panel'
+import Error from '../components/modals/error'
 import PleaseWait from '../components/modals/please-wait'
-
-// import RomDetailsContainer from '../components/containers/rom-details'
-// import EnemizerContainer from '../components/containers/enemizer'
-// import VariantsContainer from '../components/containers/variants'
-// import EntranceContainer from '../components/containers/entrance'
+import seedService from '../services/seed'
+import { PermalinkedRom } from '../models/rom/permalinked-rom'
+import { Difficulty } from '../models/ui/diffiulty'
+import { Goal } from '../models/ui/goal'
+import { StartingLocation } from '../models/ui/starting-location'
+import { Enemizer } from '../models/ui/enemizer'
+import PermalinkSettingsContainer from '../components/containers/permalink-settings'
+import { Logic } from '../models/ui/logic'
+import PermalinkActionsContainer from '../components/containers/permalink-actions'
+import AccordionPanel from '../components/containers/accordion-panel'
+import SpoilerView from '../components/containers/spoiler'
+import uiStore from '../stores/ui'
 
 const Style = {
     Root: {
@@ -41,41 +46,147 @@ interface RoutableProps {
     match?: match<Props>
 }
 
-@observer
-export default class PermalinkPage extends React.PureComponent<RoutableProps> {
-    public async componentDidMount(): Promise<void> {
-        const match = this.props.match
+interface RenderableSetting {
+    key: string
+    value: string
+}
 
-        if (!match.params.id) {
-            uiStore.setError(true, "This permalink doesn't exist!")
-            return
+function PermalinkPage(props: RoutableProps) {
+    const [error, setError] = useState(false)
+    const [errorRedirect, setErrorRedirect] = useState(false)
+    const [isProcessing, setIsProcessing] = useState(true)
+    const [rom, setRom] = useState<PermalinkedRom | undefined>(undefined)
+
+    const navParams: Props = useParams()
+
+    useEffect(() => {
+        const permalinkId = navParams.id
+        if (!permalinkId) setError(true)
+    }, [navParams.id])
+
+    useEffect(() => {
+        async function getSeed() {
+            try {
+                const rom = await seedService.requestPermalinkedSeed(navParams.id)
+                setRom(rom)
+            } catch (err) {
+                console.error(err)
+                setError(true)
+            } finally {
+                setIsProcessing(false)
+            }
         }
 
-        try {
-            uiStore.setProcessing(true)
-            await seedService.requestPermalinkedSeed(match.params.id)
-        } catch (err) {
-            uiStore.setError(true, "This permalink doesn't exist!")
-            return
-        } finally {
-            uiStore.setProcessing(false)
-        }
+        getSeed()
+    }, [navParams.id])
+
+    function redirectToHome() {
+        setError(false)
+        setErrorRedirect(true)
     }
 
-    public render(): JSX.Element {
-        const { isError, isProcessing } = uiStore
-        const hasBaseRom = romStore.hasBaseRom()
+    if (errorRedirect) {
+        return <Redirect to={{ pathname: '/' }} />
+    }
 
-        if (isError) return <Redirect to={{ pathname: '/' }} />
-        if (isProcessing)
-            return (
-                <Modal open={true} onClose={() => {}} style={Style.Modal}>
-                    <DialogContent style={Style.Content}>
-                        <PleaseWait message="Loading your seed!" />
-                    </DialogContent>
-                </Modal>
-            )
+    if (error) {
+        return (
+            <Modal open={error != null} onClose={() => redirectToHome()} style={Style.Modal}>
+                <DialogContent style={Style.Content}>
+                    <Error message="This permalink does not exist" />
+                </DialogContent>
+            </Modal>
+        )
+    }
 
-        return <></>
+    if (uiStore.isError) {
+        return (
+            <Modal open={uiStore.isError} onClose={() => uiStore.setError(false)} style={Style.Modal}>
+                <DialogContent style={Style.Content}>
+                    <Error message={uiStore.errorText} />
+                </DialogContent>
+            </Modal>
+        )
+    }
+
+    if (isProcessing) {
+        return (
+            <Modal open={error != null} onClose={() => redirectToHome()} style={Style.Modal}>
+                <DialogContent style={Style.Content}>
+                    <PleaseWait message="Hang tight! Hamlet is fetching your seed!" />
+                </DialogContent>
+            </Modal>
+        )
+    }
+
+    return (
+        <Grid container>
+            <Grid item xs={6} style={{ padding: 20 }}>
+                <Paper elevation={3} style={{ padding: 10 }}>
+                    <div style={{ display: 'flex', flexDirection: 'column', flexWrap: 'wrap' }}>
+                        <PermalinkSettingsContainer title="Rom Details" settings={buildRomDetailsArea()} />
+                        <Divider />
+                        <PermalinkSettingsContainer title="Variants" settings={buildVariantsArea()} />
+                        <Divider />
+                        <PermalinkSettingsContainer title="Enemizer" settings={buildEnemizerArea()} />
+                    </div>
+                </Paper>
+            </Grid>
+            <Grid item xs={6} style={{ display: 'flex', flexDirection: 'column', padding: 20 }}>
+                <Paper elevation={3} style={{ padding: 10 }}>
+                    <div style={{ display: 'flex', flexDirection: 'column', flexWrap: 'wrap' }}>
+                        <PermalinkActionsContainer rom={rom} />
+                    </div>
+                </Paper>
+                {rom.patch.spoilerFilename && (
+                    <AccordionPanel id="spoilerLog" title="Spoiler" expanded={false} style={{ paddingTop: 10 }}>
+                        <div style={{ display: 'flex', flexDirection: 'column', flexWrap: 'wrap', width: '100%' }}>
+                            <SpoilerView data={rom.patch.spoilerData} />
+                        </div>
+                    </AccordionPanel>
+                )}
+            </Grid>
+        </Grid>
+    )
+
+    function buildRomDetailsArea(): RenderableSetting[] {
+        const settings: RenderableSetting[] = []
+
+        settings.push({ key: 'Permalink ID', value: rom.id })
+        settings.push({ key: 'Created At', value: moment(rom.created_at).local().format('MM/DD/YYYY HH:mm:ss') })
+        settings.push({ key: 'Seed', value: rom.settings.seed.toString() })
+        settings.push({ key: 'Playing As', value: rom.settings.sprite })
+        settings.push({ key: 'Difficulty', value: Difficulty[rom.settings.difficulty] })
+
+        const goal: Goal = rom.settings.goal
+        settings.push({ key: 'Goal', value: Goal[goal] })
+        if (goal !== Goal.RedJewelHunt) settings.push({ key: 'Statues', value: rom.settings.statues })
+
+        return settings
+    }
+
+    function buildVariantsArea(): RenderableSetting[] {
+        const settings: RenderableSetting[] = []
+
+        settings.push({ key: 'Starting Location', value: StartingLocation[rom.settings.start_location] })
+        settings.push({ key: 'Logic', value: Logic[rom.settings.logic] })
+        settings.push({ key: 'Is Open World?', value: String(rom.settings.open_mode) })
+        settings.push({ key: 'Allow Glitches?', value: String(rom.settings.allow_glitches) })
+        settings.push({ key: 'One Hit Knockout?', value: String(rom.settings.ohko) })
+        settings.push({ key: 'Red Jewel Madness?', value: String(rom.settings.red_jewel_madness) })
+        settings.push({ key: 'Early Firebird?', value: String(rom.settings.firebird) })
+
+        return settings
+    }
+
+    function buildEnemizerArea(): RenderableSetting[] {
+        const settings: RenderableSetting[] = []
+
+        settings.push({ key: 'Enemizer', value: Enemizer[rom.settings.enemizer] })
+        settings.push({ key: 'Boss Shuffle?', value: String(rom.settings.boss_shuffle) })
+
+        return settings
     }
 }
+
+export default observer(PermalinkPage)

@@ -1,16 +1,19 @@
-import romStore from '../stores/rom'
+import { romStore } from '../stores/rom'
 
 class RomService {
-    public createPatchedRomBlob(): Blob {
-        const { patchData } = romStore
-        const baseRom = romStore.getBaseRom()
-        const buffer = new Uint8Array(baseRom)
+    public async createPatchedRomBlob(): Promise<Blob> {
+        const patch = romStore.patch
+        const rom: ArrayBuffer = await romStore.rom?.get()
 
-        for (let j = 0; j < patchData.length; ++j) {
-            const offset = patchData[j].address
+        if (!patch || !rom) return null
 
-            for (let i = 0; i < patchData[j].data.length; ++i) {
-                buffer[offset + i] = patchData[j].data[i]
+        const buffer = new Uint8Array(rom)
+
+        for (let j = 0; j < patch.patchData.length; ++j) {
+            const offset = patch.patchData[j].address
+
+            for (let i = 0; i < patch.patchData[j].data.length; ++i) {
+                buffer[offset + i] = patch.patchData[j].data[i]
             }
         }
 
@@ -18,27 +21,27 @@ class RomService {
     }
 
     public createSpoilerBlob(): Blob {
-        const spoiler = romStore.spoilerData
+        const spoiler = romStore.patch.spoilerFilename
         const data = JSON.stringify(spoiler, undefined, 2)
         return new Blob([data], { type: 'text/json' })
     }
 
-    public removeHeader(): void {
-        const offset = this.getOffset()
+    public async removeHeader(): Promise<void> {
+        const offset = await this.getOffset()
 
         const hasHeader = offset > 0
         if (hasHeader) {
-            const baseRom = romStore.getBaseRom()
-            const buffer = new Uint8Array(baseRom)
+            const rom: ArrayBuffer = await romStore.rom?.get()
+            const buffer = new Uint8Array(rom)
             const unheadered = buffer.slice(offset)
 
-            romStore.setOriginalFile(unheadered)
+            await romStore.rom.set(unheadered)
         }
     }
 
-    private getOffset(): number {
-        const baseRom = romStore.getBaseRom()
-        const buffer = new Uint8Array(baseRom)
+    private async getOffset(): Promise<number> {
+        const rom: ArrayBuffer = await romStore.rom?.get()
+        const buffer = new Uint8Array(rom)
         const header = [0x49, 0x4c, 0x4c, 0x55, 0x53, 0x49, 0x4f, 0x4e, 0x20, 0x4f, 0x46, 0x20, 0x47, 0x41, 0x49, 0x41, 0x20, 0x55, 0x53, 0x41]
         let offset = -1
 
