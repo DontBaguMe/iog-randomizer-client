@@ -15,9 +15,7 @@ export default function CopyPermalinkButton(props: Props) {
         event.preventDefault()
 
         const currentUrl = new URL(document.location.href)
-        const includePort = currentUrl.port !== '80' && currentUrl.port !== '443'
-
-        const permalinkUrl = `${currentUrl.protocol}//${currentUrl.hostname}${includePort ? `:${currentUrl.port}` : ''}/permalink/${props.permalinkId}`
+        const permalinkUrl = `${currentUrl.protocol}//${currentUrl.hostname}${currentUrl.port ? `:${currentUrl.port}` : ''}/permalink/${props.permalinkId}`
 
         uiService.copyToClipboard(permalinkUrl)
         setToastOpen(true)
