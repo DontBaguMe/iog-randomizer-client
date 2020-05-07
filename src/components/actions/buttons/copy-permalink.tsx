@@ -21,8 +21,6 @@ export default function CopyPermalinkButton(props: Props) {
         setToastOpen(true)
     }
 
-    if (!document.queryCommandEnabled('copy')) return <></>
-
     return (
         <>
             <Button color="secondary" onClick={onCopyPermalink}>
