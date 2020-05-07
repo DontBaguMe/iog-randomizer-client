@@ -62,7 +62,7 @@ function PermalinkPage(props: RoutableProps) {
     useEffect(() => {
         const permalinkId = navParams.id
         if (!permalinkId) setError(true)
-    }, [navParams.id])
+    }, [])
 
     useEffect(() => {
         async function getSeed() {
@@ -78,7 +78,7 @@ function PermalinkPage(props: RoutableProps) {
         }
 
         getSeed()
-    }, [navParams.id])
+    }, [])
 
     function redirectToHome() {
         setError(false)
