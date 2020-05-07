@@ -1,64 +1,40 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { observer } from 'mobx-react'
-import {
-    FormInput,
-    InputGroup,
-    InputGroupAddon,
-    InputGroupText,
-    Button,
-} from 'shards-react'
+import { FormInput, InputGroup, InputGroupAddon, InputGroupText, Button } from 'shards-react'
 
-import detailsStore from '../../../stores/details'
+import { settingsStore } from '../../../stores/settings'
 
-@observer
-export default class SeedForm extends React.Component {
-    state = {
-        seedValue: detailsStore.seed,
+function SeedForm() {
+    const [seed, setSeed] = useState(settingsStore.seed)
+
+    function onSeedTextChange(event: React.ChangeEvent<HTMLInputElement>) {
+        const seed = parseInt(event.target.value)
+
+        setSeed(seed)
+        settingsStore.seed = seed
     }
 
-    constructor(props) {
-        super(props)
+    function onNewSeedClient() {
+        const seed = settingsStore.randomize()
 
-        this.handleSeedChange = this.handleSeedChange.bind(this)
-        this.handleRandomizeSeed = this.handleRandomizeSeed.bind(this)
+        setSeed(seed)
+        settingsStore.seed = seed
     }
 
-    handleSeedChange(value) {
-        detailsStore.setSeed(value)
-        this.setState({
-            seedValue: value,
-        })
-    }
+    return (
+        <InputGroup>
+            <InputGroupAddon type="prepend">
+                <InputGroupText>Seed</InputGroupText>
+            </InputGroupAddon>
+            <FormInput aria-label="Input for Seed Value" value={seed} onChange={e => onSeedTextChange(e)} type="number" />
 
-    handleRandomizeSeed() {
-        detailsStore.randomizeSeed()
-        this.setState({
-            seedValue: detailsStore.seed,
-        })
-    }
-
-    render() {
-        return (
-            <InputGroup>
-                <InputGroupAddon type="prepend">
-                    <InputGroupText>Seed</InputGroupText>
-                </InputGroupAddon>
-                <FormInput
-                    value={this.state.seedValue}
-                    onChange={e =>
-                        this.handleSeedChange(parseInt(e.target.value))
-                    }
-                    type="text"
-                />
-
-                <InputGroupAddon type="append">
-                    <Button
-                        color="secondary"
-                        onClick={this.handleRandomizeSeed}>
-                        New Seed
-                    </Button>
-                </InputGroupAddon>
-            </InputGroup>
-        )
-    }
+            <InputGroupAddon type="append">
+                <Button color="secondary" onClick={onNewSeedClient}>
+                    New Seed
+                </Button>
+            </InputGroupAddon>
+        </InputGroup>
+    )
 }
+
+export default observer(SeedForm)

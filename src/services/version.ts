@@ -1,7 +1,5 @@
-import uiStore from '../stores/ui'
-
 class VersionService {
-    public async requestVersion() {
+    public async requestVersion(): Promise<string> {
         const response = await fetch(process.env.REACT_APP_IOGR_API_VERSION_URI, {
             method: 'GET',
             headers: {
@@ -12,7 +10,7 @@ class VersionService {
         if (!response.ok) throw new Error('Failed to negotiate with server')
 
         const result = await response.json()
-        uiStore.setVersion(result.version)
+        return result.version
     }
 }
 

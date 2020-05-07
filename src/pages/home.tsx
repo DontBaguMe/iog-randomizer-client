@@ -1,5 +1,5 @@
 import React from 'react'
-import { Modal, Grid, Box, DialogContent } from '@material-ui/core'
+import { Modal, Grid, DialogContent } from '@material-ui/core'
 import { observer } from 'mobx-react'
 
 import uiStore from '../stores/ui'
@@ -11,12 +11,15 @@ import RomDetailsContainer from '../components/containers/rom-details'
 import EnemizerContainer from '../components/containers/enemizer'
 import VariantsContainer from '../components/containers/variants'
 import EntranceContainer from '../components/containers/entrance'
+import PreferencesContainer from '../components/containers/preferences'
 
 const Style = {
     Root: {
-        minWidth: 500,
-        marginTop: 40,
+        padding: 40,
         maxWidth: '100vw',
+    },
+    Container: {
+        minWidth: 500,
     },
     Modal: {
         display: 'flex',
@@ -30,54 +33,50 @@ const Style = {
     },
 }
 
-@observer
-export default class HomePage extends React.Component {
-    render() {
-        const { isError, isProcessing } = uiStore
+function HomePage() {
+    const { isError, isProcessing } = uiStore
 
-        return (
-            <Box>
-                <Grid container spacing={2} style={Style.Root} wrap="wrap">
-                    <Grid item xs={12} sm={12} md={12} lg={6}>
-                        <RomDetailsContainer />
-                    </Grid>
-                    <Grid item xs={12} sm={12} md={12} lg={6}>
-                        <Grid container spacing={1}>
-                            <Grid item xs={12}>
-                                <VariantsContainer />
-                            </Grid>
-                            <Grid item xs={12}>
-                                <EnemizerContainer />
-                            </Grid>
-                            <Grid item xs={12}>
-                                <EntranceContainer />
-                            </Grid>
+    return (
+        <div style={Style.Root}>
+            <Grid container spacing={2} style={Style.Container} wrap="wrap">
+                <Grid item xs={12} sm={12} md={12} lg={6}>
+                    <RomDetailsContainer />
+                </Grid>
+                <Grid item xs={12} sm={12} md={12} lg={6}>
+                    <Grid container spacing={1}>
+                        <Grid item xs={12}>
+                            <PreferencesContainer />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <VariantsContainer />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <EnemizerContainer />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <EntranceContainer />
                         </Grid>
                     </Grid>
                 </Grid>
+            </Grid>
 
-                {isError && (
-                    <Modal
-                        open={isError}
-                        onClose={() => uiStore.setError(false)}
-                        style={Style.Modal}>
-                        <DialogContent style={Style.Content}>
-                            <Error message={uiStore.errorText} />
-                        </DialogContent>
-                    </Modal>
-                )}
+            {isError && (
+                <Modal open={isError} onClose={() => uiStore.setError(false)} style={Style.Modal}>
+                    <DialogContent style={Style.Content}>
+                        <Error message={uiStore.errorText} />
+                    </DialogContent>
+                </Modal>
+            )}
 
-                {isProcessing && (
-                    <Modal
-                        open={isProcessing}
-                        onClose={() => {}}
-                        style={Style.Modal}>
-                        <DialogContent style={Style.Content}>
-                            <PleaseWait message="Generating Seed!" />
-                        </DialogContent>
-                    </Modal>
-                )}
-            </Box>
-        )
-    }
+            {isProcessing && (
+                <Modal open={isProcessing} onClose={() => {}} style={Style.Modal}>
+                    <DialogContent style={Style.Content}>
+                        <PleaseWait message="Generating Seed!" />
+                    </DialogContent>
+                </Modal>
+            )}
+        </div>
+    )
 }
+
+export default observer(HomePage)

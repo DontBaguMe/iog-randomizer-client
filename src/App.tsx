@@ -1,26 +1,30 @@
-import React from 'react'
-import { BrowserRouter as Router, Route } from 'react-router-dom'
+import React, { useEffect } from 'react'
 import { observer } from 'mobx-react'
+import { BrowserRouter, Route } from 'react-router-dom'
 
 import Navigation from './components/navigation'
 import HomePage from './pages/home'
-import { Box } from '@material-ui/core'
+import PermalinkPage from './pages/permalink'
 import versionService from './services/version'
 
-@observer
-export default class App extends React.Component {
-    public async componentDidMount(): Promise<void> {
-        await versionService.requestVersion()
-    }
+function App() {
+    useEffect(() => {
+        async function getApiVersion() {
+            await versionService.requestVersion()
+        }
 
-    public render() {
-        return (
-            <Router>
-                <Navigation />
-                <Box>
-                    <Route exact path="/" component={HomePage} />
-                </Box>
-            </Router>
-        )
-    }
+        getApiVersion()
+    })
+
+    return (
+        <BrowserRouter>
+            <Navigation />
+            <>
+                <Route exact path="/" component={HomePage} />
+                <Route exact path="/permalink/:id?" component={PermalinkPage} />
+            </>
+        </BrowserRouter>
+    )
 }
+
+export default observer(App)

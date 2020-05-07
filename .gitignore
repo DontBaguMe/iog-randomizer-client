@@ -1,5 +1,6 @@
 yarn.lock
 npm.lock
+**/*.report.html
 
 build/
 node_modules/
