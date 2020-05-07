@@ -16,34 +16,33 @@ const styles = {
     },
 }
 
-@observer
-export default class RomDetailsContainer extends React.Component {
-    render() {
-        return (
-            <AccordionPanel title="Rom Details" id="rom-details" expanded={true}>
-                <Grid container spacing={2}>
-                    <Grid item xs={6}>
-                        <RomUploadForm />
-                    </Grid>
-                    <Grid item xs={6}>
-                        <SeedForm />
-                    </Grid>
-                    <Grid item xs={6}>
-                        <DifficultyForm />
-                    </Grid>
-                    <Grid item xs={6}>
-                        <GoalForm />
-                    </Grid>
-                    <Grid item xs={12} style={styles.Container}>
-                        <GenerateForm />
-                    </Grid>
-                    {romStore.patch && (
-                        <Grid item xs={12}>
-                            <DownloadForm patch={romStore.patch} displayPermalink={true} />
-                        </Grid>
-                    )}
+function RomDetailsContainer() {
+    return (
+        <AccordionPanel title="Rom Details" id="rom-details" expanded={true}>
+            <Grid container spacing={2}>
+                <Grid item xs={6}>
+                    <RomUploadForm />
                 </Grid>
-            </AccordionPanel>
-        )
-    }
+                <Grid item xs={6}>
+                    <SeedForm />
+                </Grid>
+                <Grid item xs={6}>
+                    <DifficultyForm />
+                </Grid>
+                <Grid item xs={6}>
+                    <GoalForm />
+                </Grid>
+                <Grid item xs={12} style={styles.Container}>
+                    <GenerateForm />
+                </Grid>
+                {romStore.patch && (
+                    <Grid item xs={12}>
+                        <DownloadForm patch={romStore.patch} displayPermalink={true} />
+                    </Grid>
+                )}
+            </Grid>
+        </AccordionPanel>
+    )
 }
+
+export default observer(RomDetailsContainer)
