@@ -17,7 +17,7 @@ function GoalForm() {
     }
 
     function onStatuesChange(event: React.ChangeEvent<HTMLSelectElement>) {
-        const value = parseInt(event.target.value)
+        const value = event.target.value
 
         setStatues(value.toString())
         settingsStore.statues = value.toString()
@@ -50,7 +50,7 @@ function GoalForm() {
                         <InputGroupText>Goal</InputGroupText>
                     </InputGroupAddon>
                     <Tooltip title={getTooltipText()} placement="bottom-start">
-                        <FormSelect defaultValue={goal} onChange={e => onGoalChange(e)} aria-label="Input for Seed Goal">
+                        <FormSelect defaultValue={goal} onChange={(e) => onGoalChange(e)} aria-label="Input for Seed Goal">
                             <option value="0">Dark Gaia</option>
                             <option value="1">Red Jewel Hunt</option>
                             <option value="2">Apocalypse Gaia</option>
@@ -66,7 +66,7 @@ function GoalForm() {
                         <InputGroupAddon type="prepend">
                             <InputGroupText>Statues</InputGroupText>
                         </InputGroupAddon>
-                        <FormSelect defaultValue={statues} onChange={e => onStatuesChange(e)} aria-label="Input for Seed Goal for Dark Gaia or Apocalypse Gaia">
+                        <FormSelect defaultValue={statues} onChange={(e) => onStatuesChange(e)} aria-label="Input for Seed Goal for Dark Gaia or Apocalypse Gaia">
                             <option value="0">0</option>
                             <option value="1">1</option>
                             <option value="2">2</option>
