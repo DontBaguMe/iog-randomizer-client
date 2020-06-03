@@ -1,0 +1,8 @@
+div.versionContainer {
+    display: flex;
+    flex-direction: column;
+}
+
+span.versionIdentifier {
+    color: '#FFFFFF';
+}

@@ -1,4 +1,5 @@
 import { openDB } from 'idb'
+import logService from '../../services/log'
 
 export default class Rom {
     private readonly IOG_ROM_STORAGE_KEY: string = 'iog-base-rom'
@@ -51,9 +52,9 @@ export default class Rom {
         })
 
         const bytes = new Uint8Array(this._bytes)
-        console.log('Writing to storage start', bytes)
+        logService.debug('Writing to storage start', bytes)
         await db.put('iogr', bytes, this.IOG_ROM_STORAGE_KEY)
-        console.log('Writing to storage end')
+        logService.debug('Writing to storage end')
         db.close()
     }
 
@@ -62,7 +63,7 @@ export default class Rom {
             upgrade: (upgradeDb) => upgradeDb.createObjectStore('iogr', { autoIncrement: true }),
         })
 
-        console.log('Deleting storage')
+        logService.debug('Deleting storage')
         await db.delete('iogr', this.IOG_ROM_STORAGE_KEY)
         db.close()
     }

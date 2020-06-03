@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import { Collapse, Navbar, NavbarBrand, Nav, NavbarToggler, NavItem, NavLink, Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'shards-react'
 import { FaGithub, FaDiscord } from 'react-icons/fa'
-//import { Redirect } from 'react-router-dom'
-import logo from '../assets/logo.png'
-//import uiStore from '../stores/ui'
+
+import logo from '../../assets/logo.png'
+import './navigation.css'
+
 import { observer } from 'mobx-react'
-import versionService from '../services/version'
+import versionService from '../../services/version'
 
 const style = {
     Root: {
@@ -33,15 +34,14 @@ const style = {
 function Navigation() {
     const [dropdownOpen, setDropdownOpen] = useState(false)
     const [collapseOpen, setCollapseOpen] = useState(false)
-    const [version, setVersion] = useState('0.0.0')
+    const [apiVersion, setApiVersion] = useState('0.0.0')
 
     useEffect(() => {
-        async function getVersion() {
+        async function getApiVersion() {
             const result = await versionService.requestVersion()
-            if (result) setVersion(result)
+            if (result) setApiVersion(result)
         }
-
-        getVersion()
+        getApiVersion()
     }, [])
     function toggleDropdown() {
         setDropdownOpen(!dropdownOpen)
@@ -58,8 +58,13 @@ function Navigation() {
             <NavbarBrand href="/">
                 <img src={logo} style={style.Logo} alt="Illusion of Gaia Randomizer Logo" />
             </NavbarBrand>
-            <NavbarBrand style={style.Version}>
-                v{version} {environment}
+            <NavbarBrand>
+                <div className="versionContainer">
+                    <span className="versionIdentifier">
+                        API Version: v{apiVersion} {environment}
+                    </span>
+                    <span style={style.Version}>Client Version: v{process.env.REACT_APP_IOGR_CLIENT_VERSION}</span>
+                </div>
             </NavbarBrand>
             <NavbarToggler onClick={toggleNavbar} aria-label="Toggle Nav Menu" />
             <Collapse open={collapseOpen} navbar>
