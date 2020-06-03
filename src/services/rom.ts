@@ -3,11 +3,9 @@ import romStore from '../stores/rom'
 class RomService {
     public async createPatchedRomBlob(): Promise<Blob> {
         const patch = romStore.patch
-        const rom: ArrayBuffer = await romStore.rom?.get()
+        const buffer: Uint8Array = await romStore.rom?.get()
 
-        if (!patch || !rom) return null
-
-        const buffer = new Uint8Array(rom)
+        if (!patch || !buffer) return null
 
         for (let j = 0; j < patch.patchData.length; ++j) {
             const offset = patch.patchData[j].address
@@ -31,8 +29,7 @@ class RomService {
 
         const hasHeader = offset > 0
         if (hasHeader) {
-            const rom: ArrayBuffer = await romStore.rom?.get()
-            const buffer = new Uint8Array(rom)
+            const buffer: Uint8Array = await romStore.rom?.get()
             const unheadered = buffer.slice(offset)
 
             await romStore.rom.set(unheadered)
@@ -40,8 +37,7 @@ class RomService {
     }
 
     private async getOffset(): Promise<number> {
-        const rom: ArrayBuffer = await romStore.rom?.get()
-        const buffer = new Uint8Array(rom)
+        const buffer: Uint8Array = await romStore.rom?.get()
         const header = [0x49, 0x4c, 0x4c, 0x55, 0x53, 0x49, 0x4f, 0x4e, 0x20, 0x4f, 0x46, 0x20, 0x47, 0x41, 0x49, 0x41, 0x20, 0x55, 0x53, 0x41]
         let offset = -1
 

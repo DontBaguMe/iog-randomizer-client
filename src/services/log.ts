@@ -5,7 +5,7 @@ class LogService {
         this._logLevel = parseInt(process.env.REACT_APP_IOGR_LOG_LEVEL)
     }
 
-    public trace(msg: string, ...params: object[]): void {
+    public trace(msg: string, ...params: any[]): void {
         const level: number = 5
         if (this._logLevel < level) return
 
@@ -13,7 +13,7 @@ class LogService {
         else console.trace(msg)
     }
 
-    public debug(msg: string, ...params: object[]): void {
+    public debug(msg: string, ...params: any[]): void {
         const level: number = 4
         if (this._logLevel < level) return
 
@@ -21,7 +21,7 @@ class LogService {
         else console.debug(msg)
     }
 
-    public info(msg: string, ...params: object[]): void {
+    public info(msg: string, ...params: any[]): void {
         const level: number = 3
         if (this._logLevel < level) return
 
@@ -29,7 +29,7 @@ class LogService {
         else console.log(msg)
     }
 
-    public warn(msg: string, ...params: object[]): void {
+    public warn(msg: string, ...params: any[]): void {
         const level: number = 2
         if (this._logLevel < level) return
 
@@ -37,7 +37,7 @@ class LogService {
         else console.warn(msg)
     }
 
-    public error(msg: string, ...params: object[]): void {
+    public error(msg: string, ...params: any[]): void {
         const level: number = 1
         if (this._logLevel < level) return
 

@@ -4,14 +4,15 @@ import { InputGroup, InputGroupAddon, InputGroupText, FormInput, Button } from '
 
 import { Tooltip } from '@material-ui/core'
 import romStore from '../../../stores/rom'
+import logService from '../../../services/log'
 
 function UploadForm() {
-    const [hasRom, setHasRom] = useState(romStore.rom.exists())
+    const [hasRom, setHasRom] = useState(false)
 
     useEffect(() => {
         async function init() {
-            await romStore.init()
-            const exists = romStore.rom.exists()
+            const exists = await romStore.rom.exists()
+            logService.debug('[UploadForm] Rom Exists', exists)
             setHasRom(exists)
         }
 
@@ -22,8 +23,7 @@ function UploadForm() {
         const reader = new FileReader()
         reader.onload = (f: ProgressEvent<FileReader>) => {
             const buffer: ArrayBuffer = f.target.result as ArrayBuffer
-            romStore.rom.set(buffer)
-            setHasRom(true)
+            romStore.rom.set(buffer).then(() => setHasRom(true))
         }
 
         reader.readAsArrayBuffer(event.target.files[0])

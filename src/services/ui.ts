@@ -1,6 +1,7 @@
 import { Spoiler } from '../models/rom/spoiler'
 import RomPatchStep from '../models/rom/patch-step'
 import romStore from '../stores/rom'
+import logService from './log'
 
 class UIService {
     public createSpoilerBlob(spoiler: Spoiler): Blob {
@@ -9,9 +10,11 @@ class UIService {
     }
 
     public async createRomBlobAsync(data: RomPatchStep[]): Promise<Blob> {
+        logService.debug('[createRomBlobAsync] Creating blob...')
         const rom: ArrayBuffer = await romStore.rom?.get()
 
         if (!data || !rom) return null
+        logService.debug('[createRomBlobAsync] Got rom array buffer', rom.byteLength)
 
         const buffer = new Uint8Array(rom)
 
