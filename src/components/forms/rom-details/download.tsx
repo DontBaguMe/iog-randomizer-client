@@ -1,6 +1,6 @@
 import React from 'react'
 import { observer } from 'mobx-react'
-import { Patch } from '../../../stores/rom'
+import Patch from '../../../models/rom/patch'
 import DownloadSpoilerButton from '../../actions/buttons/download-spoiler'
 import DownloadRomButton from '../../actions/buttons/download-rom'
 import CopyPermalinkButton from '../../actions/buttons/copy-permalink'

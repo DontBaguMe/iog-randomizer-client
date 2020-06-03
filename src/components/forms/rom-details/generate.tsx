@@ -5,7 +5,7 @@ import { Button } from 'shards-react'
 import { Tooltip, FormControlLabel, Switch } from '@material-ui/core'
 
 import seedService from '../../../services/seed'
-import { romStore } from '../../../stores/rom'
+import romStore from '../../../stores/rom'
 import { settingsStore } from '../../../stores/settings'
 import uiStore from '../../../stores/ui'
 

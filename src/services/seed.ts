@@ -1,4 +1,5 @@
-import { romStore, Patch } from '../stores/rom'
+import romStore from '../stores/rom'
+import Patch from '../models/rom/patch'
 
 import RomPatchStep from '../models/rom/patch-step'
 import GenerateSeedRequest from '../models/http/generate-seed-request'
@@ -10,6 +11,8 @@ import { Spoiler } from '../models/rom/spoiler'
 
 class SeedService {
     public async requestSeed(): Promise<void> {
+        romStore.clearPatch()
+
         const parameters: GenerateSeedRequest = {
             seed: settingsStore.seed,
             generateRaceRom: settingsStore.raceRom,
@@ -52,6 +55,8 @@ class SeedService {
     }
 
     public async requestPermalinkedSeed(id: string): Promise<PermalinkedRom> {
+        romStore.clearPatch()
+
         const uri = `${process.env.REACT_APP_IOGR_API_PERMALINK}/${id}`
 
         const response = await fetch(uri, {

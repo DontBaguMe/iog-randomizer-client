@@ -1,4 +1,4 @@
-import { Patch } from '../../stores/rom'
+import Patch from './patch'
 import { PermalinkedSettings } from './permalinked-settings'
 
 export type PermalinkedRom = {

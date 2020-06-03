@@ -1,4 +1,4 @@
-import { romStore } from '../stores/rom'
+import romStore from '../stores/rom'
 
 class RomService {
     public async createPatchedRomBlob(): Promise<Blob> {

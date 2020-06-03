@@ -1,6 +1,6 @@
 import { Spoiler } from '../models/rom/spoiler'
 import RomPatchStep from '../models/rom/patch-step'
-import { romStore } from '../stores/rom'
+import romStore from '../stores/rom'
 
 class UIService {
     public createSpoilerBlob(spoiler: Spoiler): Blob {

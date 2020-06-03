@@ -3,7 +3,7 @@ import { observer } from 'mobx-react'
 import { InputGroup, InputGroupAddon, InputGroupText, FormInput, Button } from 'shards-react'
 
 import { Tooltip } from '@material-ui/core'
-import { romStore } from '../../../stores/rom'
+import romStore from '../../../stores/rom'
 
 function UploadForm() {
     const [hasRom, setHasRom] = useState(romStore.rom.exists())
