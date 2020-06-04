@@ -1,22 +1,29 @@
 import romStore from '../stores/rom'
+//import { settingsStore } from '../stores/settings'
+
+//import spriteBaguFirst from '../assets/sprites/bagu/1a8000.bin'
+
+//import spriteBaguSecond from '../assets/sprites/bagu/1a8000.bin'
 
 class RomService {
-    public async createPatchedRomBlob(): Promise<Blob> {
-        const patch = romStore.patch
-        const buffer: Uint8Array = await romStore.rom?.get()
+    // public async createPatchedRomBlob(): Promise<Blob> {
+    //     const patch = romStore.patch
+    //     const sprite = settingsStore.sprite
 
-        if (!patch || !buffer) return null
+    //     const buffer: Uint8Array = await romStore.rom?.get()
 
-        for (let j = 0; j < patch.patchData.length; ++j) {
-            const offset = patch.patchData[j].address
+    //     if (!patch || !buffer) return null
 
-            for (let i = 0; i < patch.patchData[j].data.length; ++i) {
-                buffer[offset + i] = patch.patchData[j].data[i]
-            }
-        }
+    //     for (let j = 0; j < patch.patchData.length; ++j) {
+    //         const offset = patch.patchData[j].address
 
-        return new Blob([buffer], { type: 'application/octet-stream' })
-    }
+    //         for (let i = 0; i < patch.patchData[j].data.length; ++i) {
+    //             buffer[offset + i] = patch.patchData[j].data[i]
+    //         }
+    //     }
+
+    //     return new Blob([buffer], { type: 'application/octet-stream' })
+    // }
 
     public createSpoilerBlob(): Blob {
         const spoiler = romStore.patch.spoilerFilename

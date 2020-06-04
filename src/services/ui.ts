@@ -2,6 +2,10 @@ import { Spoiler } from '../models/rom/spoiler'
 import RomPatchStep from '../models/rom/patch-step'
 import romStore from '../stores/rom'
 import logService from './log'
+import { settingsStore } from '../stores/settings'
+import spriteService from './sprite'
+import { SpriteBlob } from '../models/sprite/sprite-blob'
+import { Sprite } from '../models/sprite/sprite'
 
 class UIService {
     public createSpoilerBlob(spoiler: Spoiler): Blob {
@@ -16,17 +20,40 @@ class UIService {
         if (!data || !rom) return null
         logService.debug('[createRomBlobAsync] Got rom array buffer', rom.byteLength)
 
-        const buffer = new Uint8Array(rom)
+        let buffer = new Uint8Array(rom)
+        buffer = this.writePatchToRom(buffer, data)
 
-        for (let j = 0; j < data.length; ++j) {
-            const offset = data[j].address
+        const currentSpriteSelection = settingsStore.sprite
+        const sprite: Sprite = await spriteService.getSprite(currentSpriteSelection.toLocaleLowerCase())
+        if (sprite != null) buffer = await this.writeSpriteToRom(buffer, sprite)
 
-            for (let i = 0; i < data[j].data.length; ++i) {
-                buffer[offset + i] = data[j].data[i]
+        return new Blob([buffer], { type: 'application/octet-stream' })
+    }
+
+    private writePatchToRom(buffer: Uint8Array, patch: RomPatchStep[]): Uint8Array {
+        for (let j = 0; j < patch.length; ++j) {
+            const offset = patch[j].address
+
+            for (let i = 0; i < patch[j].data.length; ++i) {
+                buffer[offset + i] = patch[j].data[i]
             }
         }
 
-        return new Blob([buffer], { type: 'application/octet-stream' })
+        return buffer
+    }
+
+    private async writeSpriteToRom(buffer: Uint8Array, sprite: Sprite): Promise<Uint8Array> {
+        for (let k = 0; k < sprite.Blobs.length; ++k) {
+            const spriteBlob: SpriteBlob = sprite.Blobs[k]
+            const spriteBuffer: ArrayBuffer = new Uint8Array(await spriteBlob.Blob.arrayBuffer())
+
+            const spriteOffset = spriteBlob.Address
+            for (let z = 0; z < spriteBuffer.byteLength; ++z) {
+                buffer[spriteOffset + z] = spriteBuffer[z]
+            }
+        }
+
+        return buffer
     }
 
     public downloadBlob(blob: Blob, name: string): void {
