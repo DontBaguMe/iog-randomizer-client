@@ -16,6 +16,7 @@ const style = {
         backgroundColor: '#0060D6',
         paddingTop: 0,
         paddingBottom: 0,
+        width: '100%',
     },
     Logo: {
         height: 115,

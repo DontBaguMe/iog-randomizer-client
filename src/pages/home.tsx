@@ -2,7 +2,10 @@ import React from 'react'
 import { Modal, Grid, DialogContent } from '@material-ui/core'
 import { observer } from 'mobx-react'
 
+import AccordionPanel from '../components/containers/accordion-panel'
+
 import uiStore from '../stores/ui'
+import romStore from '../stores/rom'
 
 import Error from '../components/modals/error'
 import PleaseWait from '../components/modals/please-wait'
@@ -12,6 +15,7 @@ import EnemizerContainer from '../components/containers/enemizer'
 import VariantsContainer from '../components/containers/variants'
 import EntranceContainer from '../components/containers/entrance'
 import PreferencesContainer from '../components/containers/preferences'
+import SpoilerView from '../components/containers/spoiler'
 
 const Style = {
     Root: {
@@ -35,6 +39,7 @@ const Style = {
 
 function HomePage() {
     const { isError, isProcessing } = uiStore
+    const { patch } = romStore
 
     return (
         <div style={Style.Root}>
@@ -56,6 +61,15 @@ function HomePage() {
                         <Grid item xs={12}>
                             <EntranceContainer />
                         </Grid>
+                        {patch?.spoilerFilename && (
+                            <Grid item xs={12}>
+                                <AccordionPanel id="spoilerLog" title="Spoiler" expanded={false} style={{ paddingTop: 10 }}>
+                                    <div style={{ display: 'flex', flexDirection: 'column', flexWrap: 'wrap', width: '100%' }}>
+                                        <SpoilerView data={patch.spoilerData} />
+                                    </div>
+                                </AccordionPanel>
+                            </Grid>
+                        )}
                     </Grid>
                 </Grid>
             </Grid>

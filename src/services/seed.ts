@@ -31,7 +31,6 @@ class SeedService {
             dungeonShuffle: settingsStore.dungeonShuffle,
             overworldShuffle: settingsStore.overworldShuffle,
             openMode: settingsStore.openWorld,
-            sprite: settingsStore.sprite,
         }
 
         const response = await fetch(process.env.REACT_APP_IOGR_API_URI, {
@@ -81,8 +80,6 @@ class SeedService {
             settings: JSON.parse(result.settings),
             created_at: result.created_at,
         }
-
-        //romStore.patch = new Patch(patchData, patchFilename, spoilerData, spoilerFilename)
     }
 }
 

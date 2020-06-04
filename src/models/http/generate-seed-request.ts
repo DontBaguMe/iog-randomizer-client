@@ -16,5 +16,4 @@ export default interface GenerateSeedRequest {
     dungeonShuffle: boolean
     overworldShuffle: boolean
     openMode: boolean
-    sprite: string
 }
