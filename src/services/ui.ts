@@ -6,6 +6,7 @@ import { settingsStore } from '../stores/settings'
 import spriteService from './sprite'
 import { SpriteBlob } from '../models/sprite/sprite-blob'
 import { Sprite } from '../models/sprite/sprite'
+import romService from './rom'
 
 class UIService {
     public createSpoilerBlob(spoiler: Spoiler): Blob {
@@ -21,6 +22,7 @@ class UIService {
         logService.debug('[createRomBlobAsync] Got rom array buffer', rom.byteLength)
 
         let buffer = new Uint8Array(rom)
+        buffer = romService.removeHeader(buffer)
         buffer = this.writePatchToRom(buffer, data)
 
         const currentSpriteSelection = settingsStore.sprite
