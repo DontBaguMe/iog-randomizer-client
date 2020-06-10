@@ -1,4 +1,5 @@
-import { romStore, Patch } from '../stores/rom'
+import romStore from '../stores/rom'
+import Patch from '../models/rom/patch'
 
 import RomPatchStep from '../models/rom/patch-step'
 import GenerateSeedRequest from '../models/http/generate-seed-request'
@@ -10,6 +11,8 @@ import { Spoiler } from '../models/rom/spoiler'
 
 class SeedService {
     public async requestSeed(): Promise<void> {
+        romStore.clearPatch()
+
         const parameters: GenerateSeedRequest = {
             seed: settingsStore.seed,
             generateRaceRom: settingsStore.raceRom,
@@ -28,7 +31,6 @@ class SeedService {
             dungeonShuffle: settingsStore.dungeonShuffle,
             overworldShuffle: settingsStore.overworldShuffle,
             openMode: settingsStore.openWorld,
-            sprite: settingsStore.sprite,
         }
 
         const response = await fetch(process.env.REACT_APP_IOGR_API_URI, {
@@ -52,6 +54,8 @@ class SeedService {
     }
 
     public async requestPermalinkedSeed(id: string): Promise<PermalinkedRom> {
+        romStore.clearPatch()
+
         const uri = `${process.env.REACT_APP_IOGR_API_PERMALINK}/${id}`
 
         const response = await fetch(uri, {
@@ -76,8 +80,6 @@ class SeedService {
             settings: JSON.parse(result.settings),
             created_at: result.created_at,
         }
-
-        //romStore.patch = new Patch(patchData, patchFilename, spoilerData, spoilerFilename)
     }
 }
 

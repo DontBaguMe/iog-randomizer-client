@@ -8,7 +8,7 @@ import AccordionPanel from './accordion-panel'
 
 import GenerateForm from '../forms/rom-details/generate'
 import DownloadForm from '../forms/rom-details/download'
-import { romStore } from '../../stores/rom'
+import romStore from '../../stores/rom'
 
 const styles = {
     Container: {

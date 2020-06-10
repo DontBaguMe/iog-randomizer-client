@@ -18,6 +18,7 @@ import PermalinkActionsContainer from '../components/containers/permalink-action
 import AccordionPanel from '../components/containers/accordion-panel'
 import SpoilerView from '../components/containers/spoiler'
 import uiStore from '../stores/ui'
+import PreferencesContainer from '../components/containers/preferences'
 
 const Style = {
     Root: {
@@ -138,6 +139,7 @@ function PermalinkPage(props: RoutableProps) {
                         <PermalinkActionsContainer rom={rom} />
                     </div>
                 </Paper>
+                <PreferencesContainer style={{ paddingTop: 10 }} />
                 {rom.patch.spoilerFilename && (
                     <AccordionPanel id="spoilerLog" title="Spoiler" expanded={false} style={{ paddingTop: 10 }}>
                         <div style={{ display: 'flex', flexDirection: 'column', flexWrap: 'wrap', width: '100%' }}>
@@ -153,9 +155,8 @@ function PermalinkPage(props: RoutableProps) {
         const settings: RenderableSetting[] = []
 
         settings.push({ key: 'Permalink ID', value: rom.id })
-        settings.push({ key: 'Created At', value: moment(rom.created_at).local().format('MM/DD/YYYY HH:mm:ss') })
+        settings.push({ key: 'Created At', value: moment(rom.created_at).local().format('LLLL') })
         settings.push({ key: 'Seed', value: rom.settings.seed.toString() })
-        settings.push({ key: 'Playing As', value: rom.settings.sprite })
         settings.push({ key: 'Difficulty', value: Difficulty[rom.settings.difficulty] })
 
         const goal: Goal = rom.settings.goal
