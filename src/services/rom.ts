@@ -1,50 +1,26 @@
 import romStore from '../stores/rom'
-//import { settingsStore } from '../stores/settings'
-
-//import spriteBaguFirst from '../assets/sprites/bagu/1a8000.bin'
-
-//import spriteBaguSecond from '../assets/sprites/bagu/1a8000.bin'
 
 class RomService {
-    // public async createPatchedRomBlob(): Promise<Blob> {
-    //     const patch = romStore.patch
-    //     const sprite = settingsStore.sprite
-
-    //     const buffer: Uint8Array = await romStore.rom?.get()
-
-    //     if (!patch || !buffer) return null
-
-    //     for (let j = 0; j < patch.patchData.length; ++j) {
-    //         const offset = patch.patchData[j].address
-
-    //         for (let i = 0; i < patch.patchData[j].data.length; ++i) {
-    //             buffer[offset + i] = patch.patchData[j].data[i]
-    //         }
-    //     }
-
-    //     return new Blob([buffer], { type: 'application/octet-stream' })
-    // }
-
     public createSpoilerBlob(): Blob {
         const spoiler = romStore.patch.spoilerFilename
         const data = JSON.stringify(spoiler, undefined, 2)
         return new Blob([data], { type: 'text/json' })
     }
 
-    public async removeHeader(): Promise<void> {
-        const offset = await this.getOffset()
+    public removeHeader(buffer: Uint8Array): Uint8Array {
+        const offset = this.getOffset(buffer)
 
         const hasHeader = offset > 0
         if (hasHeader) {
-            const buffer: Uint8Array = await romStore.rom?.get()
             const unheadered = buffer.slice(offset)
 
-            await romStore.rom.set(unheadered)
+            return unheadered
         }
+
+        return buffer
     }
 
-    private async getOffset(): Promise<number> {
-        const buffer: Uint8Array = await romStore.rom?.get()
+    private getOffset(buffer: Uint8Array): number {
         const header = [0x49, 0x4c, 0x4c, 0x55, 0x53, 0x49, 0x4f, 0x4e, 0x20, 0x4f, 0x46, 0x20, 0x47, 0x41, 0x49, 0x41, 0x20, 0x55, 0x53, 0x41]
         let offset = -1
 
