@@ -1,6 +1,5 @@
 import { observable } from 'mobx'
 
-
 class SettingsStore {
     @observable public seed: number = this.randomize()
     @observable public difficulty: number = 1
@@ -20,7 +19,7 @@ class SettingsStore {
     @observable public oneHitKnockOut: boolean = false
     @observable public redJewelMadness: boolean = false
     @observable public firebird: boolean = false
-
+    @observable public z3mode: boolean = false
 
     public randomize(): number {
         const max = 2147483648

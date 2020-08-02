@@ -31,6 +31,7 @@ class SeedService {
             dungeonShuffle: settingsStore.dungeonShuffle,
             overworldShuffle: settingsStore.overworldShuffle,
             openMode: settingsStore.openWorld,
+            z3Mode: settingsStore.z3mode,
         }
 
         const response = await fetch(process.env.REACT_APP_IOGR_API_URI, {
