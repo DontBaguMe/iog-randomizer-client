@@ -7,6 +7,9 @@ function VariationTogglesForm() {
     function onOpenWorldToggle(event: React.ChangeEvent<HTMLInputElement>) {
         settingsStore.openWorld = event.target.checked
     }
+    function onZ3ModeToggle(event: React.ChangeEvent<HTMLInputElement>) {
+        settingsStore.z3mode = event.target.checked
+    }
     function onAllowGlitchesToggle(event: React.ChangeEvent<HTMLInputElement>) {
         settingsStore.allowGlitches = event.target.checked
     }
@@ -26,6 +29,19 @@ function VariationTogglesForm() {
         <FormGroup row>
             <Tooltip title="Entire world is opened at the start of the game" placement="bottom-start">
                 <FormControlLabel control={<Switch checked={settingsStore.openWorld} onChange={(e) => onOpenWorldToggle(e)} value="Open World" />} label="Open World" />
+            </Tooltip>
+
+            <Tooltip
+                title={
+                    <>
+                        <span>The game has been redesigned to mirror the combat and health upgrade systems in "The Legend of Zelda: A Link to the Past".</span>
+                        <br />
+                        <br />
+                        <span>For you instance, STR and DEF double in strength with each upgrade, and Heart Pieces have been added to the item pool.</span>
+                    </>
+                }
+                placement="bottom-start">
+                <FormControlLabel control={<Switch checked={settingsStore.z3mode} onChange={(e) => onZ3ModeToggle(e)} value="Zelda 3 Mode" />} label="Zelda 3 Mode" />
             </Tooltip>
 
             <Tooltip title="Enables the logic to require known glitches to complete the seed" placement="bottom-start">
