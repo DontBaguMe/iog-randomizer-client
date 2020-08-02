@@ -176,7 +176,7 @@ function PermalinkPage(props: RoutableProps) {
         settings.push({ key: 'One Hit Knockout?', value: String(rom.settings.ohko) })
         settings.push({ key: 'Red Jewel Madness?', value: String(rom.settings.red_jewel_madness) })
         settings.push({ key: 'Early Firebird?', value: String(rom.settings.firebird) })
-
+        settings.push({ key: 'Zelda 3 Mode?', value: String(rom.settings.z3) })
         return settings
     }
 

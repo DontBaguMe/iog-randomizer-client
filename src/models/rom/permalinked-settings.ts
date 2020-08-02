@@ -15,4 +15,5 @@ export type PermalinkedSettings = {
     sprite: string
     overworld_shuffle: boolean
     dungeon_shuffle: boolean
+    z3: boolean
 }
