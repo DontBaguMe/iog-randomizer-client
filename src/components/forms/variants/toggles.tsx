@@ -37,7 +37,7 @@ function VariationTogglesForm() {
                         <span>The game has been redesigned to mirror the combat and health upgrade systems in "The Legend of Zelda: A Link to the Past".</span>
                         <br />
                         <br />
-                        <span>For you instance, STR and DEF double in strength with each upgrade, and Heart Pieces have been added to the item pool.</span>
+                        <span>For instance, STR and DEF double in strength with each upgrade, and Heart Pieces have been added to the item pool.</span>
                     </>
                 }
                 placement="bottom-start">
