@@ -8,16 +8,16 @@ function OverworldShuffleForm() {
 
     function onOverworldShuffleToggle(event: React.ChangeEvent<HTMLInputElement>) {
         setOverworldShuffle(event.target.checked)
-        settingsStore.dungeonShuffle = event.target.checked
+        settingsStore.overworldShuffle = event.target.checked
     }
 
     return (
         <Grid container spacing={1}>
             <Grid item xs={12}>
                 <FormGroup>
-                    <Tooltip title="Not Yet Implemented" placement="bottom-start">
+                    <Tooltip title="Shuffles overworld menus so that destinations are grouped into random continents" placement="bottom-start">
                         <FormControlLabel
-                            control={<Switch disabled={true} checked={overworldShuffle} onChange={e => onOverworldShuffleToggle(e)} value="Overworld Shuffle" />}
+                            control={<Switch checked={overworldShuffle} onChange={e => onOverworldShuffleToggle(e)} value="Overworld Shuffle" />}
                             label="Overworld Shuffle"
                         />
                     </Tooltip>

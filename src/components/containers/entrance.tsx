@@ -9,7 +9,7 @@ import AccordionPanel from './accordion-panel'
 export default class EntranceContainer extends React.Component {
     render() {
         return (
-            <AccordionPanel title="Entrance Randomizer (Coming Soon)" id="entrance" expanded={false}>
+            <AccordionPanel title="Entrance Randomizer" id="entrance" expanded={false}>
                 <Grid container spacing={2}>
                     <Grid item xs={6}>
                         <EntranceShuffleForm />
