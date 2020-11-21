@@ -22,7 +22,7 @@ function EntranceShuffleForm() {
                         <InputGroupText>Entrance Shuffle</InputGroupText>
                     </InputGroupAddon>
                     <Tooltip title="Not Yet Implemented" placement="bottom-start">
-                        <FormSelect disabled={true} defaultValue={entranceShuffle} onChange={e => onEntranceShuffleChange(e)}>
+                        <FormSelect defaultValue={entranceShuffle} onChange={e => onEntranceShuffleChange(e)}>
                             <option value="0">None</option>
                             <option value="1">Coupled</option>
                             <option value="2">Uncoupled</option>
