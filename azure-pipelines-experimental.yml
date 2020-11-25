@@ -1,0 +1,20 @@
+trigger:
+    - experimental/*
+
+pool:
+    vmImage: 'ubuntu-latest'
+
+jobs:
+    - job: Develop
+      steps:
+          - task: Npm@1
+            name: Install_Dependencies
+            inputs:
+                command: 'install'
+          - task: Npm@1
+            name: Build_Development
+            inputs:
+                command: 'custom'
+                customCommand: 'run build:dev'
+          - publish: $(System.DefaultWorkingDirectory)/build
+            artifact: build
