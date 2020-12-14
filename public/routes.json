@@ -1,9 +1,6 @@
 {
     "routes": [
         {
-            "route": "/permalink/*"
-        },
-        {
             "route": "/*",
             "serve": "/index.html",
             "statusCode": 200
