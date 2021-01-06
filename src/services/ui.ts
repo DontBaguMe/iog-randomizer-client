@@ -9,9 +9,106 @@ import { Sprite } from '../models/sprite/sprite'
 import romService from './rom'
 
 class UIService {
-    public createSpoilerBlob(spoiler: Spoiler): Blob {
+    public createSpoilerJsonBlob(spoiler: Spoiler): Blob {
         const data = JSON.stringify(spoiler, undefined, 2)
         return new Blob([data], { type: 'text/json' })
+    }
+
+    public createSpoilerCsvBlob(spoiler: Spoiler): Blob {
+        const data = []
+
+        data.push('Settings,')
+        data.push(`Seed,${spoiler.seed}`)
+        data.push(`Difficulty,${spoiler.difficulty}`)
+        data.push(`Goal,${spoiler.goal}`)
+        data.push(`Logic,${spoiler.logic}`)
+        data.push(',')
+
+        data.push('Metadata,')
+        data.push(`Start Location,${spoiler.start_location}`)
+        data.push(`Kara Location,${spoiler.kara_location}`)
+        data.push(`Statues Required,${spoiler.statues_required.join(' ')}`)
+        data.push(`Boss Order,${spoiler.boss_order.join(' ')}`)
+        data.push(`Jeweler Amounts,${spoiler.jeweler_amounts.join(' ')}`)
+        data.push(`Inca Tiles,${spoiler.inca_tiles.join(' ')}`)
+        data.push(`Hieroglyph Order,${spoiler.hieroglyph_order.join(' ')}`)
+        data.push(',')
+
+
+        data.push('Items,')
+        for (let i = 0; i < spoiler.items.length; ++i)
+            data.push(`${spoiler.items[i].location},${spoiler.items[i].name}`)
+        data.push(',')
+
+        if (spoiler.overworld_entrances) {
+            data.push('Overworld Entrances,')
+            for (let i = 0; i < spoiler.overworld_entrances.length; ++i)
+                data.push(`${spoiler.overworld_entrances[i].continent},${spoiler.overworld_entrances[i].region}`)
+        }
+
+        return new Blob([data.join('\n')], { type: 'text/csv' })
+    }
+
+    public createSpoilerTextBlob(spoiler: Spoiler): Blob {
+        const data = []
+
+        data.push('Settings')
+        data.push('----------------------------------')
+        data.push(`Seed:\t\t${spoiler.seed}`)
+        data.push(`Difficulty:\t${spoiler.difficulty}`)
+        data.push(`Goal:\t\t${spoiler.goal}`)
+        data.push(`Logic:\t\t${spoiler.logic}`)
+        data.push('')
+
+        data.push('Metadata')
+        data.push('----------------------------------')
+        data.push(`Start Location:\t\t${spoiler.start_location}`)
+        data.push(`Kara Location:\t\t${spoiler.kara_location}`)
+        data.push(`Statues Required:\t${spoiler.statues_required}`)
+        data.push(`Boss Order:\t\t${spoiler.boss_order}`)
+        data.push(`Jeweler Amounts:\t${spoiler.jeweler_amounts}`)
+        data.push(`Inca Tiles:\t\t${spoiler.inca_tiles}`)
+        data.push(`Hieroglyph Order:\t${spoiler.hieroglyph_order}`)
+        data.push('')
+
+        data.push('Items')
+        data.push('----------------------------------')
+
+        const locationCharacterLimit = 40;
+
+        // Items Section
+        for (let i = 0; i < spoiler.items.length; ++i) {
+            let key = `${spoiler.items[i].location}:`
+            const buffer = locationCharacterLimit - key.length
+
+            if (buffer > 0)
+                for (let i = 0; i < buffer; ++i)
+                    key += ' '
+
+            data.push(`${key}${spoiler.items[i].name}`)
+        }
+        data.push('')
+
+
+        // Overworld Entrances Section
+        if (spoiler.overworld_entrances) {
+            data.push('Overworld Entrances,')
+            data.push('----------------------------------')
+
+            for (let i = 0; i < spoiler.overworld_entrances.length; ++i) {
+                let key = `${spoiler.overworld_entrances[i].continent}:`
+                const buffer = locationCharacterLimit - key.length
+
+                if (buffer > 0)
+                    for (let i = 0; i < buffer; ++i)
+                        key += ' '
+
+                data.push(`${key}${spoiler.overworld_entrances[i].region}`)
+            }
+
+        }
+
+        return new Blob([data.join('\n')], { type: 'text/plain' })
     }
 
     public async createRomBlobAsync(data: RomPatchStep[]): Promise<Blob> {

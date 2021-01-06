@@ -24,6 +24,7 @@
         "start:local": "env-cmd -f .env.local react-scripts start",
         "start:dev": "env-cmd -f .env.development react-scripts start",
         "start:prod": "env-cmd -f .env react-scripts start",
+        "build:experimental": "env-cmd -f .env.experimental react-scripts build",
         "build:dev": "env-cmd -f .env.development react-scripts build",
         "build:prod": "env-cmd -f .env react-scripts build",
         "postbuild": "purgecss --css build/static/css/*.css --content build/static/index.html build/static/js/*.js --output build/static/css",

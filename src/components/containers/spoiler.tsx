@@ -1,5 +1,6 @@
 import React, { forwardRef } from 'react'
-import { Grid, Paper } from '@material-ui/core'
+// import { Grid, Paper } from '@material-ui/core'
+import { Grid } from '@material-ui/core'
 import MaterialTable, { Icons } from 'material-table'
 import AddBox from '@material-ui/icons/AddBox'
 import ArrowDownward from '@material-ui/icons/ArrowDownward'
@@ -17,10 +18,21 @@ import SaveAlt from '@material-ui/icons/SaveAlt'
 import Search from '@material-ui/icons/Search'
 import ViewColumn from '@material-ui/icons/ViewColumn'
 
+import AccordionPanel from './accordion-panel'
 import { Spoiler } from '../../models/rom/spoiler'
+import { CSSProperties } from '@material-ui/styles'
 
 interface Props {
     data: Spoiler
+}
+
+const contentStyle: CSSProperties = {
+    display: 'flex',
+    flexDirection: 'column'
+}
+
+const contentContainerStyle: CSSProperties = {
+    paddingBottom: '10px'
 }
 
 const style = {
@@ -90,28 +102,50 @@ export default function SpoilerView(props: Props) {
 
     return (
         <>
-            <Paper style={style.container}>
+            <AccordionPanel id="metadata" title="Metadata" expanded={false} style={contentContainerStyle} contentStyle={contentStyle}>
                 <KeyValueRenderer name="Kara Location" value={props.data.kara_location} />
                 <KeyValuesRenderer name="Status Required" values={props.data.statues_required} />
                 <KeyValuesRenderer name="Boss Order" values={props.data.boss_order} />
                 <KeyValuesRenderer name="Jeweler Amounts" values={props.data.jeweler_amounts} />
                 <KeyValuesRenderer name="Inca Tiles" values={props.data.inca_tiles} />
                 <KeyValuesRenderer name="Hieroglyph Order" values={props.data.hieroglyph_order} />
-            </Paper>
-            <MaterialTable
-                style={{ maxWidth: '100%' }}
-                title="Items"
-                columns={[
-                    { title: 'Location', field: 'location' },
-                    { title: 'Item Name', field: 'name' },
-                ]}
-                data={props.data.items}
-                icons={tableIcons}
-                options={{
-                    padding: 'dense',
-                    pageSize: 10,
-                }}
-            />
+            </AccordionPanel>
+
+            <AccordionPanel id="items" title="Items" expanded={false} style={contentContainerStyle} contentStyle={contentStyle}>
+                <MaterialTable
+                    style={{ maxWidth: '100%' }}
+                    columns={[
+                        { title: 'Location', field: 'location' },
+                        { title: 'Item Name', field: 'name' },
+                    ]}
+                    data={props.data.items}
+                    icons={tableIcons}
+                    options={{
+                        padding: 'dense',
+                        pageSize: 10,
+                        showTitle: false
+                    }}
+                />
+            </AccordionPanel>
+
+            { props.data.overworld_entrances && (
+                <AccordionPanel id="overworld_entrances" title="Overworld Entrances" expanded={false} style={contentContainerStyle} contentStyle={contentStyle}>
+                    <MaterialTable
+                        style={{ maxWidth: '100%' }}
+                        columns={[
+                            { title: 'Continent', field: 'continent' },
+                            { title: 'Region', field: 'region' },
+                        ]}
+                        data={props.data.overworld_entrances}
+                        icons={tableIcons}
+                        options={{
+                            padding: 'dense',
+                            pageSize: 10,
+                            showTitle: false
+                        }}
+                    />
+                </AccordionPanel>
+            )}
         </>
     )
 }

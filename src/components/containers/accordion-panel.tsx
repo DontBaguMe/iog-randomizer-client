@@ -8,6 +8,7 @@ interface Props {
     title: string
     expanded: boolean
     style?: React.CSSProperties
+    contentStyle?: React.CSSProperties
 }
 
 function AccordionPanel(props: React.PropsWithChildren<Props>) {
@@ -23,7 +24,7 @@ function AccordionPanel(props: React.PropsWithChildren<Props>) {
                 <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
                     <Typography variant="subtitle1">{props.title}</Typography>
                 </ExpansionPanelSummary>
-                <ExpansionPanelDetails>{props.children}</ExpansionPanelDetails>
+                <ExpansionPanelDetails style={props.contentStyle}>{props.children}</ExpansionPanelDetails>
             </ExpansionPanel>
         </div>
     )

@@ -1,6 +1,11 @@
-export interface Item {
+export type Item = {
     location: string
     name: string
+}
+
+export type OverworldEntrance = {
+    continent: string
+    region: string
 }
 
 export interface Spoiler {
@@ -18,4 +23,5 @@ export interface Spoiler {
     inca_tiles: number[]
     hieroglyph_order: number[]
     items: Item[]
+    overworld_entrances?: OverworldEntrance[]
 }

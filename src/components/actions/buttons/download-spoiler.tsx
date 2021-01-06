@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Spoiler } from '../../../models/rom/spoiler'
-import { Button } from 'shards-react'
+import { Button, Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'shards-react'
 import uiService from '../../../services/ui'
 
 interface Props {
@@ -9,16 +9,43 @@ interface Props {
 }
 
 export default function DownloadSpoilerButton(props: Props) {
-    async function onDownloadSpoilerClick(event: React.ChangeEvent<HTMLButtonElement>) {
+    const [open, setOpen] = useState(false)
+
+    function onDownloadSpoilerJsonClick(event: React.ChangeEvent<HTMLButtonElement>) {
         event.preventDefault()
 
-        const blob = uiService.createSpoilerBlob(props.spoilerData)
-        uiService.downloadBlob(blob, props.spoilerFilename)
+        const filename = props.spoilerFilename.substring(0, props.spoilerFilename.lastIndexOf('.'))
+        const blob = uiService.createSpoilerJsonBlob(props.spoilerData)
+        uiService.downloadBlob(blob, filename + '.json')
     }
 
-    return (
-        <Button color="primary" onClick={onDownloadSpoilerClick}>
-            Download Spoiler
-        </Button>
-    )
+    function onDownloadSpoilerCsvClick(event: React.ChangeEvent<HTMLButtonElement>) {
+        event.preventDefault()
+
+        const filename = props.spoilerFilename.substring(0, props.spoilerFilename.lastIndexOf('.'))
+        const blob = uiService.createSpoilerCsvBlob(props.spoilerData)
+        uiService.downloadBlob(blob, filename + '.csv')
+    }
+
+    function onDownloadSpoilerTextClick(event: React.ChangeEvent<HTMLButtonElement>) {
+        event.preventDefault()
+
+        const blob = uiService.createSpoilerTextBlob(props.spoilerData)
+        const filename = props.spoilerFilename.substring(0, props.spoilerFilename.lastIndexOf('.'))
+        uiService.downloadBlob(blob, filename + '.txt')
+    }
+
+    function toggleDropdown() {
+        setOpen(!open)
+    }
+
+    return <Dropdown open={open} toggle={toggleDropdown} group>
+        <Button onClick={toggleDropdown}>Download Spoiler</Button>
+        <DropdownToggle split />
+        <DropdownMenu>
+            <DropdownItem onClick={onDownloadSpoilerJsonClick}>Download as JSON</DropdownItem>
+            <DropdownItem onClick={onDownloadSpoilerCsvClick}>Download as CSV</DropdownItem>
+            <DropdownItem onClick={onDownloadSpoilerTextClick}>Download as Text</DropdownItem>
+        </DropdownMenu>
+    </Dropdown>
 }
