@@ -6,14 +6,6 @@ import { settingsStore } from '../../../stores/settings'
 function OverworldShuffleForm() {
     const [overworldShuffle, setOverworldShuffle] = useState(settingsStore.overworldShuffle)
 
-    const tooltip = (
-        <>
-            <span>*** CURRENTLY DISALBED ***</span>
-            <br />
-            <br />
-            <span>Shuffles overworld menus so that destinations are grouped into random continents.</span>
-        </>
-    )
     function onOverworldShuffleToggle(event: React.ChangeEvent<HTMLInputElement>) {
         setOverworldShuffle(event.target.checked)
         settingsStore.overworldShuffle = event.target.checked
@@ -23,10 +15,9 @@ function OverworldShuffleForm() {
         <Grid container spacing={1}>
             <Grid item xs={12}>
                 <FormGroup>
-                    <Tooltip title={tooltip} placement="bottom-start">
+                    <Tooltip title="Shuffles overworld menus so that destinations are grouped into random continents" placement="bottom-start">
                         <FormControlLabel
-                            disabled
-                            control={<Switch checked={overworldShuffle} onChange={(e) => onOverworldShuffleToggle(e)} value="Overworld Shuffle" />}
+                            control={<Switch checked={overworldShuffle} onChange={e => onOverworldShuffleToggle(e)} value="Overworld Shuffle" />}
                             label="Overworld Shuffle"
                         />
                     </Tooltip>
