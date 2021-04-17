@@ -1,39 +1,52 @@
 import React from 'react'
 import { observer } from 'mobx-react'
-import { SetWeightForm } from '../forms'
-
-import AccordionPanel from './accordion-panel'
 import { Grid } from '@material-ui/core'
 
+import { SetWeightForm } from '../forms'
+import AccordionPanel from './accordion-panel'
 import { mysteryStore } from '../../stores/mystery'
 
-@observer
-export default class MysteryContainer extends React.Component {
+function MysteryContainer() {
+    function getItemCollection() {
+        const weekly = mysteryStore.Weights.Weekly
 
-    render() {
-        let items = []
-        let prop_count = 0
-        for (var property in mysteryStore.weights) {
-            prop_count += 1
+        const items = []
+        let itemCount = 0
+        for (var property in weekly) {
+            itemCount += 1
+
             let local_items = []
-            for (var category in mysteryStore.weights[property]) {
-                local_items.push(<Grid item xs={12}>
-                    <SetWeightForm property={property} category={category} />
-                </Grid>)
+
+            let keyIterator = itemCount
+            for (var category in weekly[property]) {
+                local_items.push(
+                    <Grid item xs={12} key={'grid_' + keyIterator}>
+                        <SetWeightForm property={property} category={category} />
+                    </Grid>,
+                )
+
+                ++keyIterator
             }
+
             items.push(
-                <Grid item xs={3}>
-                    <AccordionPanel title={property} id={"mystery_p_"+prop_count} expanded={false}>
+                <Grid item xs={3} key={itemCount}>
+                    <AccordionPanel title={property} id={'mystery_p_' + itemCount} expanded={false}>
                         <Grid container spacing={2}>
                             {local_items}
                         </Grid>
                     </AccordionPanel>
-                </Grid>)
+                </Grid>,
+            )
         }
-        return (
-            <Grid container spacing={1}>
-                {items}
-            </Grid>
-        )
+
+        return items
     }
+
+    return (
+        <Grid container spacing={1}>
+            {getItemCollection()}
+        </Grid>
+    )
 }
+
+export default observer(MysteryContainer)

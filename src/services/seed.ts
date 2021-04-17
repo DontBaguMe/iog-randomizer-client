@@ -9,121 +9,119 @@ import { settingsStore } from '../stores/settings'
 import { mysteryStore } from '../stores/mystery'
 import { PermalinkedRom } from '../models/rom/permalinked-rom'
 import { Spoiler } from '../models/rom/spoiler'
+import { Weight, WeightSelection } from '../models/mystery'
+import { generateRandomSeedValue } from '../functions/generate-random'
 
 class SeedService {
+    private generateMysterySeedValues(): WeightSelection {
+        const weekly: Weight = mysteryStore.Weights.Weekly
 
-    public async requestMysterySeed(): Promise<void> {
-        // TODO : read weight and fill seetingStore
         let selection = {}
-        for (var property in mysteryStore.weights) {
+        for (var property in weekly) {
             let total_weight = 0
-            for (var category in mysteryStore.weights[property]) {
-                total_weight += mysteryStore.weights[property][category]
-            }
+
+            for (var category in weekly[property]) total_weight += weekly[property][category]
+
             const threshold = Math.random() * total_weight
             let total_mesure = 0
-            let chosen_category = null;
-            for (var category in mysteryStore.weights[property]) {
-                total_mesure += mysteryStore.weights[property][category]
+            let chosen_category = null
+            for (var category in weekly[property]) {
+                total_mesure += weekly[property][category]
                 chosen_category = category
-                if (total_mesure >= threshold) {
-                    break
-                }
+
+                if (total_mesure >= threshold) break
             }
             selection[property] = chosen_category
         }
 
-        settingsStore.seed = Math.floor(Math.random() * 2147483648)
+        return selection as WeightSelection
+    }
 
-        switch (selection['Difficulty']) {
-            case "Easy":
+    public async requestMysterySeed(): Promise<void> {
+        const selection: WeightSelection = this.generateMysterySeedValues()
+
+        switch (selection.Difficulty) {
+            case 'Easy':
                 settingsStore.difficulty = 0
                 break
-            case "Normal":
+            case 'Normal':
                 settingsStore.difficulty = 1
                 break
-            case "Hard":
+            case 'Hard':
                 settingsStore.difficulty = 2
                 break
-            case "Extreme":
+            case 'Extreme':
                 settingsStore.difficulty = 3
         }
 
-        switch (selection['Enemizer']) {
-            case "None":
+        switch (selection.Enemizer) {
+            case 'None':
                 settingsStore.enemizer = 0
                 break
-            case "Limited":
+            case 'Limited':
                 settingsStore.enemizer = 1
                 break
-            case "Balanced":
+            case 'Balanced':
                 settingsStore.enemizer = 2
                 break
-            case "Full":
+            case 'Full':
                 settingsStore.enemizer = 3
                 break
-            case "Insane":
+            case 'Insane':
                 settingsStore.enemizer = 4
         }
 
-        switch (selection['Goal']) {
-            case "Dark Gaia":
+        switch (selection.Goal) {
+            case 'DarkGaia':
                 settingsStore.goal = 0
                 break
-            case "Red Jewel Hunt":
+            case 'RedJewelHunt':
                 settingsStore.goal = 1
                 break
-            case "Apocalypse Gaia":
+            case 'ApocalypseGaia':
                 settingsStore.goal = 2
                 break
-            case "Random Gaia":
+            case 'RandomGaia':
                 settingsStore.goal = 3
         }
 
-        settingsStore.statues = selection['Statues']
-
-        settingsStore.raceRom = selection['Spoilers'] === "Off"
-
-        settingsStore.overworldShuffle = selection['Overworld Shuffle'] === "On"
-
-        settingsStore.bossShuffle = selection['Boss Shuffle'] === "On"
-
-        switch (selection['Logic']) {
-            case "Completable":
+        switch (selection.Logic) {
+            case 'Completable':
                 settingsStore.logic = 0
                 break
-            case "Beatable":
+            case 'Beatable':
                 settingsStore.logic = 1
                 break
-            case "Chaos":
+            case 'Chaos':
                 settingsStore.logic = 2
         }
 
-        switch (selection['Starting Location']) {
-            case "South Cape":
+        switch (selection.StartingLocation) {
+            case 'SouthCape':
                 settingsStore.startLocation = 0
                 break
-            case "Safe":
+            case 'Safe':
                 settingsStore.startLocation = 1
                 break
-            case "Unsafe":
+            case 'Unsafe':
                 settingsStore.startLocation = 2
                 break
-            case "Forced Unsafe":
+            case 'ForcedUnsafe':
                 settingsStore.startLocation = 3
         }
 
-        settingsStore.openWorld = selection['Open World'] === "On"
+        settingsStore.statues = selection.Statues
+        settingsStore.raceRom = selection.Spoilers === 'Off'
+        settingsStore.overworldShuffle = selection.OverworldShuffle === 'On'
+        settingsStore.bossShuffle = selection.BossShuffle === 'On'
+        settingsStore.openWorld = selection.OpenWorld === 'On'
+        settingsStore.allowGlitches = selection.AllowGlitches === 'On'
+        settingsStore.oneHitKnockOut = selection.HealthVariant === 'OHKO'
+        settingsStore.redJewelMadness = selection.HealthVariant === 'RedJewelMadness'
+        settingsStore.firebird = selection.EarlyFirebird === 'On'
+        settingsStore.z3mode = selection.Zelda3Mode === 'On'
 
-        settingsStore.allowGlitches = selection['Allow Glitches'] === "On"
-
-        settingsStore.oneHitKnockOut = selection['Health Variant'] === "One-Hit KO"
-        settingsStore.redJewelMadness = selection['Health Variant'] === "Red Jewel Madness"
-
-        settingsStore.firebird = selection['Early Firebird'] === "On"
-
-        settingsStore.z3mode = selection['Zelda 3 Mode'] === "On"
-
+        settingsStore.seed = generateRandomSeedValue()
         await this.requestSeed()
     }
 
