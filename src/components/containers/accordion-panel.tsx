@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { observer } from 'mobx-react'
-import { ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, Typography } from '@material-ui/core'
+import { Accordion, AccordionSummary, AccordionDetails, Typography } from '@material-ui/core'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 
 interface Props {
@@ -20,12 +20,12 @@ function AccordionPanel(props: React.PropsWithChildren<Props>) {
 
     return (
         <div style={props.style}>
-            <ExpansionPanel expanded={expanded} onChange={(e, expanded) => handlePanelChange(expanded)}>
-                <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+            <Accordion expanded={expanded} onChange={(e, expanded) => handlePanelChange(expanded)}>
+                <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                     <Typography variant="subtitle1">{props.title}</Typography>
-                </ExpansionPanelSummary>
-                <ExpansionPanelDetails style={props.contentStyle}>{props.children}</ExpansionPanelDetails>
-            </ExpansionPanel>
+                </AccordionSummary>
+                <AccordionDetails style={props.contentStyle}>{props.children}</AccordionDetails>
+            </Accordion>
         </div>
     )
 }
