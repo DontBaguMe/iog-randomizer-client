@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Collapse, Navbar, NavbarBrand, Nav, NavbarToggler, NavItem, NavLink, Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'shards-react'
+import { Navbar, NavbarBrand, Nav, NavItem, NavLink } from 'shards-react'
 import { FaGithub, FaDiscord } from 'react-icons/fa'
 
 import logo from '../../assets/logo.png'
@@ -7,6 +7,8 @@ import './navigation.css'
 
 import { observer } from 'mobx-react'
 import versionService from '../../services/version'
+import { HelpDropdown } from './help-dropdown'
+import { GenerateDropdown } from './generate-dropdown'
 
 const style = {
     Root: {
@@ -33,8 +35,6 @@ const style = {
 }
 
 function Navigation() {
-    const [dropdownOpen, setDropdownOpen] = useState(false)
-    const [collapseOpen, setCollapseOpen] = useState(false)
     const [apiVersion, setApiVersion] = useState('0.0.0')
 
     useEffect(() => {
@@ -44,13 +44,6 @@ function Navigation() {
         }
         getApiVersion()
     }, [])
-    function toggleDropdown() {
-        setDropdownOpen(!dropdownOpen)
-    }
-
-    function toggleNavbar() {
-        setCollapseOpen(!collapseOpen)
-    }
 
     const environment = process.env.REACT_APP_IOGR_ENV.toLocaleLowerCase() === 'prod' ? '' : `(${process.env.REACT_APP_IOGR_ENV})`
 
@@ -67,31 +60,20 @@ function Navigation() {
                     <span style={style.Version}>Client Version: v{process.env.REACT_APP_IOGR_CLIENT_VERSION}</span>
                 </div>
             </NavbarBrand>
-            <NavbarToggler onClick={toggleNavbar} aria-label="Toggle Nav Menu" />
-            <Collapse open={collapseOpen} navbar>
-                <Nav navbar className="ml-auto">
-                    <Dropdown open={dropdownOpen} toggle={toggleDropdown}>
-                        <DropdownToggle nav caret style={style.Menu}>
-                            Help
-                        </DropdownToggle>
-                        <DropdownMenu right>
-                            <DropdownItem onClick={() => (window.location.href = process.env.REACT_APP_IOGR_README_URI)}>Readme</DropdownItem>
-                            <DropdownItem onClick={() => (window.location.href = process.env.REACT_APP_IOGR_LICENSE_URI)}>License</DropdownItem>
-                            <DropdownItem onClick={() => (window.location.href = 'https://www.github.com/dontbagume/iogr/issues')}>Submit an Issue</DropdownItem>
-                        </DropdownMenu>
-                    </Dropdown>
-                    <NavItem>
-                        <NavLink href="https://www.github.com/dontbagume/iogr">
-                            <FaGithub size={36} />
-                        </NavLink>
-                    </NavItem>
-                    <NavItem>
-                        <NavLink href={process.env.REACT_APP_IOGR_DISCORD}>
-                            <FaDiscord size={36} />
-                        </NavLink>
-                    </NavItem>
-                </Nav>
-            </Collapse>
+            <Nav navbar className="ml-auto">
+                <GenerateDropdown />
+                <HelpDropdown />
+                <NavItem>
+                    <NavLink href="https://www.github.com/dontbagume/iogr">
+                        <FaGithub size={36} />
+                    </NavLink>
+                </NavItem>
+                <NavItem>
+                    <NavLink href={process.env.REACT_APP_IOGR_DISCORD}>
+                        <FaDiscord size={36} />
+                    </NavLink>
+                </NavItem>
+            </Nav>
         </Navbar>
     )
 }

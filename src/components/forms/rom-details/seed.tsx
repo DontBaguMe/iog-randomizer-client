@@ -3,6 +3,7 @@ import { observer } from 'mobx-react'
 import { FormInput, InputGroup, InputGroupAddon, InputGroupText, Button } from 'shards-react'
 
 import { settingsStore } from '../../../stores/settings'
+import { generateRandomSeedValue } from '../../../functions/generate-random'
 
 function SeedForm() {
     const [seed, setSeed] = useState(settingsStore.seed)
@@ -15,7 +16,7 @@ function SeedForm() {
     }
 
     function onNewSeedClient() {
-        const seed = settingsStore.randomize()
+        const seed = generateRandomSeedValue()
 
         setSeed(seed)
         settingsStore.seed = seed
@@ -26,7 +27,7 @@ function SeedForm() {
             <InputGroupAddon type="prepend">
                 <InputGroupText>Seed</InputGroupText>
             </InputGroupAddon>
-            <FormInput aria-label="Input for Seed Value" value={seed} onChange={e => onSeedTextChange(e)} type="number" />
+            <FormInput aria-label="Input for Seed Value" value={seed} onChange={(e) => onSeedTextChange(e)} type="number" />
 
             <InputGroupAddon type="append">
                 <Button color="secondary" onClick={onNewSeedClient}>

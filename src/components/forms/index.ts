@@ -13,4 +13,6 @@ import OverworldShuffleForm from './entrance/overworld'
 import StartLocationForm from './variants/start-location'
 import GameLogicForm from './variants/game-logic'
 
-export { DifficultyForm, GoalForm, GameLogicForm, SeedForm, RomUploadForm, EnemizerForm, BossShuffleForm, EntranceShuffleForm, DungeonShuffleForm, OverworldShuffleForm, StartLocationForm }
+import SetWeightForm from './mystery/weights'
+
+export { DifficultyForm, GoalForm, GameLogicForm, SeedForm, RomUploadForm, EnemizerForm, BossShuffleForm, EntranceShuffleForm, DungeonShuffleForm, OverworldShuffleForm, StartLocationForm, SetWeightForm }
