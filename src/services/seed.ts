@@ -31,6 +31,7 @@ class SeedService {
 
                 if (total_mesure >= threshold) break
             }
+
             selection[property] = chosen_category
         }
 
