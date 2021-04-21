@@ -14,5 +14,6 @@ import StartLocationForm from './variants/start-location'
 import GameLogicForm from './variants/game-logic'
 
 import SetWeightForm from './mystery/weights'
+import MysteryUploadForm from './mystery/upload'
 
-export { DifficultyForm, GoalForm, GameLogicForm, SeedForm, RomUploadForm, EnemizerForm, BossShuffleForm, EntranceShuffleForm, DungeonShuffleForm, OverworldShuffleForm, StartLocationForm, SetWeightForm }
+export { DifficultyForm, GoalForm, GameLogicForm, SeedForm, RomUploadForm, EnemizerForm, BossShuffleForm, EntranceShuffleForm, DungeonShuffleForm, OverworldShuffleForm, StartLocationForm, SetWeightForm, MysteryUploadForm }
