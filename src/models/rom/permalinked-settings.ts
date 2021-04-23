@@ -14,6 +14,7 @@ export type PermalinkedSettings = {
     open_mode: boolean
     sprite: string
     overworld_shuffle: boolean
+    entrance_shuffle: number
     dungeon_shuffle: boolean
     z3: boolean
 }

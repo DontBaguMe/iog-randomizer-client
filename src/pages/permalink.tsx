@@ -11,6 +11,7 @@ import { PermalinkedRom } from '../models/rom/permalinked-rom'
 import { Difficulty } from '../models/ui/diffiulty'
 import { Goal } from '../models/ui/goal'
 import { StartingLocation } from '../models/ui/starting-location'
+import { EntranceShuffle } from '../models/ui/entrance-shuffle'
 import { Enemizer } from '../models/ui/enemizer'
 import PermalinkSettingsContainer from '../components/containers/permalink-settings'
 import { Logic } from '../models/ui/logic'
@@ -130,6 +131,8 @@ function PermalinkPage(props: RoutableProps) {
                         <PermalinkSettingsContainer title="Variants" settings={buildVariantsArea()} />
                         <Divider />
                         <PermalinkSettingsContainer title="Enemizer" settings={buildEnemizerArea()} />
+                        <Divider />
+                        <PermalinkSettingsContainer title="Entrance" settings={buildEntranceArea()} />
                     </div>
                 </Paper>
             </Grid>
@@ -185,6 +188,16 @@ function PermalinkPage(props: RoutableProps) {
 
         settings.push({ key: 'Enemizer', value: Enemizer[rom.settings.enemizer] })
         settings.push({ key: 'Boss Shuffle?', value: String(rom.settings.boss_shuffle) })
+
+        return settings
+    }
+
+    function buildEntranceArea(): RenderableSetting[] {
+        const settings: RenderableSetting[] = []
+
+        settings.push({ key: 'Overworld Shuffle?', value: String(rom.settings.overworld_shuffle) })
+        settings.push({ key: 'Dungeon Shuffle?', value: String(rom.settings.dungeon_shuffle) })
+        settings.push({ key: 'Entrance Shuffle?', value: EntranceShuffle[rom.settings.entrance_shuffle] })
 
         return settings
     }
