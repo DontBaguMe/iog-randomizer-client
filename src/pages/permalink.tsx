@@ -13,6 +13,7 @@ import { Goal } from '../models/ui/goal'
 import { StartingLocation } from '../models/ui/starting-location'
 import { Enemizer } from '../models/ui/enemizer'
 import PermalinkSettingsContainer from '../components/containers/permalink-settings'
+import PermalinkHashDisplay from '../components/containers/permalink-hash'
 import { Logic } from '../models/ui/logic'
 import PermalinkActionsContainer from '../components/containers/permalink-actions'
 import AccordionPanel from '../components/containers/accordion-panel'
@@ -136,6 +137,11 @@ function PermalinkPage(props: RoutableProps) {
             <Grid item xs={6} style={{ display: 'flex', flexDirection: 'column', padding: 20 }}>
                 <Paper elevation={3} style={{ padding: 10 }}>
                     <div style={{ display: 'flex', flexDirection: 'column', flexWrap: 'wrap' }}>
+                        <PermalinkHashDisplay hash_components={getSeedHash()} />
+                    </div>
+                </Paper>
+                <Paper elevation={3} style={{ padding: 10 }}>
+                    <div style={{ display: 'flex', flexDirection: 'column', flexWrap: 'wrap' }}>
                         <PermalinkActionsContainer rom={rom} />
                     </div>
                 </Paper>
@@ -150,6 +156,11 @@ function PermalinkPage(props: RoutableProps) {
             </Grid>
         </Grid>
     )
+
+    function getSeedHash() {
+        const hash = rom.patch.patchData.find(element => element.address === 121431).data
+        return hash
+    }
 
     function buildRomDetailsArea(): RenderableSetting[] {
         const settings: RenderableSetting[] = []
