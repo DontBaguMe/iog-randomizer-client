@@ -20,12 +20,14 @@ class SeedService {
         for (var property in weekly) {
             let total_weight = 0
 
-            for (var category in weekly[property]) total_weight += weekly[property][category]
+            for (var category in weekly[property]) total_weight += weekly[property][category] > 0 ? weekly[property][category] : 0
 
             const threshold = Math.random() * total_weight
             let total_mesure = 0
             let chosen_category = null
             for (var category in weekly[property]) {
+
+                if (weekly[property][category] <= 0) continue
                 total_mesure += weekly[property][category]
                 chosen_category = category
 

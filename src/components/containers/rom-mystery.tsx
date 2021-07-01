@@ -2,7 +2,7 @@ import React from 'react'
 import { observer } from 'mobx-react'
 
 import { Grid } from '@material-ui/core'
-import { RomUploadForm } from '../forms'
+import { RomUploadForm, MysteryUploadForm } from '../forms'
 
 import AccordionPanel from './accordion-panel'
 
@@ -22,6 +22,9 @@ function RomMysteryContainer() {
             <Grid container spacing={2}>
                 <Grid item xs={6}>
                     <RomUploadForm />
+                </Grid>
+                <Grid item xs={6}>
+                    <MysteryUploadForm />
                 </Grid>
                 <Grid item xs={12} style={styles.Container}>
                     <GenerateMysteryForm />

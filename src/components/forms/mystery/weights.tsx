@@ -4,13 +4,13 @@ import { FormInput, InputGroup, InputGroupAddon, InputGroupText } from 'shards-r
 import { mysteryStore } from '../../../stores/mystery'
 
 function SetWeightForm(params) {
-    const weekly = mysteryStore.Weights.Weekly
+    const [weekly] = useState(() => mysteryStore.Weights.Weekly)
     const [option_weight, setOptionWeight] = useState(weekly[params.property][params.category])
 
     function onOptionChange(event: React.ChangeEvent<HTMLInputElement>) {
-        setOptionWeight(event.target.value)
         mysteryStore.Weights.Weekly[params.property][params.category] = event.target.value
     }
+    if (option_weight != weekly[params.property][params.category]) setOptionWeight(weekly[params.property][params.category])
 
     return (
         <InputGroup>
