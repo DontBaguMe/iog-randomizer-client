@@ -129,6 +129,9 @@ class UIService {
         const muteMusic = settingsStore.muteMusic
         if (muteMusic !== false) buffer = await this.muteRomMusic(buffer)
 
+        const fluteless = settingsStore.fluteless
+        if (fluteless !== false) buffer = await this.hideFluteInRom(buffer)
+
         return new Blob([buffer], { type: 'application/octet-stream' })
     }
 
@@ -164,6 +167,24 @@ class UIService {
 
         return buffer
     }
+
+    private async hideFluteInRom(buffer: Uint8Array): Promise<Uint8Array> {
+        // Locations of all flute pixels in ROM
+        const fluteAddrs = [[0x1a8540, 0x60], [0x1a8740, 0x60], [0x1aa120, 0x40], [0x1aa560, 0x20],
+        [0x1aa720, 0x60], [0x1aa8e0, 0x80], [0x1aab00, 0x20], [0x1aac60, 0x40], [0x1aae60, 0x40],
+        [0x1ab400, 0x80], [0x1ab600, 0x80], [0x1ab800, 0x40], [0x1aba00, 0x40]]
+
+        // Loop through all flute sprite locations
+        for (var i = 0; i < fluteAddrs.length; i++) {
+            // Overwrite flute pixels
+            for (var j = 0; j < fluteAddrs[i][1]; j++) {
+                buffer[fluteAddrs[i][0] + j] = 0x00
+            }
+        }
+
+        return buffer
+    }
+
 
     private async writeSpriteToRom(buffer: Uint8Array, sprite: Sprite): Promise<Uint8Array> {
         for (let k = 0; k < sprite.Blobs.length; ++k) {
