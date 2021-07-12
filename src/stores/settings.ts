@@ -22,6 +22,7 @@ class SettingsStore {
     @observable public redJewelMadness: boolean = false
     @observable public firebird: boolean = false
     @observable public z3mode: boolean = false
+    @observable public muteMusic: boolean = false
     @observable public fluteless: boolean = false
 }
 
