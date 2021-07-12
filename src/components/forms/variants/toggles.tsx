@@ -24,6 +24,9 @@ function VariationTogglesForm() {
     function onFirebirdToggle(event: React.ChangeEvent<HTMLInputElement>) {
         settingsStore.firebird = event.target.checked
     }
+    function onFlutelessToggle(event: React.ChangeEvent<HTMLInputElement>) {
+        settingsStore.fluteless = event.target.checked
+    }
 
     return (
         <FormGroup row>
@@ -64,6 +67,10 @@ function VariationTogglesForm() {
 
             <Tooltip title="Enables the logic to grant firebird much earlier in the game" placement="bottom-start">
                 <FormControlLabel control={<Switch checked={settingsStore.firebird} onChange={(e) => onFirebirdToggle(e)} value="Firebird" />} label="Early Firebird" />
+            </Tooltip>
+
+            <Tooltip title="Remove Will's flute from the game" placement="bottom-start">
+                <FormControlLabel control={<Switch checked={settingsStore.fluteless} onChange={(e) => onFlutelessToggle(e)} value="Fluteless" />} label="Fluteless" />
             </Tooltip>
         </FormGroup>
     )

@@ -7,6 +7,7 @@ import { mysteryStore } from '../../../stores/mystery'
 
 function UploadMysteryForm() {
     const weekly = mysteryStore.Weights.Weekly
+    const default_value = mysteryStore.Weights.Default
 
     function onFileChange(event: React.ChangeEvent<HTMLInputElement>) {
         const reader = new FileReader()
@@ -22,6 +23,11 @@ function UploadMysteryForm() {
                         else {
                             mysteryStore.Weights.Weekly[property][category] = 0.0
                         }
+                    }
+                }
+                else {
+                    for (var category in default_value[property]) {
+                        mysteryStore.Weights.Weekly[property][category] = default_value[property][category]
                     }
                 }
             }

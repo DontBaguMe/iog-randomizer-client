@@ -4,6 +4,7 @@ export interface WeightSelection {
     Difficulty: 'Easy' | 'Normal' | 'Hard' | 'Extreme'
     Goal: 'DarkGaia' | 'RedJewelHunt' | 'ApocalypseGaia' | 'RandomGaia'
     Statues: '0' | '1' | '2' | '3' | '4' | '5' | '6' | 'Random'
+    StatuesReq: 'GameChoice' | 'PlayerChoice' | 'Random'
     StartingLocation: 'SouthCape' | 'Safe' | 'Unsafe' | 'ForcedUnsafe'
     Logic: 'Completable' | 'Beatable' | 'Chaos'
     OpenWorld: Switch
@@ -16,4 +17,5 @@ export interface WeightSelection {
     EntranceShuffle: 'None' | 'Coupled' | 'Uncoupled'
     OverworldShuffle: Switch
     Spoilers: Switch
+    Fluteless: Switch
 }

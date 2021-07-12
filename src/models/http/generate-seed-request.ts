@@ -1,20 +1,22 @@
 export default interface GenerateSeedRequest {
     seed: number
-    generateRaceRom: boolean
     difficulty: number
     goal: number
-    statues: string
-    startLocation: number
     logic: number
-    allowGlitches: boolean
+    statues: string
+    statuesReq: number
+    enemizer: number
+    startLocation: number
+    firebird: boolean
     ohko: boolean
     redJewelMadness: boolean
-    firebird: boolean
-    enemizer: number
+    allowGlitches: boolean
     bossShuffle: boolean
-    entranceShuffle: number
-    dungeonShuffle: boolean
-    overworldShuffle: boolean
     openMode: boolean
     z3Mode: boolean
+    overworldShuffle: boolean
+    entranceShuffle: number
+    generateRaceRom: boolean
+    fluteless: boolean
+    dungeonShuffle: boolean
 }

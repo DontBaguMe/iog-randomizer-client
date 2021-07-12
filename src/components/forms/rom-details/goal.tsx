@@ -7,6 +7,7 @@ import { settingsStore } from '../../../stores/settings'
 function GoalForm() {
     const [goal, setGoal] = useState(settingsStore.goal)
     const [statues, setStatues] = useState(settingsStore.statues)
+    const [statuesReq, setStatuesReq] = useState(settingsStore.statuesReq)
     const [showStatues, setShowStatues] = useState(settingsStore.goal !== 1)
 
     function onGoalChange(event: React.ChangeEvent<HTMLSelectElement>) {
@@ -21,6 +22,13 @@ function GoalForm() {
 
         setStatues(value.toString())
         settingsStore.statues = value.toString()
+    }
+
+    function onStatuesReqChange(event: React.ChangeEvent<HTMLSelectElement>) {
+        const value = parseInt(event.target.value)
+
+        setStatuesReq(value)
+        settingsStore.statuesReq = value
     }
 
     useEffect(() => {
@@ -66,7 +74,7 @@ function GoalForm() {
                         <InputGroupAddon type="prepend">
                             <InputGroupText>Statues</InputGroupText>
                         </InputGroupAddon>
-                        <FormSelect defaultValue={statues} onChange={(e) => onStatuesChange(e)} aria-label="Input for Seed Goal for Dark Gaia or Apocalypse Gaia">
+                        <FormSelect defaultValue={statuesReq} onChange={(e) => onStatuesChange(e)} aria-label="Input for Seed Goal for Dark Gaia or Apocalypse Gaia">
                             <option value="0">0</option>
                             <option value="1">1</option>
                             <option value="2">2</option>
@@ -75,6 +83,21 @@ function GoalForm() {
                             <option value="5">5</option>
                             <option value="6">6</option>
                             <option value="Random">Random</option>
+                        </FormSelect>
+                    </InputGroup>
+                </Grid>
+            )}
+
+            {showStatues && (
+                <Grid item xs={12}>
+                    <InputGroup>
+                        <InputGroupAddon type="prepend">
+                            <InputGroupText>Statues Source</InputGroupText>
+                        </InputGroupAddon>
+                        <FormSelect defaultValue={statues} onChange={(e) => onStatuesReqChange(e)} aria-label="Input the required origin of the statues">
+                            <option value="0">Game choice</option>
+                            <option value="1">Player choice</option>
+                            <option value="2">Random</option>
                         </FormSelect>
                     </InputGroup>
                 </Grid>

@@ -113,6 +113,17 @@ class SeedService {
                 settingsStore.startLocation = 3
         }
 
+        switch (selection.StatuesReq) {
+            case 'GameChoice':
+                settingsStore.statuesReq = 0
+                break
+            case 'PlayerChoice':
+                settingsStore.statuesReq = 1
+                break
+            case 'Random':
+                settingsStore.statuesReq = 2
+        }
+
         settingsStore.statues = selection.Statues
         settingsStore.raceRom = selection.Spoilers === 'Off'
         settingsStore.overworldShuffle = selection.OverworldShuffle === 'On'
@@ -123,6 +134,7 @@ class SeedService {
         settingsStore.redJewelMadness = selection.HealthVariant === 'RedJewelMadness'
         settingsStore.firebird = selection.EarlyFirebird === 'On'
         settingsStore.z3mode = selection.Zelda3Mode === 'On'
+        settingsStore.fluteless = selection.Fluteless === 'On'
 
         settingsStore.seed = generateRandomSeedValue()
         await this.requestSeed()
@@ -137,6 +149,7 @@ class SeedService {
             difficulty: settingsStore.difficulty,
             goal: settingsStore.goal,
             statues: settingsStore.statues,
+            statuesReq: settingsStore.statuesReq,
             startLocation: settingsStore.startLocation,
             logic: settingsStore.logic,
             allowGlitches: settingsStore.allowGlitches,
@@ -150,6 +163,7 @@ class SeedService {
             overworldShuffle: settingsStore.overworldShuffle,
             openMode: settingsStore.openWorld,
             z3Mode: settingsStore.z3mode,
+            fluteless: settingsStore.fluteless
         }
 
         const response = await fetch(process.env.REACT_APP_IOGR_API_URI, {

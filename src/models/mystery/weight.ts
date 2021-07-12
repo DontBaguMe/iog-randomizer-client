@@ -7,11 +7,13 @@ import { HealthVariant } from './health-variant'
 import { Logic } from './logic'
 import { StartingLocation } from './starting-location'
 import { Statues } from './statues'
+import { StatuesReq } from './statues-req'
 
 export interface Weight {
     Difficulty: Difficulty
     Goal: Goal
     Statues: Statues
+    StatuesReq: StatuesReq
     StartingLocation: StartingLocation
     Logic: Logic
     OpenWorld: BooleanSwitch
@@ -24,4 +26,5 @@ export interface Weight {
     EntranceShuffle: EntranceShuffle
     OverworldShuffle: BooleanSwitch
     Spoilers: BooleanSwitch
+    Fluteless: BooleanSwitch
 }

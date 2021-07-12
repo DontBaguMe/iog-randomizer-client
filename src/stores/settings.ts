@@ -7,6 +7,7 @@ class SettingsStore {
     @observable public enemizer: number = 0
     @observable public goal: number = 0
     @observable public statues: string = '4'
+    @observable public statuesReq: number = 0
     @observable public raceRom: boolean = false
     @observable public entranceShuffle: number = 0
     @observable public dungeonShuffle: boolean = false
@@ -21,6 +22,7 @@ class SettingsStore {
     @observable public redJewelMadness: boolean = false
     @observable public firebird: boolean = false
     @observable public z3mode: boolean = false
+    @observable public fluteless: boolean = false
 }
 
 const settingsStore = new SettingsStore()
