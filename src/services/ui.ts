@@ -126,6 +126,12 @@ class UIService {
         const sprite: Sprite = await spriteService.getSprite(currentSpriteSelection.toLocaleLowerCase())
         if (sprite != null) buffer = await this.writeSpriteToRom(buffer, sprite)
 
+        const muteMusic = settingsStore.muteMusic
+        if (muteMusic !== false) buffer = await this.muteRomMusic(buffer)
+
+        const fluteless = settingsStore.fluteless
+        if (fluteless !== false) buffer = await this.hideFluteInRom(buffer)
+
         return new Blob([buffer], { type: 'application/octet-stream' })
     }
 
@@ -140,6 +146,45 @@ class UIService {
 
         return buffer
     }
+
+    private async muteRomMusic(buffer: Uint8Array): Promise<Uint8Array> {
+        // Locations of all music tracks in ROM
+        const musicAddrs = [0xC0000, 0xD7007, 0x1071A0, 0x111233, 0x120000, 0x121793,
+            0x1273AE, 0x1371DA, 0x141CFC, 0x143017, 0x144290, 0x14670F, 0x15338D, 0x157329,
+            0x15F39C, 0x163553, 0x17C443, 0x186037, 0x19D266, 0x1A4B72, 0x1B49B7, 0x1C5C8D,
+            0x1D4F6B, 0x1D57FC, 0x1E2A6E, 0x1E6B33, 0x1E6C12, 0x1F2BCB]
+
+        // Loop through all music tracks
+        for (var addr of musicAddrs) {
+            // Number of instruments = value of first byte divided by 6
+            let numInstruments: number = buffer[addr] / 6
+
+            // Overwrite each instrument's second byte with 0x00
+            for (let i = 0; i < numInstruments; ++i) {
+                buffer[addr + 5 + 6 * i] = 0x00
+            }
+        }
+
+        return buffer
+    }
+
+    private async hideFluteInRom(buffer: Uint8Array): Promise<Uint8Array> {
+        // Locations of all flute pixels in ROM
+        const fluteAddrs = [[0x1a8540, 0x60], [0x1a8740, 0x60], [0x1aa120, 0x40], [0x1aa560, 0x20],
+        [0x1aa720, 0x60], [0x1aa8e0, 0x80], [0x1aab00, 0x20], [0x1aac60, 0x40], [0x1aae60, 0x40],
+        [0x1ab400, 0x80], [0x1ab600, 0x80], [0x1ab800, 0x40], [0x1aba00, 0x40]]
+
+        // Loop through all flute sprite locations
+        for (var i = 0; i < fluteAddrs.length; i++) {
+            // Overwrite flute pixels
+            for (var j = 0; j < fluteAddrs[i][1]; j++) {
+                buffer[fluteAddrs[i][0] + j] = 0x00
+            }
+        }
+
+        return buffer
+    }
+
 
     private async writeSpriteToRom(buffer: Uint8Array, sprite: Sprite): Promise<Uint8Array> {
         for (let k = 0; k < sprite.Blobs.length; ++k) {
