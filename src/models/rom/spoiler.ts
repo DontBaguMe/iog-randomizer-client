@@ -16,7 +16,7 @@ export interface Spoiler {
     start_location: string
     logic: string
     difficulty: string
-    statues_required: number[]
+    statues_required: number[] | number
     boss_order: number[]
     kara_location: string
     jeweler_amounts: number[]

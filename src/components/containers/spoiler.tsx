@@ -61,22 +61,27 @@ function KeyValueRenderer(props: { name: string; value: string }) {
     )
 }
 
-function KeyValuesRenderer(props: { name: string; values: any[] }) {
-    return (
-        <Grid container>
-            <Grid item xs>
-                <span style={style.label}>{props.name}:</span>
+function KeyValuesRenderer(props: { name: string; values: any[] | any }) {
+    if (Array.isArray(props.values)) {
+        return (
+            <Grid container>
+                <Grid item xs>
+                    <span style={style.label}>{props.name}:</span>
+                </Grid>
+                <Grid item xs>
+                    {props.values.map((value, index) => (
+                        <span key={index}>
+                            {value}
+                            {index < props.values.length - 1 ? ', ' : ''}
+                        </span>
+                    ))}
+                </Grid>
             </Grid>
-            <Grid item xs>
-                {props.values.map((value, index) => (
-                    <span key={index}>
-                        {value}
-                        {index < props.values.length - 1 ? ', ' : ''}
-                    </span>
-                ))}
-            </Grid>
-        </Grid>
-    )
+        )
+    }
+    else {
+        return KeyValueRenderer({ name: props.name, value: props.values })
+    }
 }
 
 export default function SpoilerView(props: Props) {
@@ -104,7 +109,7 @@ export default function SpoilerView(props: Props) {
         <>
             <AccordionPanel id="metadata" title="Metadata" expanded={false} style={contentContainerStyle} contentStyle={contentStyle}>
                 <KeyValueRenderer name="Kara Location" value={props.data.kara_location} />
-                <KeyValuesRenderer name="Status Required" values={props.data.statues_required} />
+                <KeyValuesRenderer name="Statues Required" values={props.data.statues_required} />
                 <KeyValuesRenderer name="Boss Order" values={props.data.boss_order} />
                 <KeyValuesRenderer name="Jeweler Amounts" values={props.data.jeweler_amounts} />
                 <KeyValuesRenderer name="Inca Tiles" values={props.data.inca_tiles} />

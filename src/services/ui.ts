@@ -27,7 +27,12 @@ class UIService {
         data.push('Metadata,')
         data.push(`Start Location,${spoiler.start_location}`)
         data.push(`Kara Location,${spoiler.kara_location}`)
-        data.push(`Statues Required,${spoiler.statues_required.join(' ')}`)
+        if (Array.isArray(spoiler.statues_required)) {
+            data.push(`Statues Required,${spoiler.statues_required.join(' ')}`)
+        }
+        else {
+            data.push(`Statues Required,${spoiler.statues_required}`)
+        }
         data.push(`Boss Order,${spoiler.boss_order.join(' ')}`)
         data.push(`Jeweler Amounts,${spoiler.jeweler_amounts.join(' ')}`)
         data.push(`Inca Tiles,${spoiler.inca_tiles.join(' ')}`)
@@ -111,7 +116,7 @@ class UIService {
         return new Blob([data.join('\n')], { type: 'text/plain' })
     }
 
-    public async createRomBlobAsync(data: RomPatchStep[]): Promise<Blob> {
+    public async createRomBlobAsync(data: RomPatchStep[], fluteless: boolean): Promise<Blob> {
         logService.debug('[createRomBlobAsync] Creating blob...')
         const rom: ArrayBuffer = await romStore.rom?.get()
 
@@ -129,7 +134,6 @@ class UIService {
         const muteMusic = settingsStore.muteMusic
         if (muteMusic !== false) buffer = await this.muteRomMusic(buffer)
 
-        const fluteless = settingsStore.fluteless
         if (fluteless !== false) buffer = await this.hideFluteInRom(buffer)
 
         return new Blob([buffer], { type: 'application/octet-stream' })

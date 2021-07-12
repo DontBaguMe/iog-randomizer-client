@@ -4,6 +4,7 @@ export type PermalinkedSettings = {
     goal: number
     logic: number
     statues: string
+    statue_req: number
     enemizer: number
     start_location: number
     firebird: boolean
@@ -17,4 +18,5 @@ export type PermalinkedSettings = {
     entrance_shuffle: number
     dungeon_shuffle: boolean
     z3: boolean
+    fluteless: boolean
 }

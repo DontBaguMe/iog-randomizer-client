@@ -16,7 +16,7 @@ export default function PermalinkActionsContainer(props: Props) {
                     <RomUploadForm />
                 </Grid>
                 <Grid item xs={6}>
-                    <DownloadForm patch={props.rom.patch} />
+                    <DownloadForm patch={props.rom.patch} fluteless={props.rom.settings.fluteless} />
                 </Grid>
             </Grid>
         </div>

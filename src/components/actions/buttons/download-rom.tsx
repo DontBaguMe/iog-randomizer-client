@@ -6,6 +6,7 @@ import uiStore from '../../../stores/ui'
 
 interface Props {
     patchData: RomPatchStep[]
+    fluteless: boolean
     patchFilename: string
 }
 
@@ -13,7 +14,7 @@ export default function DownloadRomButton(props: Props) {
     async function onDownloadRomClick(event: React.ChangeEvent<HTMLButtonElement>) {
         event.preventDefault()
 
-        const blob = await uiService.createRomBlobAsync(props.patchData)
+        const blob = await uiService.createRomBlobAsync(props.patchData, props.fluteless)
         if (!blob) {
             uiStore.setError(true, 'Hey man, you need to load a ROM first.')
             return

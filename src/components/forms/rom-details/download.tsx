@@ -16,6 +16,7 @@ const style = {
 
 interface Props {
     patch: Patch
+    fluteless: boolean
     displayPermalink?: boolean
 }
 
@@ -23,7 +24,7 @@ function DownloadForm(props: Props) {
     return (
         <div style={style.container}>
             <div style={style.button}>
-                <DownloadRomButton patchData={props.patch.patchData} patchFilename={props.patch.patchFilename} />
+                <DownloadRomButton patchData={props.patch.patchData} patchFilename={props.patch.patchFilename} fluteless={props.fluteless} />
             </div>
 
             {props.patch.spoilerData && (
