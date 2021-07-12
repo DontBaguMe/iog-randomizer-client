@@ -4,7 +4,7 @@ export default interface GenerateSeedRequest {
     goal: number
     logic: number
     statues: string
-    statuesReq: number
+    statueReq: number
     enemizer: number
     startLocation: number
     firebird: boolean

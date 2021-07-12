@@ -31,7 +31,7 @@ function RomMysteryContainer() {
                 </Grid>
                 {romStore.patch && (
                     <Grid item xs={12}>
-                        <DownloadForm patch={romStore.patch} displayPermalink={true} />
+                        <DownloadForm patch={romStore.patch} displayPermalink={true} fluteless={romStore.patch.fluteless} />
                     </Grid>
                 )}
             </Grid>

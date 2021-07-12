@@ -149,7 +149,7 @@ class SeedService {
             difficulty: settingsStore.difficulty,
             goal: settingsStore.goal,
             statues: settingsStore.statues,
-            statuesReq: settingsStore.statuesReq,
+            statueReq: settingsStore.statuesReq,
             startLocation: settingsStore.startLocation,
             logic: settingsStore.logic,
             allowGlitches: settingsStore.allowGlitches,
@@ -182,8 +182,9 @@ class SeedService {
         const patchFilename: string = result.patchName
         const spoilerData: Spoiler = result.spoiler ? JSON.parse(result.spoiler) ?? null : null
         const spoilerFilename: string = result.spoilerName
+        const fluteless: boolean = settingsStore.fluteless
 
-        romStore.patch = new Patch(patchData, patchFilename, spoilerData, spoilerFilename, result.permalink_id)
+        romStore.patch = new Patch(patchData, patchFilename, spoilerData, spoilerFilename, result.permalink_id, fluteless)
     }
 
     public async requestPermalinkedSeed(id: string): Promise<PermalinkedRom> {
@@ -206,10 +207,11 @@ class SeedService {
         const patchFilename: string = result.patchName
         const spoilerData: Spoiler = result.spoiler ? JSON.parse(result.spoiler) ?? null : null
         const spoilerFilename: string = result.spoilerName
+        const fluteless: boolean = JSON.parse(result.settings).fluteless
 
         return {
             id: result._id,
-            patch: new Patch(patchData, patchFilename, spoilerData, spoilerFilename, result._id),
+            patch: new Patch(patchData, patchFilename, spoilerData, spoilerFilename, result._id, fluteless),
             settings: JSON.parse(result.settings),
             created_at: result.created_at,
         }

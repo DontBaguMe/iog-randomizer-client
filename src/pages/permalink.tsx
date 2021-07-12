@@ -10,6 +10,7 @@ import seedService from '../services/seed'
 import { PermalinkedRom } from '../models/rom/permalinked-rom'
 import { Difficulty } from '../models/ui/diffiulty'
 import { Goal } from '../models/ui/goal'
+import { StatuesReq } from '../models/ui/statues-req'
 import { StartingLocation } from '../models/ui/starting-location'
 import { EntranceShuffle } from '../models/ui/entrance-shuffle'
 import { Enemizer } from '../models/ui/enemizer'
@@ -176,6 +177,7 @@ function PermalinkPage(props: RoutableProps) {
         const goal: Goal = rom.settings.goal
         settings.push({ key: 'Goal', value: Goal[goal] })
         if (goal !== Goal.RedJewelHunt) settings.push({ key: 'Statues', value: rom.settings.statues })
+        if (goal !== Goal.RedJewelHunt) settings.push({ key: 'Statues Source', value: StatuesReq[rom.settings.statue_req] })
 
         return settings
     }
@@ -191,6 +193,7 @@ function PermalinkPage(props: RoutableProps) {
         settings.push({ key: 'Red Jewel Madness?', value: String(rom.settings.red_jewel_madness) })
         settings.push({ key: 'Early Firebird?', value: String(rom.settings.firebird) })
         settings.push({ key: 'Zelda 3 Mode?', value: String(rom.settings.z3) })
+        settings.push({ key: 'Fluteless ?', value: String(rom.settings.fluteless) })
         return settings
     }
 
