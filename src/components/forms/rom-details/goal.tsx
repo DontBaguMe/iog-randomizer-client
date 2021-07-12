@@ -74,7 +74,7 @@ function GoalForm() {
                         <InputGroupAddon type="prepend">
                             <InputGroupText>Statues</InputGroupText>
                         </InputGroupAddon>
-                        <FormSelect defaultValue={statuesReq} onChange={(e) => onStatuesChange(e)} aria-label="Input for Seed Goal for Dark Gaia or Apocalypse Gaia">
+                        <FormSelect defaultValue={statues} onChange={(e) => onStatuesChange(e)} aria-label="Input for Seed Goal for Dark Gaia or Apocalypse Gaia">
                             <option value="0">0</option>
                             <option value="1">1</option>
                             <option value="2">2</option>
@@ -94,7 +94,7 @@ function GoalForm() {
                         <InputGroupAddon type="prepend">
                             <InputGroupText>Statues Source</InputGroupText>
                         </InputGroupAddon>
-                        <FormSelect defaultValue={statues} onChange={(e) => onStatuesReqChange(e)} aria-label="Input the required origin of the statues">
+                        <FormSelect defaultValue={statuesReq} onChange={(e) => onStatuesReqChange(e)} aria-label="Input the required origin of the statues">
                             <option value="0">Game choice</option>
                             <option value="1">Player choice</option>
                             <option value="2">Random</option>
