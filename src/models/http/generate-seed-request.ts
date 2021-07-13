@@ -19,4 +19,5 @@ export default interface GenerateSeedRequest {
     generateRaceRom: boolean
     fluteless: boolean
     dungeonShuffle: boolean
+    hideSettings: boolean
 }

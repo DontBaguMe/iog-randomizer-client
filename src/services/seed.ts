@@ -163,7 +163,8 @@ class SeedService {
             overworldShuffle: settingsStore.overworldShuffle,
             openMode: settingsStore.openWorld,
             z3Mode: settingsStore.z3mode,
-            fluteless: settingsStore.fluteless
+            fluteless: settingsStore.fluteless,
+            hideSettings: settingsStore.hide_settings
         }
 
         const response = await fetch(process.env.REACT_APP_IOGR_API_URI, {
@@ -207,7 +208,13 @@ class SeedService {
         const patchFilename: string = result.patchName
         const spoilerData: Spoiler = result.spoiler ? JSON.parse(result.spoiler) ?? null : null
         const spoilerFilename: string = result.spoilerName
-        const fluteless: boolean = JSON.parse(result.settings).fluteless
+        let fluteless: boolean = false
+        if (result.settings != null) {
+            fluteless = JSON.parse(result.settings).fluteless
+        }
+        else {
+            fluteless = result.fluteless
+        }
 
         return {
             id: result._id,
