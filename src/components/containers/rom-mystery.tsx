@@ -2,7 +2,7 @@ import React from 'react'
 import { observer } from 'mobx-react'
 
 import { Grid } from '@material-ui/core'
-import { RomUploadForm, MysteryUploadForm } from '../forms'
+import { RomUploadForm, MysteryUploadForm, HideSettingsForm } from '../forms'
 
 import AccordionPanel from './accordion-panel'
 
@@ -26,8 +26,11 @@ function RomMysteryContainer() {
                 <Grid item xs={6}>
                     <MysteryUploadForm />
                 </Grid>
-                <Grid item xs={12} style={styles.Container}>
+                <Grid item xs={6} style={styles.Container}>
                     <GenerateMysteryForm />
+                </Grid>
+                <Grid item xs={6}>
+                    <HideSettingsForm />
                 </Grid>
                 {romStore.patch && (
                     <Grid item xs={12}>

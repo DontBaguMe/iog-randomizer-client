@@ -24,6 +24,7 @@ class SettingsStore {
     @observable public z3mode: boolean = false
     @observable public muteMusic: boolean = false
     @observable public fluteless: boolean = false
+    @observable public hide_settings: boolean = false
 }
 
 const settingsStore = new SettingsStore()

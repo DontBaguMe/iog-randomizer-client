@@ -126,17 +126,28 @@ function PermalinkPage(props: RoutableProps) {
     return (
         <Grid container>
             <Grid item xs={6} style={{ padding: 20 }}>
-                <Paper elevation={3} style={{ padding: 10 }}>
-                    <div style={{ display: 'flex', flexDirection: 'column', flexWrap: 'wrap' }}>
-                        <PermalinkSettingsContainer title="Rom Details" settings={buildRomDetailsArea()} />
-                        <Divider />
-                        <PermalinkSettingsContainer title="Variants" settings={buildVariantsArea()} />
-                        <Divider />
-                        <PermalinkSettingsContainer title="Enemizer" settings={buildEnemizerArea()} />
-                        <Divider />
-                        <PermalinkSettingsContainer title="Entrance" settings={buildEntranceArea()} />
-                    </div>
-                </Paper>
+                {rom?.settings && (
+                    <Paper elevation={3} style={{ padding: 10 }}>
+                        <div style={{ display: 'flex', flexDirection: 'column', flexWrap: 'wrap' }}>
+                            <PermalinkSettingsContainer title="Rom Details" settings={buildRomDetailsArea()} />
+                            <Divider />
+                            <PermalinkSettingsContainer title="Variants" settings={buildVariantsArea()} />
+                            <Divider />
+                            <PermalinkSettingsContainer title="Enemizer" settings={buildEnemizerArea()} />
+                            <Divider />
+                            <PermalinkSettingsContainer title="Entrance" settings={buildEntranceArea()} />
+
+                        </div>
+                    </Paper>
+                )}
+                {!rom?.settings && (
+                    <Paper elevation={3} style={{ padding: 10 }}>
+                        <div style={{ display: 'flex', flexDirection: 'column', flexWrap: 'wrap' }}>
+                            <PermalinkSettingsContainer title="Rom Details" settings={buildRomDetailsArea()} />
+
+                        </div>
+                    </Paper>
+                )}
             </Grid>
             <Grid item xs={6} style={{ display: 'flex', flexDirection: 'column', padding: 20 }}>
                 <Paper elevation={3} style={{ padding: 10 }}>
@@ -171,13 +182,16 @@ function PermalinkPage(props: RoutableProps) {
 
         settings.push({ key: 'Permalink ID', value: rom.id })
         settings.push({ key: 'Created At', value: moment(rom.created_at).local().format('LLLL') })
-        settings.push({ key: 'Seed', value: rom.settings.seed.toString() })
-        settings.push({ key: 'Difficulty', value: Difficulty[rom.settings.difficulty] })
+        if (rom.settings != null) {
+            settings.push({ key: 'Seed', value: rom.settings.seed.toString() })
+            settings.push({ key: 'Difficulty', value: Difficulty[rom.settings.difficulty] })
 
-        const goal: Goal = rom.settings.goal
-        settings.push({ key: 'Goal', value: Goal[goal] })
-        if (goal !== Goal.RedJewelHunt) settings.push({ key: 'Statues', value: rom.settings.statues })
-        if (goal !== Goal.RedJewelHunt) settings.push({ key: 'Statues Source', value: StatuesReq[rom.settings.statue_req] })
+            const goal: Goal = rom.settings.goal
+            settings.push({ key: 'Goal', value: Goal[goal] })
+            if (goal !== Goal.RedJewelHunt) settings.push({ key: 'Statues', value: rom.settings.statues })
+            if (goal !== Goal.RedJewelHunt) settings.push({ key: 'Statues Source', value: StatuesReq[rom.settings.statue_req] })
+
+        }
 
         return settings
     }

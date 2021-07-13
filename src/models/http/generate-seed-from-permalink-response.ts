@@ -6,6 +6,7 @@ export default interface GenerateSeedFromPermalinkResponse {
     patchName: string
     spoiler?: string
     spoilerName?: string
-    settings: string
+    settings?: string
+    fluteless?: boolean
     created_at: Date
 }
