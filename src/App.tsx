@@ -5,6 +5,7 @@ import { BrowserRouter, Route } from 'react-router-dom'
 import Navigation from './components/navigation'
 import HomePage from './pages/home'
 import MysteryPage from './pages/mystery'
+import CustomizerPage from './pages/customizer'
 import PermalinkPage from './pages/permalink'
 import versionService from './services/version'
 import romStore from './stores/rom'
@@ -53,6 +54,7 @@ function App() {
             <>
                 <Route exact path="/" component={HomePage} />
                 <Route exact path="/mystery" component={MysteryPage} />
+                <Route exact path="/customizer" component={CustomizerPage} />
                 <Route exact path="/permalink/:id?" component={PermalinkPage} />
             </>
         </BrowserRouter>

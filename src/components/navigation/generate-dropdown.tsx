@@ -25,6 +25,7 @@ export function GenerateDropdown() {
                 <DropdownMenu right>
                     <DropdownItem onClick={() => history.push('/')}>Generate Randomized Game</DropdownItem>
                     <DropdownItem onClick={() => history.push('/mystery')}>Generate Mystery Randomized Game</DropdownItem>
+                    <DropdownItem onClick={() => history.push('/customizer')}>Create your own Game</DropdownItem>
                 </DropdownMenu>
             </Dropdown>
         </Nav>

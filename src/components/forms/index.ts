@@ -17,4 +17,7 @@ import SetWeightForm from './mystery/weights'
 import MysteryUploadForm from './mystery/upload'
 import HideSettingsForm from './mystery/hide-settings'
 
-export { DifficultyForm, GoalForm, GameLogicForm, SeedForm, RomUploadForm, EnemizerForm, BossShuffleForm, EntranceShuffleForm, DungeonShuffleForm, OverworldShuffleForm, StartLocationForm, SetWeightForm, MysteryUploadForm, HideSettingsForm }
+
+import SetAbilityLocationForm from './customizer/ability-location'
+
+export { DifficultyForm, GoalForm, GameLogicForm, SeedForm, RomUploadForm, EnemizerForm, BossShuffleForm, EntranceShuffleForm, DungeonShuffleForm, OverworldShuffleForm, StartLocationForm, SetWeightForm, MysteryUploadForm, HideSettingsForm, SetAbilityLocationForm }
