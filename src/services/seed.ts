@@ -124,6 +124,17 @@ class SeedService {
                 settingsStore.statuesReq = 2
         }
 
+        switch (selection.EntranceShuffle) {
+            case 'None':
+                settingsStore.entranceShuffle = 0
+                break
+            case 'Coupled':
+                settingsStore.entranceShuffle = 1
+                break
+            case 'Uncoupled':
+                settingsStore.entranceShuffle = 2
+        }
+
         settingsStore.statues = selection.Statues
         settingsStore.raceRom = selection.Spoilers === 'Off'
         settingsStore.overworldShuffle = selection.OverworldShuffle === 'On'
