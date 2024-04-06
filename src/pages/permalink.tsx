@@ -184,10 +184,10 @@ function PermalinkPage(props: RoutableProps) {
         })
         if (hash_patch === undefined){
             // Special case for retro compatibility with pre 4.7.2 seeds
-            return rom.patch.patchData.find(element => element.address === 121432).data
+            return rom.patch.patchData.find(element => element.address === 121431).data
         }
         // post 4.7.2 seeds have a ":" in the rando code text that require a shift
-        return hash_patch.data.slice(hash_start_address + 1 - hash_patch.address, hash_end_address - hash_patch.address)
+        return hash_patch.data.slice(hash_start_address - hash_patch.address, hash_end_address - hash_patch.address)
     }
 
     function buildRomDetailsArea(): RenderableSetting[] {
