@@ -4,9 +4,9 @@ import { FormSelect, InputGroup, InputGroupAddon, InputGroupText } from 'shards-
 import { settingsStore } from '../../../stores/settings'
 
 function DarkRoomsForm() {
-    function onLogicChanged(event: React.ChangeEvent<HTMLSelectElement>) {
+    function onDarkRoomsChanged(event: React.ChangeEvent<HTMLSelectElement>) {
         const value = parseInt(event.target.value)
-        settingsStore.logic = value
+        settingsStore.darkRooms = value
     }
 
     return (
@@ -14,7 +14,7 @@ function DarkRoomsForm() {
             <InputGroupAddon type="prepend">
                 <InputGroupText>Dark rooms (BETA)</InputGroupText>
             </InputGroupAddon>
-            <FormSelect defaultValue={settingsStore.darkRooms} onChange={(e) => onLogicChanged(e)}>
+            <FormSelect defaultValue={settingsStore.darkRooms} onChange={(e) => onDarkRoomsChanged(e)}>
                 <option value="0">None</option>
                 <option value="1">A few</option>
                 <option value="2">Some</option>
