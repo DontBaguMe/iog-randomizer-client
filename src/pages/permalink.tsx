@@ -222,7 +222,7 @@ function PermalinkPage(props: RoutableProps) {
         settings.push({ key: 'Red Jewel Madness?', value: String(rom.settings.red_jewel_madness) })
         settings.push({ key: 'Early Firebird?', value: String(rom.settings.firebird) })
         settings.push({ key: 'Zelda 3 Mode?', value: String(rom.settings.z3) })
-        settings.push({ key: 'Infinite inventory?', value: String(rom.settings.infinite_inventory) })
+        if( rom.settings.infinite_inventory != null)settings.push({ key: 'Infinite inventory?', value: String(rom.settings.infinite_inventory) })
         if( rom.settings.fluteless != null) settings.push({ key: 'Fluteless ?', value: String(rom.settings.fluteless) })
         if( rom.settings.flute != null) settings.push({ key: 'Flute ?', value: Flute[rom.settings.flute] })
         if( rom.settings.orb_rando != null) settings.push({ key: 'Orb Rando ?', value: String(rom.settings.orb_rando) })
