@@ -52,10 +52,12 @@ function PlayAs(props: Props) {
             background: `url(${sprites}) -${x}px 0px`,
         }
     }
-    if (props.rom.patch.fluteless) {
-        return <Grid container spacing={2}>
-            <div>Sprite selection is disabled in Fluteless seeds after generation</div>
-        </Grid>
+    if (props.rom !== undefined) {
+        if (props.rom.patch.fluteless) {
+            return <Grid container spacing={2}>
+                <div>Sprite selection is disabled in Fluteless seeds after generation</div>
+            </Grid>
+        }
     }
     return (
         <Grid container spacing={2}>
