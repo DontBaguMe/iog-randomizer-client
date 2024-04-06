@@ -10,7 +10,7 @@ class SettingsStore {
     @observable public statuesReq: number = 0
     @observable public raceRom: boolean = false
     @observable public townShuffle: boolean = false
-    @observable public coupledExits: boolean = false
+    @observable public coupledExits: boolean = true
     @observable public dungeonShuffle: boolean = false
     @observable public overworldShuffle: boolean = false
     @observable public bossShuffle: boolean = false
