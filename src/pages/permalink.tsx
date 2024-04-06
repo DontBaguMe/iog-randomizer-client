@@ -174,15 +174,20 @@ function PermalinkPage(props: RoutableProps) {
 
     function getSeedHash() {
         const hash_len = 6
-        const hash_start_address = 121431
-        const hash_end_address = hash_start_address + hash_len - 1
+        const hash_start_address = 121432
+        const hash_end_address = hash_start_address + hash_len
         const hash_patch = rom.patch.patchData.find((element) => {
             let start_addr = element.address
-            let end_addr = start_addr + element.data.length - 1
+            let end_addr = start_addr + element.data.length
 
             return (start_addr <= hash_start_address && end_addr >= hash_end_address)
         })
-        return hash_patch.data.slice(hash_start_address - hash_patch.address, hash_end_address - hash_patch.address)
+        if (hash_patch === undefined){
+            // Special case for retro compatibility with pre 4.7.2 seeds
+            return rom.patch.patchData.find(element => element.address === 121432).data
+        }
+        // post 4.7.2 seeds have a ":" in the rando code text that require a shift
+        return hash_patch.data.slice(hash_start_address + 1 - hash_patch.address, hash_end_address - hash_patch.address)
     }
 
     function buildRomDetailsArea(): RenderableSetting[] {
