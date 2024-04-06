@@ -1,22 +1,22 @@
-import React, { useState, useEffect } from 'react'
-import { match, useParams, Redirect } from 'react-router-dom'
-import { Modal, DialogContent, Divider, Paper, Grid } from '@material-ui/core'
-import { observer } from 'mobx-react'
+import React, {useEffect, useState} from 'react'
+import {match, Redirect, useParams} from 'react-router-dom'
+import {DialogContent, Divider, Grid, Modal, Paper} from '@material-ui/core'
+import {observer} from 'mobx-react'
 import moment from 'moment-timezone'
 //import AccordionPanel from '../components/containers/accordion-panel'
 import Error from '../components/modals/error'
 import PleaseWait from '../components/modals/please-wait'
 import seedService from '../services/seed'
-import { PermalinkedRom } from '../models/rom/permalinked-rom'
-import { Difficulty } from '../models/ui/diffiulty'
-import { Goal } from '../models/ui/goal'
-import { StatuesReq } from '../models/ui/statues-req'
-import { StartingLocation } from '../models/ui/starting-location'
-import { EntranceShuffle } from '../models/ui/entrance-shuffle'
-import { Enemizer } from '../models/ui/enemizer'
+import {PermalinkedRom} from '../models/rom/permalinked-rom'
+import {Difficulty} from '../models/ui/diffiulty'
+import {Goal} from '../models/ui/goal'
+import {StatuesReq} from '../models/ui/statues-req'
+import {StartingLocation} from '../models/ui/starting-location'
+import {EntranceShuffle} from '../models/ui/entrance-shuffle'
+import {Enemizer} from '../models/ui/enemizer'
 import PermalinkSettingsContainer from '../components/containers/permalink-settings'
 import PermalinkHashDisplay from '../components/containers/permalink-hash'
-import { Logic } from '../models/ui/logic'
+import {Logic} from '../models/ui/logic'
 import PermalinkActionsContainer from '../components/containers/permalink-actions'
 import AccordionPanel from '../components/containers/accordion-panel'
 import SpoilerView from '../components/containers/spoiler'
@@ -173,8 +173,16 @@ function PermalinkPage(props: RoutableProps) {
     )
 
     function getSeedHash() {
-        const hash = rom.patch.patchData.find(element => element.address === 121431).data
-        return hash
+        const hash_len = 6
+        const hash_start_address = 121431
+        const hash_end_address = hash_start_address + hash_len - 1
+        const hash_patch = rom.patch.patchData.find((element) => {
+            let start_addr = element.address
+            let end_addr = start_addr + element.data.length - 1
+
+            return (start_addr <= hash_start_address && end_addr >= hash_end_address)
+        })
+        return hash_patch.data.slice(hash_start_address - hash_patch.address, hash_end_address - hash_patch.address)
     }
 
     function buildRomDetailsArea(): RenderableSetting[] {
