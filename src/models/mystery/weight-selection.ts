@@ -14,8 +14,14 @@ export interface WeightSelection {
     EarlyFirebird: Switch
     Enemizer: 'None' | 'Limited' | 'Balanced' | 'Full' | 'Insane'
     BossShuffle: Switch
-    EntranceShuffle: 'None' | 'Coupled' | 'Uncoupled'
+    TownShuffle: Switch
+    DungeonShuffle: Switch
     OverworldShuffle: Switch
+    CoupledExits: Switch
     Spoilers: Switch
-    Fluteless: Switch
+    Flute: 'Start' | 'Shuffle' | 'Fluteless'
+    OrbRando: Switch
+    DarkRooms: 'None' | 'Few' | 'Some' | 'Many' | 'All'
+    CursedRooms: Switch
+    InfiniteInventory: Switch
 }

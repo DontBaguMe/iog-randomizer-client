@@ -1,6 +1,6 @@
 import React from 'react'
 import { observer } from 'mobx-react'
-import { StartLocationForm, GameLogicForm } from '../forms'
+import {StartLocationForm, GameLogicForm, FluteForm, DarkRoomsForm} from '../forms'
 
 import AccordionPanel from './accordion-panel'
 import { Grid } from '@material-ui/core'
@@ -20,6 +20,12 @@ export default class VariantsContainer extends React.Component {
                     </Grid>
                     <Grid item xs={12}>
                         <VariationTogglesForm />
+                    </Grid>
+                    <Grid item xs={6}>
+                        <DarkRoomsForm />
+                    </Grid>
+                    <Grid item xs={6}>
+                        <FluteForm />
                     </Grid>
                 </Grid>
             </AccordionPanel>

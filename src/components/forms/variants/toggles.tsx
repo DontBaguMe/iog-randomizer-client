@@ -24,8 +24,15 @@ function VariationTogglesForm() {
     function onFirebirdToggle(event: React.ChangeEvent<HTMLInputElement>) {
         settingsStore.firebird = event.target.checked
     }
-    function onFlutelessToggle(event: React.ChangeEvent<HTMLInputElement>) {
-        settingsStore.fluteless = event.target.checked
+    function onOrbRandoToggle(event: React.ChangeEvent<HTMLInputElement>) {
+        settingsStore.orbRando = event.target.checked
+    }
+    function onCursedRoomsToggle(event: React.ChangeEvent<HTMLInputElement>) {
+        settingsStore.cursedRooms = event.target.checked
+    }
+
+    function onInfiniteInventoryToggle(event: React.ChangeEvent<HTMLInputElement>) {
+        settingsStore.infiniteInventory = event.target.checked
     }
 
     return (
@@ -69,9 +76,18 @@ function VariationTogglesForm() {
                 <FormControlLabel control={<Switch checked={settingsStore.firebird} onChange={(e) => onFirebirdToggle(e)} value="Firebird" />} label="Early Firebird" />
             </Tooltip>
 
-            <Tooltip title="Remove Will's flute from the game" placement="bottom-start">
-                <FormControlLabel control={<Switch checked={settingsStore.fluteless} onChange={(e) => onFlutelessToggle(e)} value="Fluteless" />} label="Fluteless" />
+            <Tooltip title="Shuffle the orbs gotten by killing specific enemies in the item pool" placement="bottom-start">
+                <FormControlLabel control={<Switch checked={settingsStore.orbRando} onChange={(e) => onOrbRandoToggle(e)} value="Orb rando" />} label="Orb Randomizer" />
             </Tooltip>
+
+            <Tooltip title="Dark rooms can be required to go through without a light source (BETA)" placement="bottom-start">
+                <FormControlLabel control={<Switch checked={settingsStore.cursedRooms} onChange={(e) => onCursedRoomsToggle(e)} value="Cursed rooms" />} label="Cursed Rooms (BETA)" />
+            </Tooltip>
+
+            <Tooltip title="Change the inventory menu to allow an near infinite inventory size" placement="bottom-start">
+                <FormControlLabel control={<Switch checked={settingsStore.infiniteInventory} onChange={(e) => onInfiniteInventoryToggle(e)} value="Infinite Inventory" />} label="Infinite inventory" />
+            </Tooltip>
+
         </FormGroup>
     )
 }

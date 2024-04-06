@@ -9,7 +9,8 @@ class SettingsStore {
     @observable public statues: string = '4'
     @observable public statuesReq: number = 0
     @observable public raceRom: boolean = false
-    @observable public entranceShuffle: number = 0
+    @observable public townShuffle: boolean = false
+    @observable public coupledExits: boolean = false
     @observable public dungeonShuffle: boolean = false
     @observable public overworldShuffle: boolean = false
     @observable public bossShuffle: boolean = false
@@ -21,9 +22,13 @@ class SettingsStore {
     @observable public oneHitKnockOut: boolean = false
     @observable public redJewelMadness: boolean = false
     @observable public firebird: boolean = false
+    @observable public orbRando: boolean = false
+    @observable public darkRooms: number = 0
+    @observable public cursedRooms: boolean = false
     @observable public z3mode: boolean = false
     @observable public muteMusic: boolean = false
-    @observable public fluteless: boolean = false
+    @observable public flute: number = 0
+    @observable public infiniteInventory: boolean = false
     @observable public hide_settings: boolean = false
 }
 

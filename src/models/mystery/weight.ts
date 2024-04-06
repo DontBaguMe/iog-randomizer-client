@@ -1,13 +1,14 @@
 import { BooleanSwitch } from './boolean-switch'
 import { Difficulty } from './difficulty'
 import { Enemizer } from './enemizer'
-import { EntranceShuffle } from './entrance-shuffle'
+import { Flute } from './flute'
 import { Goal } from './goal'
 import { HealthVariant } from './health-variant'
 import { Logic } from './logic'
 import { StartingLocation } from './starting-location'
 import { Statues } from './statues'
 import { StatuesReq } from './statues-req'
+import { DarkRoom } from "./dark-room";
 
 export interface Weight {
     Difficulty: Difficulty
@@ -23,8 +24,14 @@ export interface Weight {
     EarlyFirebird: BooleanSwitch
     Enemizer: Enemizer
     BossShuffle: BooleanSwitch
-    EntranceShuffle: EntranceShuffle
+    TownShuffle: BooleanSwitch
+    DungeonShuffle: BooleanSwitch
+    CoupledExits: BooleanSwitch
     OverworldShuffle: BooleanSwitch
     Spoilers: BooleanSwitch
-    Fluteless: BooleanSwitch
+    Flute: Flute
+    DarkRooms: DarkRoom
+    CursedRooms: BooleanSwitch
+    InfiniteInventory: BooleanSwitch
+    OrbRando: BooleanSwitch
 }

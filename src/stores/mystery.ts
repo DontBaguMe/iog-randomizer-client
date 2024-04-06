@@ -74,10 +74,17 @@ class MysteryStore {
                 On: 37.57,
                 Off: 62.43,
             },
-            EntranceShuffle: {
-                None: 77.43,
-                Coupled: 18.29,
-                Uncoupled: 2.86,
+            TownShuffle: {
+                On: 23,
+                Off: 77
+            },
+            DungeonShuffle: {
+                On: 10,
+                Off: 90
+            },
+            CoupledExits: {
+                On: 90,
+                Off: 10
             },
             OverworldShuffle: {
                 On: 43.67,
@@ -87,10 +94,30 @@ class MysteryStore {
                 On: 9.0,
                 Off: 91.0,
             },
-            Fluteless: {
-                On: 10.14,
-                Off: 89.86,
+            Flute: {
+                Start: 80,
+                Shuffle: 10,
+                Fluteless: 10,
             },
+            DarkRooms: {
+                None: 90,
+                Few: 6,
+                Some: 2,
+                Many: 1,
+                All: 1
+            },
+            CursedRooms: {
+                On: 10,
+                Off: 90
+            },
+            OrbRando: {
+                On: 50,
+                Off: 50
+            },
+            InfiniteInventory: {
+                On: 50,
+                Off: 50
+            }
         },
         Default: {
             Difficulty: {
@@ -163,10 +190,25 @@ class MysteryStore {
                 On: 0,
                 Off: 1,
             },
-            EntranceShuffle: {
-                None: 1,
-                Coupled: 0,
-                Uncoupled: 0,
+            TownShuffle: {
+                On: 0,
+                Off: 1,
+            },
+            DungeonShuffle: {
+                On: 0,
+                Off: 1,
+            },
+            CoupledExits: {
+                On: 1,
+                Off: 0,
+            },
+            InfiniteInventory: {
+                On: 0,
+                Off: 1,
+            },
+            OrbRando: {
+                On: 0,
+                Off: 1,
             },
             OverworldShuffle: {
                 On: 0,
@@ -176,10 +218,22 @@ class MysteryStore {
                 On: 0,
                 Off: 1,
             },
-            Fluteless: {
-                On: 0,
-                Off: 1,
+            Flute: {
+                Start: 1,
+                Shuffle: 0,
+                Fluteless: 0,
             },
+            DarkRooms: {
+                None: 1,
+                Few: 0,
+                Some: 0,
+                Many: 0,
+                All: 0
+            },
+            CursedRooms: {
+                On: 0,
+                Off: 1
+            }
         },
     }
 }

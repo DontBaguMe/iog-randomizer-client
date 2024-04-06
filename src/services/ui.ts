@@ -127,14 +127,15 @@ class UIService {
         buffer = romService.removeHeader(buffer)
         buffer = this.writePatchToRom(buffer, data)
 
-        const currentSpriteSelection = settingsStore.sprite
-        const sprite: Sprite = await spriteService.getSprite(currentSpriteSelection.toLocaleLowerCase())
-        if (sprite != null) buffer = await this.writeSpriteToRom(buffer, sprite)
-
         const muteMusic = settingsStore.muteMusic
         if (muteMusic !== false) buffer = await this.muteRomMusic(buffer)
 
         if (fluteless !== false) buffer = await this.hideFluteInRom(buffer)
+        else {
+            const currentSpriteSelection = settingsStore.sprite
+            const sprite: Sprite = await spriteService.getSprite(currentSpriteSelection.toLocaleLowerCase())
+            if (sprite != null) buffer = await this.writeSpriteToRom(buffer, sprite)
+        }
 
         return new Blob([buffer], { type: 'application/octet-stream' })
     }
