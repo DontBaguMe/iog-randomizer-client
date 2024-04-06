@@ -125,6 +125,7 @@ class UIService {
 
         let buffer = new Uint8Array(rom)
         buffer = romService.removeHeader(buffer)
+        buffer = romService.extendRomSize(buffer, 0x200000)
         buffer = this.writePatchToRom(buffer, data)
 
         const muteMusic = settingsStore.muteMusic

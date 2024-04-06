@@ -20,6 +20,12 @@ class RomService {
         return buffer
     }
 
+    public extendRomSize(buffer: Uint8Array, extended_size: number): Uint8Array {
+        let new_buffer = new (Uint8Array)(buffer.length + extended_size)
+        new_buffer.set(buffer, 0)
+        return new_buffer
+    }
+
     private getOffset(buffer: Uint8Array): number {
         const header = [0x49, 0x4c, 0x4c, 0x55, 0x53, 0x49, 0x4f, 0x4e, 0x20, 0x4f, 0x46, 0x20, 0x47, 0x41, 0x49, 0x41, 0x20, 0x55, 0x53, 0x41]
         let offset = -1
