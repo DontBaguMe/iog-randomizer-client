@@ -226,7 +226,8 @@ function PermalinkPage(props: RoutableProps) {
         if( rom.settings.fluteless != null) settings.push({ key: 'Fluteless ?', value: String(rom.settings.fluteless) })
         if( rom.settings.flute != null) settings.push({ key: 'Flute ?', value: Flute[rom.settings.flute] })
         if( rom.settings.orb_rando != null) settings.push({ key: 'Orb Rando ?', value: String(rom.settings.orb_rando) })
-        if( rom.settings.darkrooms != null) settings.push({ key: 'darkrooms ?', value: Darkrooms[rom.settings.darkrooms] })
+        if( rom.settings.darkrooms != null) settings.push({ key: 'Dark Rooms ?', value: Darkrooms[rom.settings.darkrooms] })
+        if( rom.settings.ds_warp != null) settings.push({ key: 'Dark space warp ?', value: String(rom.settings.ds_warp) })
         
         return settings
     }

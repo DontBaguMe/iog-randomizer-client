@@ -24,4 +24,5 @@ export interface WeightSelection {
     DarkRooms: 'None' | 'Few' | 'Some' | 'Many' | 'All'
     CursedRooms: Switch
     InfiniteInventory: Switch
+    DsWarp: Switch
 }

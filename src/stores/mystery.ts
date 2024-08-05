@@ -117,6 +117,10 @@ class MysteryStore {
             InfiniteInventory: {
                 On: 50,
                 Off: 50
+            },
+            DsWarp: {
+                On: 20,
+                Off: 80
             }
         },
         Default: {
@@ -231,6 +235,10 @@ class MysteryStore {
                 All: 0
             },
             CursedRooms: {
+                On: 0,
+                Off: 1
+            },
+            DsWarp: {
                 On: 0,
                 Off: 1
             }

@@ -29,6 +29,7 @@ class SettingsStore {
     @observable public muteMusic: boolean = false
     @observable public flute: number = 0
     @observable public infiniteInventory: boolean = false
+    @observable public dsWarp: boolean = false
     @observable public hide_settings: boolean = false
 }
 

@@ -169,6 +169,7 @@ class SeedService {
         settingsStore.orbRando = selection.OrbRando === 'On'
         settingsStore.cursedRooms = selection.CursedRooms === 'On'
         settingsStore.infiniteInventory = selection.InfiniteInventory === 'On'
+        settingsStore.dsWarp = selection.DsWarp === 'On'
 
         settingsStore.seed = generateRandomSeedValue()
         await this.requestSeed()
@@ -203,7 +204,8 @@ class SeedService {
             orbRando: settingsStore.orbRando,
             darkRooms: settingsStore.darkRooms,
             cursedRooms: settingsStore.cursedRooms,
-            infiniteInventory: settingsStore.infiniteInventory
+            infiniteInventory: settingsStore.infiniteInventory,
+            dsWarp: settingsStore.dsWarp
         }
 
         const response = await fetch(process.env.REACT_APP_IOGR_API_URI, {

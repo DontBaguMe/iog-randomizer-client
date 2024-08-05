@@ -25,4 +25,5 @@ export default interface GenerateSeedRequest {
     darkRooms: number
     cursedRooms: boolean
     infiniteInventory: boolean
+    dsWarp: boolean
 }

@@ -34,4 +34,5 @@ export interface Weight {
     CursedRooms: BooleanSwitch
     InfiniteInventory: BooleanSwitch
     OrbRando: BooleanSwitch
+    DsWarp: BooleanSwitch
 }

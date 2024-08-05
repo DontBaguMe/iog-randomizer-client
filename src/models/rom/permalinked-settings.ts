@@ -25,4 +25,5 @@ export type PermalinkedSettings = {
     orb_rando?: boolean
     darkrooms?: number
     infinite_inventory?: boolean
+    ds_warp?: boolean
 }

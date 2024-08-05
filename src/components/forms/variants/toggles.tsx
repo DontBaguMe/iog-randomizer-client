@@ -34,6 +34,10 @@ function VariationTogglesForm() {
     function onInfiniteInventoryToggle(event: React.ChangeEvent<HTMLInputElement>) {
         settingsStore.infiniteInventory = event.target.checked
     }
+    
+    function onDarkSpaceWarpToggle(event: React.ChangeEvent<HTMLInputElement>) {
+        settingsStore.dsWarp = event.target.checked
+    }
 
     return (
         <FormGroup row>
@@ -86,6 +90,10 @@ function VariationTogglesForm() {
 
             <Tooltip title="Change the inventory menu to allow an near infinite inventory size" placement="bottom-start">
                 <FormControlLabel control={<Switch checked={settingsStore.infiniteInventory} onChange={(e) => onInfiniteInventoryToggle(e)} value="Infinite Inventory" />} label="Infinite inventory" />
+            </Tooltip> 
+
+            <Tooltip title="Allow a warp menu between visited Dark Spaces" placement="bottom-start">
+                <FormControlLabel control={<Switch checked={settingsStore.dsWarp} onChange={(e) => onDarkSpaceWarpToggle(e)} value="Dark Space Warp" />} label="Dark Space Warp" />
             </Tooltip>
 
         </FormGroup>
