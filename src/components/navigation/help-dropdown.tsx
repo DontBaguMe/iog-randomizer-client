@@ -23,7 +23,7 @@ export function HelpDropdown() {
                 <DropdownMenu right>
                     <DropdownItem onClick={() => (window.location.href = process.env.REACT_APP_IOGR_README_URI)}>Readme</DropdownItem>
                     <DropdownItem onClick={() => (window.location.href = process.env.REACT_APP_IOGR_LICENSE_URI)}>License</DropdownItem>
-                    <DropdownItem onClick={() => (window.location.href = 'https://www.github.com/dontbagume/iogr/issues')}>Submit an Issue</DropdownItem>
+                    <DropdownItem onClick={() => (window.location.href = 'https://github.com/DontBaguMe/IoGR/issues/new/choose')}>Submit an Issue</DropdownItem>
                 </DropdownMenu>
             </Dropdown>
         </Nav>
