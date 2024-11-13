@@ -193,7 +193,7 @@ function PermalinkPage(props: RoutableProps) {
         settings.push({key: 'Permalink ID', value: rom.id})
         settings.push({key: 'Created At', value: moment(rom.created_at).local().format('LLLL')})
         if (rom.settings != null) {
-            if (rom.settings.race_mode === true) settings.push({key: 'Seed', value: rom.settings.seed.toString()})
+            if (rom.settings.race_mode !== true) settings.push({key: 'Seed', value: rom.settings.seed.toString()})
             settings.push({key: 'Difficulty', value: Difficulty[rom.settings.difficulty]})
 
             const goal: Goal = rom.settings.goal
