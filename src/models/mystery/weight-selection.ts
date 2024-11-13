@@ -15,7 +15,7 @@ export interface WeightSelection {
     Enemizer: 'None' | 'Limited' | 'Balanced' | 'Full' | 'Insane'
     BossShuffle: Switch
     TownShuffle: Switch
-    DungeonShuffle: Switch
+    DungeonChaos: Switch
     OverworldShuffle: Switch
     CoupledExits: Switch
     Spoilers: Switch

@@ -78,7 +78,7 @@ class MysteryStore {
                 On: 23,
                 Off: 77
             },
-            DungeonShuffle: {
+            DungeonChaos: {
                 On: 10,
                 Off: 90
             },
@@ -198,7 +198,7 @@ class MysteryStore {
                 On: 0,
                 Off: 1,
             },
-            DungeonShuffle: {
+            DungeonChaos: {
                 On: 0,
                 Off: 1,
             },

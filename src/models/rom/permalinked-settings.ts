@@ -26,4 +26,6 @@ export type PermalinkedSettings = {
     darkrooms?: number
     infinite_inventory?: boolean
     ds_warp?: boolean
+    return_spoiler?: boolean
+    race_mode?: boolean
 }

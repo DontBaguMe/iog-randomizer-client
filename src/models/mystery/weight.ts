@@ -25,7 +25,7 @@ export interface Weight {
     Enemizer: Enemizer
     BossShuffle: BooleanSwitch
     TownShuffle: BooleanSwitch
-    DungeonShuffle: BooleanSwitch
+    DungeonChaos: BooleanSwitch
     CoupledExits: BooleanSwitch
     OverworldShuffle: BooleanSwitch
     Spoilers: BooleanSwitch

@@ -157,7 +157,7 @@ class SeedService {
         settingsStore.raceRom = selection.Spoilers === 'Off'
         settingsStore.overworldShuffle = selection.OverworldShuffle === 'On'
         settingsStore.townShuffle = selection.TownShuffle === 'On'
-        settingsStore.dungeonShuffle = selection.DungeonShuffle === 'On'
+        settingsStore.dungeonShuffle = selection.DungeonChaos === 'On'
         settingsStore.coupledExits = selection.CoupledExits === 'On'
         settingsStore.bossShuffle = selection.BossShuffle === 'On'
         settingsStore.openWorld = selection.OpenWorld === 'On'
@@ -205,7 +205,8 @@ class SeedService {
             darkRooms: settingsStore.darkRooms,
             cursedRooms: settingsStore.cursedRooms,
             infiniteInventory: settingsStore.infiniteInventory,
-            dsWarp: settingsStore.dsWarp
+            dsWarp: settingsStore.dsWarp,
+            returnSpoiler: settingsStore.returnSpoiler
         }
 
         const response = await fetch(process.env.REACT_APP_IOGR_API_URI, {
@@ -258,12 +259,14 @@ class SeedService {
         else {
             fluteless = result.fluteless
         }
+        const returnedSpoiler: boolean = result.returned_spoiler ?? (!!result.spoiler)
 
         return {
             id: result._id,
             patch: new Patch(patchData, patchFilename, spoilerData, spoilerFilename, result._id, fluteless),
             settings: JSON.parse(result.settings),
             created_at: result.created_at,
+            returnedSpoiler: returnedSpoiler
         }
     }
 }

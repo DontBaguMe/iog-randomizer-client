@@ -31,6 +31,7 @@ class SettingsStore {
     @observable public infiniteInventory: boolean = false
     @observable public dsWarp: boolean = false
     @observable public hide_settings: boolean = false
+    @observable public returnSpoiler: boolean = false
 }
 
 const settingsStore = new SettingsStore()
