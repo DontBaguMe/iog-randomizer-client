@@ -1,5 +1,5 @@
 import React from 'react'
-import { Grid } from '@material-ui/core'
+import {Grid} from '@material-ui/core'
 
 type RenderableSetting = {
     key: string
@@ -9,6 +9,7 @@ type RenderableSetting = {
 interface Props {
     title: string
     settings: RenderableSetting[]
+    hidden: boolean
 }
 
 const style = {
@@ -26,7 +27,7 @@ const style = {
 
 export default function PermalinkSettingsContainer(props: Props) {
     return (
-        <div style={{ padding: 5 }}>
+        <div style={{padding: 5}} hidden={props.hidden}>
             <Grid container>
                 <Grid item xs={12}>
                     <span style={style.Section}>{props.title}</span>

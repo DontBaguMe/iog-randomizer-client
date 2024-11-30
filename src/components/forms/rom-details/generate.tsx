@@ -55,8 +55,12 @@ function GenerateForm() {
     }
 
     function onRaceRomToggle(event: React.ChangeEvent<HTMLInputElement>) {
-        const value = event.target.checked
+        const value = !event.target.checked
         settingsStore.raceRom = value
+    }
+    function onReturnSpoilerToggle(event: React.ChangeEvent<HTMLInputElement>) {
+        const value = event.target.checked
+        settingsStore.returnSpoiler = value
     }
 
     const { isError, isProcessing } = uiStore
@@ -71,11 +75,18 @@ function GenerateForm() {
                     </Button>
                 </span>
             </Tooltip>
-            <Tooltip title="Generate a Randomized ROM without spoilers" placement="bottom-start">
+            <Tooltip title="Keep the seed spoiler in the permalink system" placement="bottom-start">
                 <FormControlLabel
                     style={styles.Switch}
-                    control={<Switch checked={settingsStore.raceRom} onChange={(e) => onRaceRomToggle(e)} disabled={isDisabled} value="Generate Race Rom" />}
-                    label="Generate Race Rom"
+                    control={<Switch checked={!settingsStore.raceRom} onChange={(e) => onRaceRomToggle(e)} disabled={isDisabled} value="Generate Race Rom" />}
+                    label="Show spoiler in permalink"
+                />
+            </Tooltip>
+            <Tooltip title="Allow download of the spoiler instantly after generation" placement="bottom-start">
+                <FormControlLabel
+                    style={styles.Switch}
+                    control={<Switch checked={settingsStore.returnSpoiler} onChange={(e) => onReturnSpoilerToggle(e)} disabled={isDisabled} value="Display spoiler at generation" />}
+                    label="Show spoiler after generation"
                 />
             </Tooltip>
         </>

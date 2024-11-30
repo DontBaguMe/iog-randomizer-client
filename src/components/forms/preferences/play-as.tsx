@@ -6,6 +6,11 @@ import { Grid } from '@material-ui/core'
 import transparent from '../../../assets/transparent.png'
 import sprites from '../../../assets/sprites.png'
 import { settingsStore } from '../../../stores/settings'
+import {PermalinkedRom} from "../../../models/rom/permalinked-rom";
+
+interface Props {
+    rom?: PermalinkedRom
+}
 
 type SelectionValues = {
     value: string
@@ -18,7 +23,7 @@ const styles = {
     },
 }
 
-function PlayAs() {
+function PlayAs(props: Props) {
     const [sprite, setSprite] = useState(settingsStore.sprite)
     // The order of this array is important as the index of the selection value must correspond to the
     // image's position in the sprite sheet. For example, Bagu being the first alphabetically will be in position
@@ -47,7 +52,13 @@ function PlayAs() {
             background: `url(${sprites}) -${x}px 0px`,
         }
     }
-
+    if (props.rom !== undefined) {
+        if (props.rom.patch.fluteless) {
+            return <Grid container spacing={2}>
+                <div>Sprite selection is disabled in Fluteless seeds after generation</div>
+            </Grid>
+        }
+    }
     return (
         <Grid container spacing={2}>
             <Grid item xs={6}>

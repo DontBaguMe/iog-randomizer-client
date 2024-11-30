@@ -11,6 +11,7 @@ import { PermalinkedRom } from '../models/rom/permalinked-rom'
 import { Spoiler } from '../models/rom/spoiler'
 import { Weight, WeightSelection } from '../models/mystery'
 import { generateRandomSeedValue } from '../functions/generate-random'
+import {Flute} from "../models/ui/flute";
 
 class SeedService {
     private generateMysterySeedValues(): WeightSelection {
@@ -124,20 +125,40 @@ class SeedService {
                 settingsStore.statuesReq = 2
         }
 
-        switch (selection.EntranceShuffle) {
+        switch (selection.Flute) {
+            case 'Start':
+                settingsStore.flute = 0
+                break
+            case 'Shuffle':
+                settingsStore.flute = 1
+                break
+            case 'Fluteless':
+                settingsStore.flute = 2
+        }
+
+        switch (selection.DarkRooms) {
             case 'None':
-                settingsStore.entranceShuffle = 0
+                settingsStore.darkRooms = 0
                 break
-            case 'Coupled':
-                settingsStore.entranceShuffle = 1
+            case 'Few':
+                settingsStore.darkRooms = 1
                 break
-            case 'Uncoupled':
-                settingsStore.entranceShuffle = 2
+            case 'Some':
+                settingsStore.darkRooms = 2
+                break
+            case 'Many':
+                settingsStore.darkRooms = 3
+                break
+            case 'All':
+                settingsStore.darkRooms = 4
         }
 
         settingsStore.statues = selection.Statues
         settingsStore.raceRom = selection.Spoilers === 'Off'
         settingsStore.overworldShuffle = selection.OverworldShuffle === 'On'
+        settingsStore.townShuffle = selection.TownShuffle === 'On'
+        settingsStore.dungeonShuffle = selection.DungeonChaos === 'On'
+        settingsStore.coupledExits = selection.CoupledExits === 'On'
         settingsStore.bossShuffle = selection.BossShuffle === 'On'
         settingsStore.openWorld = selection.OpenWorld === 'On'
         settingsStore.allowGlitches = selection.AllowGlitches === 'On'
@@ -145,7 +166,10 @@ class SeedService {
         settingsStore.redJewelMadness = selection.HealthVariant === 'RedJewelMadness'
         settingsStore.firebird = selection.EarlyFirebird === 'On'
         settingsStore.z3mode = selection.Zelda3Mode === 'On'
-        settingsStore.fluteless = selection.Fluteless === 'On'
+        settingsStore.orbRando = selection.OrbRando === 'On'
+        settingsStore.cursedRooms = selection.CursedRooms === 'On'
+        settingsStore.infiniteInventory = selection.InfiniteInventory === 'On'
+        settingsStore.dsWarp = selection.DsWarp === 'On'
 
         settingsStore.seed = generateRandomSeedValue()
         await this.requestSeed()
@@ -169,13 +193,20 @@ class SeedService {
             firebird: settingsStore.firebird,
             enemizer: settingsStore.enemizer,
             bossShuffle: settingsStore.bossShuffle,
-            entranceShuffle: settingsStore.entranceShuffle,
+            townShuffle: settingsStore.townShuffle,
+            coupledExits: settingsStore.coupledExits,
             dungeonShuffle: settingsStore.dungeonShuffle,
             overworldShuffle: settingsStore.overworldShuffle,
             openMode: settingsStore.openWorld,
             z3Mode: settingsStore.z3mode,
-            fluteless: settingsStore.fluteless,
-            hideSettings: settingsStore.hide_settings
+            flute: settingsStore.flute,
+            hideSettings: settingsStore.hide_settings,
+            orbRando: settingsStore.orbRando,
+            darkRooms: settingsStore.darkRooms,
+            cursedRooms: settingsStore.cursedRooms,
+            infiniteInventory: settingsStore.infiniteInventory,
+            dsWarp: settingsStore.dsWarp,
+            returnSpoiler: settingsStore.returnSpoiler
         }
 
         const response = await fetch(process.env.REACT_APP_IOGR_API_URI, {
@@ -194,7 +225,7 @@ class SeedService {
         const patchFilename: string = result.patchName
         const spoilerData: Spoiler = result.spoiler ? JSON.parse(result.spoiler) ?? null : null
         const spoilerFilename: string = result.spoilerName
-        const fluteless: boolean = settingsStore.fluteless
+        const fluteless: boolean = settingsStore.flute === Flute.Fluteless
 
         romStore.patch = new Patch(patchData, patchFilename, spoilerData, spoilerFilename, result.permalink_id, fluteless)
     }
@@ -219,19 +250,23 @@ class SeedService {
         const patchFilename: string = result.patchName
         const spoilerData: Spoiler = result.spoiler ? JSON.parse(result.spoiler) ?? null : null
         const spoilerFilename: string = result.spoilerName
+        const settings = JSON.parse(result.settings)
         let fluteless: boolean = false
         if (result.settings != null) {
-            fluteless = JSON.parse(result.settings).fluteless
+            if (settings.hasOwnProperty("fluteless")) fluteless = settings.fluteless
+            else fluteless = settings.flute === Flute.Fluteless
         }
         else {
             fluteless = result.fluteless
         }
+        const returnedSpoiler: boolean = result.returned_spoiler ?? (!!result.spoiler)
 
         return {
             id: result._id,
             patch: new Patch(patchData, patchFilename, spoilerData, spoilerFilename, result._id, fluteless),
             settings: JSON.parse(result.settings),
             created_at: result.created_at,
+            returnedSpoiler: returnedSpoiler
         }
     }
 }

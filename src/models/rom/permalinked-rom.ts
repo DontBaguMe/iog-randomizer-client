@@ -6,4 +6,5 @@ export type PermalinkedRom = {
     created_at: Date
     patch: Patch
     settings: PermalinkedSettings
+    returnedSpoiler: boolean
 }

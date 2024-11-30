@@ -8,5 +8,6 @@ export default interface GenerateSeedFromPermalinkResponse {
     spoilerName?: string
     settings?: string
     fluteless?: boolean
+    returned_spoiler?: boolean
     created_at: Date
 }

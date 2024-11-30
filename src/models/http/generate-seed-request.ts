@@ -15,9 +15,16 @@ export default interface GenerateSeedRequest {
     openMode: boolean
     z3Mode: boolean
     overworldShuffle: boolean
-    entranceShuffle: number
     generateRaceRom: boolean
-    fluteless: boolean
+    flute: number
     dungeonShuffle: boolean
+    townShuffle: boolean
+    coupledExits: boolean
     hideSettings: boolean
+    orbRando: boolean
+    darkRooms: number
+    cursedRooms: boolean
+    infiniteInventory: boolean
+    dsWarp: boolean
+    returnSpoiler: boolean
 }

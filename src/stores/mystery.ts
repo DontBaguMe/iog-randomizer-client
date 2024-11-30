@@ -5,92 +5,123 @@ class MysteryStore {
     @observable public Weights: Weights = {
         Weekly: {
             Difficulty: {
-                Easy: 19.83,
-                Normal: 38.33,
-                Hard: 27.33,
-                Extreme: 14.5,
+                Easy: 16.86,
+                Normal: 36.43,
+                Hard: 30.0,
+                Extreme: 16.71,
             },
             Goal: {
-                DarkGaia: 54.67,
-                RedJewelHunt: 15.73,
-                ApocalypseGaia: 15.47,
-                RandomGaia: 14.13,
+                DarkGaia: 61.29,
+                RedJewelHunt: 13.43,
+                ApocalypseGaia: 12.0,
+                RandomGaia: 13.29,
             },
             Statues: {
-                0: 5.18,
-                1: 6.18,
-                2: 8.58,
-                3: 18.18,
-                4: 22.18,
-                5: 5.58,
-                6: 5.08,
-                Random: 29.05,
+                0: 3.0,
+                1: 5.29,
+                2: 10.14,
+                3: 18.57,
+                4: 24.14,
+                5: 3.86,
+                6: 3.0,
+                Random: 31.29,
             },
             StatuesReq: {
-                GameChoice: 35,
-                PlayerChoice: 28.08,
-                Random: 36.92,
+                GameChoice: 30.95,
+                PlayerChoice: 25.36,
+                Random: 43.69,
             },
             StartingLocation: {
-                SouthCape: 28.87,
-                Safe: 31.13,
-                Unsafe: 26.83,
-                ForcedUnsafe: 13.17,
+                SouthCape: 28.43,
+                Safe: 24.19,
+                Unsafe: 28.9,
+                ForcedUnsafe: 18.48,
             },
             Logic: {
-                Completable: 40.23,
-                Beatable: 22.43,
-                Chaos: 37.33,
+                Completable: 32.71,
+                Beatable: 30.14,
+                Chaos: 37.14,
             },
             OpenWorld: {
-                On: 18.41,
-                Off: 81.59,
+                On: 22.14,
+                Off: 77.86,
             },
             Zelda3Mode: {
-                On: 24.3,
-                Off: 75.7,
+                On: 11.14,
+                Off: 88.86,
             },
             AllowGlitches: {
-                On: 10,
-                Off: 90,
+                On: 17.86,
+                Off: 82.14,
             },
             HealthVariant: {
-                None: 75.5,
-                RedJewelMadness: 23.8,
-                OHKO: 0.7,
+                None: 81.43,
+                RedJewelMadness: 17.57,
+                OHKO: 1.0,
             },
             EarlyFirebird: {
-                On: 67.5,
-                Off: 32.5,
+                On: 62.14,
+                Off: 37.86,
             },
             Enemizer: {
-                None: 63,
-                Limited: 8.5,
-                Balanced: 20.4,
-                Full: 4.1,
-                Insane: 4,
+                None: 64.29,
+                Limited: 12.86,
+                Balanced: 17.0,
+                Full: 3.57,
+                Insane: 2.29,
             },
             BossShuffle: {
-                On: 41.5,
-                Off: 58.5,
+                On: 37.57,
+                Off: 62.43,
             },
-            EntranceShuffle: {
-                None: 79.7,
-                Coupled: 14.4,
-                Uncoupled: 5.9,
+            TownShuffle: {
+                On: 23,
+                Off: 77
+            },
+            DungeonChaos: {
+                On: 10,
+                Off: 90
+            },
+            CoupledExits: {
+                On: 90,
+                Off: 10
             },
             OverworldShuffle: {
-                On: 37.32,
-                Off: 62.68,
+                On: 43.67,
+                Off: 56.33,
             },
             Spoilers: {
-                On: 12.61,
-                Off: 87.39,
+                On: 9.0,
+                Off: 91.0,
             },
-            Fluteless: {
-                On: 9.7,
-                Off: 90.3,
+            Flute: {
+                Start: 80,
+                Shuffle: 10,
+                Fluteless: 10,
             },
+            DarkRooms: {
+                None: 90,
+                Few: 6,
+                Some: 2,
+                Many: 1,
+                All: 1
+            },
+            CursedRooms: {
+                On: 10,
+                Off: 90
+            },
+            OrbRando: {
+                On: 50,
+                Off: 50
+            },
+            InfiniteInventory: {
+                On: 50,
+                Off: 50
+            },
+            DsWarp: {
+                On: 20,
+                Off: 80
+            }
         },
         Default: {
             Difficulty: {
@@ -163,10 +194,25 @@ class MysteryStore {
                 On: 0,
                 Off: 1,
             },
-            EntranceShuffle: {
-                None: 1,
-                Coupled: 0,
-                Uncoupled: 0,
+            TownShuffle: {
+                On: 0,
+                Off: 1,
+            },
+            DungeonChaos: {
+                On: 0,
+                Off: 1,
+            },
+            CoupledExits: {
+                On: 1,
+                Off: 0,
+            },
+            InfiniteInventory: {
+                On: 0,
+                Off: 1,
+            },
+            OrbRando: {
+                On: 0,
+                Off: 1,
             },
             OverworldShuffle: {
                 On: 0,
@@ -176,10 +222,26 @@ class MysteryStore {
                 On: 0,
                 Off: 1,
             },
-            Fluteless: {
-                On: 0,
-                Off: 1,
+            Flute: {
+                Start: 1,
+                Shuffle: 0,
+                Fluteless: 0,
             },
+            DarkRooms: {
+                None: 1,
+                Few: 0,
+                Some: 0,
+                Many: 0,
+                All: 0
+            },
+            CursedRooms: {
+                On: 0,
+                Off: 1
+            },
+            DsWarp: {
+                On: 0,
+                Off: 1
+            }
         },
     }
 }
